@@ -15,6 +15,24 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'simplecov'
+SimpleCov.start
+
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
+if ENV['CIRCLE_ARTIFACTS']
+  dir = File.join(ENV['CIRCLE_ARTIFACTS'], 'coverage')
+  SimpleCov.coverage_dir(dir)
+end
+SimpleCov.start
+
+if ENV['CIRCLE_ARTIFACTS']
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

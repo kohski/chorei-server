@@ -39,6 +39,8 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'rubocop', require: false
   gem 'spring-commands-rspec'
+  gem 'codecov', require: false
+  gem 'simplecov', require: false
 end
 
 group :development do
