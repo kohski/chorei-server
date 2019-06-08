@@ -1,24 +1,6 @@
-# README
+# Chorei
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[![ruby version](https://img.shields.io/badge/Ruby-v2.5.1-green.svg)](https://www.ruby-lang.org/ja/)
+[![rails version](https://img.shields.io/badge/Rails-v5.2.3-brightgreen.svg)](http://rubyonrails.org/)
+[![codecov](https://codecov.io/gh/kohski/chorei-server/branch/master/graph/badge.svg)](https://codecov.io/gh/kohski/chorei-server)
+[![CircleCI](https://circleci.com/gh/kohski/chorei-server.svg?style=svg)](https://circleci.com/gh/kohski/chorei-server)
