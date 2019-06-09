@@ -47,6 +47,8 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     bcrypt (3.1.13)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -55,9 +57,11 @@ GEM
       json
       simplecov
       url
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     database_cleaner (1.7.0)
+    debug_inspector (0.0.3)
     devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -113,6 +117,11 @@ GEM
     powerpack (0.1.2)
     pre-commit (0.39.0)
       pluginator (~> 1.5)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (3.1.0)
     puma (3.12.1)
     rack (2.0.7)
@@ -228,6 +237,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  binding_of_caller
   bootsnap (>= 1.1.0)
   byebug
   codecov
@@ -238,6 +248,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   pre-commit
+  pry-rails
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.3)

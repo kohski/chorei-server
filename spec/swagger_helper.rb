@@ -18,10 +18,10 @@ RSpec.configure do |config|
     'v1/swagger.json' => {
       swagger: '2.0',
       info: {
-        title: 'API V1',
+        title: 'Chorei API',
         version: 'v1'
       },
-      paths: {}
+      basePath: '/api/v1'
     }
   }
 end
