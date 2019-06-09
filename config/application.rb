@@ -37,7 +37,7 @@ module ChoreiServer
     end
 
     config.autoload_paths += Dir["#{config.root}/app/validators"]
-  
+
     config.generators do |g|
       g.test_framework :rspec,
                        view_specs: false,
