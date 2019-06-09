@@ -2,6 +2,8 @@
   "RSpec": {
     "coverage": {
       "/Users/kosukekimura/Documents/study/DIC/chorei-server/spec/models/group_spec.rb": [
+        null,
+        null,
         1,
         null,
         1,
@@ -74,6 +76,8 @@
         null
       ],
       "/Users/kosukekimura/Documents/study/DIC/chorei-server/app/models/group.rb": [
+        null,
+        null,
         1,
         null
       ],
@@ -85,6 +89,6 @@
         null
       ]
     },
-    "timestamp": 1559961411
+    "timestamp": 1560054712
   }
 }

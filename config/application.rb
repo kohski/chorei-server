@@ -26,5 +26,23 @@ module ChoreiServer
     config.i18n.default_locale = :ja
     config.load_defaults 5.2
     config.api_only = true
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+                 headers: :any,
+                 expose: %i[access-token client uid],
+                 methods: %i[get post options put delete]
+      end
+    end
+
+    config.autoload_paths += Dir["#{config.root}/app/validators"]
+  
+    config.generators do |g|
+      g.test_framework :rspec,
+                       view_specs: false,
+                       helper_specs: false,
+                       routing_specs: false
+    end
   end
 end
