@@ -513,3 +513,77 @@ paths:
                 items:
                   type: "string"
                   example: "User was not found or was not logged in."
+  /groups:
+    post:
+      tags:
+      - "groups"
+      summary: "Group#Create用"
+      description: "name, imageを指定してgroupをcreateする"
+      operationId: "groups#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "group#create"
+        description: "group#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "test user"
+            image:
+              type: "string"
+              example: "test@example.com"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  owner_id: 
+                    type: "integer"
+                    example: 2
+                  name: 
+                    type: "integer"
+                    example: "test group"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: "array"
+                items:
+                  type: "string"
+                  example: "名称を入力してください"

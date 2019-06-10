@@ -15,6 +15,10 @@ ja:
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "ログインを記憶"
+      group:
+        owner: オーナー
+        image: 画像
+        name: 名称
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
