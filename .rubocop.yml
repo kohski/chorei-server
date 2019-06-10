@@ -21,9 +21,9 @@ Metrics/BlockLength:
     - 'spec/requests/*'
 
 Metrics/AbcSize:
+  Max: 30
   Exclude:
     - 'db/migrate/*'
   
 Metrics/MethodLength:
-  Exclude:
-    - 'db/migrate/*'
+  Enabled: false
