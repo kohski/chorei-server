@@ -28,6 +28,12 @@
                 "email": {
                   "type": "string"
                 },
+                "descriptiom": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
                 "password": {
                   "type": "string"
                 }
@@ -45,21 +51,9 @@
             "description": "User Sign up",
             "examples": {
               "application/json": {
-                "status": 201,
-                "message": "Created Group",
-                "data": {
-                  "id": 2,
-                  "provider": "email",
-                  "uid": "test1@test.com",
-                  "allow_password_change": false,
-                  "name": null,
-                  "image": null,
-                  "email": "test1@test.com",
-                  "description": null,
-                  "role": 0,
-                  "created_at": "2019-06-09T15:20:27.985+09:00",
-                  "updated_at": "2019-06-09T15:20:28.237+09:00"
-                }
+                "status": "success",
+                "message": "User Sign Up",
+                "data": null
               }
             }
           }
