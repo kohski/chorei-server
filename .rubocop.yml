@@ -19,6 +19,7 @@ Metrics/BlockLength:
   Exclude:
     - 'db/schema.rb'
     - 'spec/requests/*'
+    - 'spec/models/*'
 
 Metrics/AbcSize:
   Max: 30
