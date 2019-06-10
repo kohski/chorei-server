@@ -178,24 +178,99 @@ RSpec.describe 'Chorei API', type: :request do
       end
     end
 
-    # context '[PUT] /api/v1/auth/password #devise_token_auth/passwords#update' do
-    #   it 'returns a valid 200 response' do
-    #   end
-    #   it 'returns a valid [***] when [***]' do
-    #   end
-    # end
+    context '[PUT] /api/v1/auth/password #devise_token_auth/passwords#update' do
+      it 'returns a valid 200 response' do
+        crt_user
+        put(
+          api_v1_user_password_path,
+          headers: crt_user.create_new_auth_token,
+          params: {
+            password: 'updated_password',
+            password_confirmation: 'updated_password'
+          }
+        )
+        expect(response.status).to eq(200)
+        expect(response.headers['access-token']).to be_present
+        expect(response.headers['uid']).to be_present
+        expect(response.headers['client']).to be_present
+      end
 
-    # context '[DELETE] /api/v1/auth/sign_out #devise_token_auth/sessions#destroy' do
-    #   it 'returns a valid 200 response' do
-    #   end
-    #   it 'returns a valid [***] when [***]' do
-    #   end
-    # end
-    # context '[DELETE] /api/v1/auth #auth/registrations#destroy' do
-    #   it 'returns a valid 200 response' do
-    #   end
-    #   it 'returns a valid [***] when [***]' do
-    #   end
-    # end
+      it 'returns a valid 401 when token is invalid' do
+        put(
+          api_v1_user_password_path,
+          headers: {
+            uid: 'invalid',
+            client: 'invalid',
+            'access-token': 'invalid'
+          },
+          params: {
+            password: 'updated_password',
+            password_confirmation: 'updated_password'
+          }
+        )
+        expect(response.status).to eq(401)
+        expect(response.headers['access-token']).to be_blank
+        expect(response.headers['uid']).to be_blank
+        expect(response.headers['client']).to be_blank
+      end
+    end
+
+    context '[DELETE] /api/v1/auth/sign_out #devise_token_auth/sessions#destroy' do
+      it 'returns a valid 200 response' do
+        crt_user
+        access_token = crt_user.create_new_auth_token
+        delete(
+          destroy_api_v1_user_session_path,
+          headers: access_token
+        )
+        expect(response.status).to eq(200)
+
+        get(
+          api_v1_auth_validate_token_path,
+          headers: access_token
+        )
+        expect(response.status).to eq(401)
+      end
+
+      it 'returns a valid 404 when request token is invalid' do
+        crt_user
+        delete(
+          destroy_api_v1_user_session_path,
+          headers: {
+            uid: 'invalid',
+            client: 'invalid',
+            'access-token': 'invalid'
+          }
+        )
+        expect(response.status).to eq(404)
+      end
+    end
+
+    context '[DELETE] /api/v1/auth #auth/registrations#destroy' do
+      it 'returns a valid 200 response' do
+        crt_user
+        before_user_count = User.count
+        delete(
+          api_v1_user_registration_path,
+          headers: crt_user.create_new_auth_token
+        )
+        expect(response.status).to eq(200)
+        expect(User.count).to eq(before_user_count - 1)
+      end
+      it 'returns a valid [***] when [***]' do
+        crt_user
+        before_user_count = User.count
+        delete(
+          api_v1_user_registration_path,
+          headers: {
+            uid: 'invalid',
+            client: 'invalid',
+            'access-token': 'invalid'
+          }
+        )
+        expect(response.status).to eq(404)
+        expect(User.count).to eq(before_user_count)
+      end
+    end
   end
 end
