@@ -257,7 +257,7 @@ RSpec.describe 'Chorei API', type: :request do
         expect(response.status).to eq(200)
         expect(User.count).to eq(before_user_count - 1)
       end
-      it 'returns a valid [***] when [***]' do
+      it 'returns a valid 404 with invalid token' do
         crt_user
         before_user_count = User.count
         delete(
