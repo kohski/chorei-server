@@ -9,6 +9,7 @@ module Api
         group = current_api_v1_user.groups.create(group_params)
         if group.valid?
           response_created(group)
+          Member.auto_create_owner_as_member(group)
         else
           response_bad_request(group)
         end
