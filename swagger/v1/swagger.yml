@@ -789,7 +789,6 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
-
     delete:
       tags:
       - "groups"
@@ -849,3 +848,158 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+  /members:
+    post:
+      tags:
+      - "members"
+      summary: "Members#create"
+      description: "user_idとgroup_idを指定してmemberを作成"
+      operationId: "Members#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "members#create"
+        description: "Member#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            group_id:
+              type: "integr"
+              example: 1
+            user_id:
+              type: "integer"
+              example: 10
+      responses:
+        200:
+          description: "すでにmemberがある場合はそのまま200を返す"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 1
+                  user_id:
+                    type: "integer"
+                    example: 10
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        201:
+          description: "新規成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 1
+                  user_id:
+                    type: "integer"
+                    example: 10
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(実在しないuser_id, group_id)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: "array"
+                example: [ Userを入力してください, Groupを入力してください]
+  /members/{member_id}:
+    delete:
+      tags:
+      - "members"
+      summary: "members#destroy"
+      description: "pathでidを指定してmemberを削除"
+      operationId: "Members#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "member_id"
+        description: "member#show member_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Member"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 1
+                  user_id:
+                    type: "integer"
+                    example: 10
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないmember_id)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Member is Not Found"
