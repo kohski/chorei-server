@@ -5,6 +5,7 @@ ja:
       user: "ユーザー"
       group: "グループ"
       member: "メンバー"
+      tag: "タグ"
     attributes:
       user:
         title: "タイトル"
@@ -23,6 +24,8 @@ ja:
       member:
         group: グループ
         user: ユーザー
+      tag:
+        name: 名称
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

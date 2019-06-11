@@ -516,7 +516,7 @@ paths:
   /groups:
     post:
       tags:
-      - "groups"
+      - "group"
       summary: "Group#Create"
       description: "name, imageを指定してgroupをcreateする"
       operationId: "groups#create"
@@ -589,7 +589,7 @@ paths:
                   example: "名称を入力してください"
     get:
       tags:
-      - "groups"
+      - "group"
       summary: "Group#Index"
       description: "カレントユーザに紐づいたgroupを一覧化する"
       operationId: "groups#index"
@@ -646,7 +646,7 @@ paths:
   /groups/{group_id}:
     put:
       tags:
-      - "groups"
+      - "group"
       summary: "Group#Update"
       description: "Pathでidを指定してUpdate"
       operationId: "groups#update"
@@ -732,7 +732,7 @@ paths:
                 example: "Group is Not Found"
     get:
       tags:
-      - "groups"
+      - "group"
       summary: "Group#Show"
       description: "Pathでidを指定してGroupを取得"
       operationId: "groups#show"
@@ -791,7 +791,7 @@ paths:
                 example: "Group is Not Found"
     delete:
       tags:
-      - "groups"
+      - "group"
       summary: "Group#Destroy"
       description: "Pathでidを指定してGroupを削除"
       operationId: "groups#destroy"
@@ -1003,3 +1003,161 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Found"
+  /tags:
+    post:
+      tags:
+      - "tag"
+      summary: "tags#create"
+      description: "paramsでnameを指定してtagをcreate"
+      operationId: "tags#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "tag_create"
+        description: "tags#create"
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "test user"
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Tag"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  name:
+                    type: "string"
+                    example: "test tag"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(nameが空欄)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Nameを入力してください"
+    get:
+      tags:
+      - "tag"
+      summary: "tags#index"
+      description: "tagの一覧を表示"
+      operationId: "tags#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Tag"
+              data:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    name:
+                      type: "string"
+                      example: "test tag"
+                    created_at:
+                      type: "integer"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "integer"
+                      example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(tagが存在しない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Tag is Not Found"
+    delete:
+      tags:
+      - "tag"
+      summary: "tags#destroy"
+      description: "pathで指定したIDのTagを削除"
+      operationId: "tags#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Tag"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  name:
+                    type: "string"
+                    example: "test tag"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(tagが存在しない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Tag is Not Found"
