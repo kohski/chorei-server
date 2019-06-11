@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
       json: {
         status: 201,
         message: "Created: #{obj.class}",
-        data: class_instance
+        data: obj
       }
     )
   end

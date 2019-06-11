@@ -8,7 +8,7 @@ module Api
       def create
         group = current_api_v1_user.groups.create(group_params)
         if group.valid?
-          response_success(group)
+          response_created(group)
         else
           response_bad_request(group)
         end
@@ -47,7 +47,10 @@ module Api
 
       def update
         group = Group.find_by(id: params[:id])
-        response_not_found(Group.name) if group.nil?
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
         if group.update(group_params)
           response_success(group)
         else
