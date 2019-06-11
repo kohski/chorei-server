@@ -73,13 +73,14 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context '[PUT] /groups/{group_id} #groups#update' do
-    let(:anoher_user) { create(:user) }
+    let(:another_user) { create(:user) }
     it 'returns a valid 200 with valid request' do
-      crt_group
+      group = crt_group
+      group.members.create(user_id: another_user.id)
       update_info = {
         name: 'updated_name',
         image: 'data:image/png;base64,iVBORw',
-        owner_id: anoher_user.id
+        owner_id: another_user.id
       }
       put(
         api_v1_groups_path + '/' + crt_group.id.to_s,
@@ -100,7 +101,7 @@ RSpec.describe 'Groups', type: :request do
       update_info = {
         name: 'updated_name',
         image: 'data:image/png;base64,iVBORw',
-        owner_id: anoher_user.id
+        owner_id: another_user.id
       }
       Group.destroy_all
       put(

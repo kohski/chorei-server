@@ -12,4 +12,5 @@ class Group < ApplicationRecord
   def join_owner_to_member
     Member.create(user_id: owner_id, group_id: id)
   end
+
 end

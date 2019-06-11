@@ -4,6 +4,7 @@ module Api
   module V1
     class GroupsController < ApplicationController
       before_action :authenticate_api_v1_user!
+      before_action :check_group_member, only: [:show, :destroy, :update]
 
       def create
         group = current_api_v1_user.groups.create(group_params)
@@ -25,6 +26,7 @@ module Api
 
       def show
         group = Group.find_by(id: params[:id])
+
         if group
           response_success(group)
         else
@@ -62,6 +64,18 @@ module Api
 
       def group_params
         params.require(:group).permit(:name, :image, :owner_id)
+      end
+
+      def check_group_member
+        group = Group.find_by(id: params[:id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        members = group.members.pluck(:user_id)
+        if members.index(current_api_v1_user.id).nil?
+          response_not_found(Group.name)
+        end
       end
     end
   end
