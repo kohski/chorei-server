@@ -8,25 +8,6 @@ RSpec.describe 'Members', type: :request do
     let(:bld_member) { build(:member) }
     let(:crt_member) { create(:member) }
     context '[POST] /members #members#create' do
-      it 'returns a valid 200 when member has already exsited' do
-        crt_member
-        post(
-          api_v1_members_path,
-          headers: User.first.create_new_auth_token,
-          params: {
-            member: {
-              user_id: crt_member.user_id,
-              group_id: crt_member.group_id
-            }
-          }
-        )
-        res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(200)
-        expect(res_body['message']).to include('Success')
-        expect(res_body['data']['id']).to eq(crt_member.id)
-        expect(res_body['data']['user_id']).to eq(crt_member.user_id)
-        expect(res_body['data']['group_id']).to eq(crt_member.group_id)
-      end
       it 'returns a valid 201 with valid request' do
         bld_member
         post(
