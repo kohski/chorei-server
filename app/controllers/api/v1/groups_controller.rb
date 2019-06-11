@@ -4,7 +4,7 @@ module Api
   module V1
     class GroupsController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :check_group_member, only: [:show, :destroy, :update]
+      before_action :check_group_member, only: %i[show destroy update]
 
       def create
         group = current_api_v1_user.groups.create(group_params)
@@ -73,9 +73,7 @@ module Api
           return
         end
         members = group.members.pluck(:user_id)
-        if members.index(current_api_v1_user.id).nil?
-          response_not_found(Group.name)
-        end
+        response_not_found(Group.name) if members.index(current_api_v1_user.id).nil?
       end
     end
   end
