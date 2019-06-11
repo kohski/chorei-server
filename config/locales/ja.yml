@@ -4,6 +4,7 @@ ja:
     models:
       user: "ユーザー"
       group: "グループ"
+      member: "メンバー"
     attributes:
       user:
         title: "タイトル"
@@ -19,6 +20,9 @@ ja:
         owner: オーナー
         image: 画像
         name: 名称
+      member:
+        group: グループ
+        user: ユーザー
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

@@ -6,11 +6,12 @@ module Api
       before_action :authenticate_api_v1_user!
 
       def create
-        member = Member.new(member_params)
-        if Member.duplicate?(member)
-          response_success(member)
+        already_existed_member = Member.duplicate_check(member_params)
+        if already_existed_member.present?
+          response_success(already_existed_member)
           return
         end
+        member = Member.new(member_params)
         if member.valid?
           member.save
           response_created(member)
