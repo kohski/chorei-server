@@ -7,15 +7,17 @@ RSpec.describe 'Members', type: :request do
     login
     let(:bld_member) { build(:member) }
     let(:crt_member) { create(:member) }
+    let(:user) { create(:user) }
     context '[POST] /members #members#create' do
       it 'returns a valid 201 with valid request' do
         bld_member
+        another_user = FactoryBot.create(:user)
         post(
           api_v1_members_path,
           headers: User.first.create_new_auth_token,
           params: {
             member: {
-              user_id: bld_member.user_id,
+              user_id: another_user.id,
               group_id: bld_member.group_id
             }
           }
@@ -28,6 +30,7 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['data']['user_id']).to eq(member.user_id)
         expect(res_body['data']['group_id']).to eq(member.group_id)
       end
+
       it 'returns an invalid 404 when user does not exist' do
         bld_member
         post(

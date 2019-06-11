@@ -119,7 +119,7 @@
         null,
         1,
         1,
-        23,
+        18,
         null,
         4,
         19,
@@ -132,10 +132,16 @@
         null,
         1,
         1,
+        null,
         1,
         1,
         1,
         1,
+        1,
+        null,
+        1,
+        22,
+        null,
         null
       ],
       "/Users/kosukekimura/Documents/study/DIC/chorei-server/app/models/application_record.rb": [
@@ -146,6 +152,8 @@
         null
       ],
       "/Users/kosukekimura/Documents/study/DIC/chorei-server/spec/models/member_spec.rb": [
+        null,
+        null,
         1,
         null,
         1,
@@ -417,6 +425,8 @@
         1,
         4,
         3,
+        6,
+        1,
         1,
         1,
         1,
@@ -437,6 +447,7 @@
         1,
         1,
         1,
+        null,
         null,
         1,
         1,
@@ -956,6 +967,6 @@
         null
       ]
     },
-    "timestamp": 1560243610
+    "timestamp": 1560252219
   }
 }
