@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_609_095_247) do
+ActiveRecord::Schema.define(version: 20_190_611_050_242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 20_190_609_095_247) do
     t.integer 'owner_id', null: false
     t.string 'name', null: false
     t.text 'image'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'members', force: :cascade do |t|
+    t.integer 'group_id', null: false
+    t.integer 'user_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
