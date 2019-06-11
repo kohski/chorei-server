@@ -16,10 +16,10 @@ module Api
 
       def index
         groups = current_api_v1_user.groups
-        if group
+        if groups.present?
           response_success(groups)
         else
-          response_not_found('Group')
+          response_not_found(Group.name)
         end
       end
 
@@ -28,13 +28,16 @@ module Api
         if group
           response_success(group)
         else
-          response_not_found('Group')
+          response_not_found(Group.name)
         end
       end
 
       def destroy
         group = Group.find_by(id: params[:id])
-        response_not_found(Group.name) if group.nil?
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
         if group.destroy
           response_success(group)
         else
@@ -55,7 +58,7 @@ module Api
       private
 
       def group_params
-        params.require(:group).permit(:name, :image)
+        params.require(:group).permit(:name, :image, :owner_id)
       end
     end
   end
