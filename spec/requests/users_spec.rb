@@ -31,8 +31,6 @@ RSpec.describe 'Chorei API', type: :request do
         expect(res_body['data']['email']).to eq(target.email)
         expect(res_body['data']['description']).to eq(target.description)
         expect(res_body['data']['role']).to eq(target.role)
-        # expect(Time.new(res_body['data']['created_at'])).to eq(Time.new(target.created_at))
-        # expect(Time.new(res_body['data']['update_at'])).to eq(Time.new(target.updated_at))
       end
 
       it 'returns a invalid 422 when email has already exist' do

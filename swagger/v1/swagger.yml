@@ -513,3 +513,339 @@ paths:
                 items:
                   type: "string"
                   example: "User was not found or was not logged in."
+  /groups:
+    post:
+      tags:
+      - "groups"
+      summary: "Group#Create"
+      description: "name, imageを指定してgroupをcreateする"
+      operationId: "groups#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "group#create"
+        description: "group#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "test user"
+            image:
+              type: "string"
+              example: "test@example.com"
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  owner_id: 
+                    type: "integer"
+                    example: 2
+                  name: 
+                    type: "integer"
+                    example: "test group"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: "array"
+                items:
+                  type: "string"
+                  example: "名称を入力してください"
+    get:
+      tags:
+      - "groups"
+      summary: "Group#Index"
+      description: "カレントユーザに紐づいたgroupを一覧化する"
+      operationId: "groups#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: array
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    owner_id: 
+                      type: "integer"
+                      example: 2
+                    name: 
+                      type: "integer"
+                      example: "test group"
+                    image: 
+                      type: "string"
+                      example: "data:image/jpeg;base64,random_strings"
+                    created_at:
+                      type: "integer"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "integer"
+                      example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "カレントユーザがGroupを持っていない時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+  /groups/{group_id}:
+    put:
+      tags:
+      - "groups"
+      summary: "Group#Update"
+      description: "Pathでidを指定してUpdate"
+      operationId: "groups#update"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "group_id"
+        description: "group#show group_id"
+        required: true
+      - in: "body"
+        name: "group#update"
+        description: "group#update parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "test user"
+            image:
+              type: "string"
+              example: "test@example.com"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  name: 
+                    type: "integer"
+                    example: "updated test group"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  owner_id: 
+                    type: "integer"
+                    example: 2
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(実在しないowner_id, 名前の長さ(1~100文字外)、画像がbase64形式でない場合)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: "array"
+                example: [ 名称を入力してください, 画像のMIMEタイプが不正です, オーナーを入力してください]
+        404:
+          description: "失敗時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+    get:
+      tags:
+      - "groups"
+      summary: "Group#Show"
+      description: "Pathでidを指定してGroupを取得"
+      operationId: "groups#show"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "group_id"
+        description: "group#show group_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  owner_id: 
+                    type: "integer"
+                    example: 2
+                  name: 
+                    type: "integer"
+                    example: "test group"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+
+    delete:
+      tags:
+      - "groups"
+      summary: "Group#Destroy"
+      description: "Pathでidを指定してGroupを削除"
+      operationId: "groups#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "group_id"
+        description: "group#destroy group_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  owner_id: 
+                    type: "integer"
+                    example: 2
+                  name: 
+                    type: "integer"
+                    example: "test group"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
