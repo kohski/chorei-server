@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :tag do
-    name { 'MyString' }
+    name { 'test tag' }
   end
 end
