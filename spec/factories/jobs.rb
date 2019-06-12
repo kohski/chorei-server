@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :job do
     group_id { Group.first ? Group.first.id : create(:group).id }
-    sequence(:title){|n| "test job#{n} title"}
-    sequence(:description){|n| "test job#{n} description"}
+    sequence(:title) { |n| "test job#{n} title" }
+    sequence(:description) { |n| "test job#{n} description" }
     image { 'data:image/png;base64,content_text' }
     is_public { false }
   end
