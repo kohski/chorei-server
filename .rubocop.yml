@@ -20,6 +20,8 @@ Metrics/BlockLength:
     - 'db/schema.rb'
     - 'spec/requests/*'
     - 'spec/models/*'
+    - 'config/routes.rb'
+    - 'controllers/api/v1/jobs_controller.rb'
 
 Metrics/AbcSize:
   Max: 30

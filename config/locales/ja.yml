@@ -6,6 +6,7 @@ ja:
       group: "グループ"
       member: "メンバー"
       tag: "タグ"
+      job: "ジョブ"
     attributes:
       user:
         title: "タイトル"
@@ -26,6 +27,12 @@ ja:
         user: ユーザー
       tag:
         name: 名称
+      job:
+        group: グループ
+        title: タイトル
+        description: 詳細
+        image: 画像
+        is_public: 公開設定
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

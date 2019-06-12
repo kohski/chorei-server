@@ -45,4 +45,14 @@ class ApplicationController < ActionController::API
       }
     )
   end
+
+  def response_not_acceptable(text)
+    render(
+      status: 406,
+      json: {
+        status: 406,
+        message: "#{text} is Not Acceptable"
+      }
+    )
+  end
 end
