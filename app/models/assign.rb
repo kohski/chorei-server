@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Assign < ApplicationRecord
   belongs_to :job
   belongs_to :member
