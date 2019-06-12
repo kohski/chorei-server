@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   validates :description, length: { maximum: 1200 }
   validates :image, base_image: true
 
-  has_many :groups, dependent: :destroy, foreign_key: :owner_id
   has_many :members, dependent: :destroy
   has_many :member_groups, through: :members, source: :group
 end
