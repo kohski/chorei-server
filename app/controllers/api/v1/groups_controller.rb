@@ -7,16 +7,17 @@ module Api
       before_action :check_group_member, only: %i[show destroy update]
 
       def create
-        group = current_api_v1_user.groups.create(group_params)
+        group = Group.create(group_params)
         if group.valid?
           response_created(group)
+          group.join_current_user_to_member(current_api_v1_user)
         else
           response_bad_request(group)
         end
       end
 
       def index
-        groups = current_api_v1_user.groups
+        groups = Group.all
         if groups.present?
           response_success(groups)
         else
@@ -63,7 +64,7 @@ module Api
       private
 
       def group_params
-        params.require(:group).permit(:name, :image, :owner_id)
+        params.require(:group).permit(:name, :image)
       end
 
       def check_group_member

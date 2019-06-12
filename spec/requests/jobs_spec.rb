@@ -7,8 +7,11 @@ RSpec.describe 'Jobs', type: :request do
     login
     let(:bld_job) { build(:job) }
     let(:crt_job) { create(:job) }
+    let(:member) { create(:member) }
     context '[POST] /jobs #jobs#create' do
       it 'returns a valid 201 with valid request' do
+        bld_job
+        member
         post(
           api_v1_group_jobs_path(group_id: bld_job.group_id),
           headers: User.first.create_new_auth_token,
@@ -32,6 +35,8 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['data']['is_public']).to eq(job.is_public)
       end
       it 'returns an invalid 400 with invalid params' do
+        bld_job
+        member
         post(
           api_v1_group_jobs_path(group_id: bld_job.group_id),
           headers: User.first.create_new_auth_token,
@@ -51,6 +56,8 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['data']).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.job.image'), message: I18n.t('errors.messages.wrong_mime_type')))
       end
       it 'returns an invalid 404 when job does not exsit' do
+        bld_job
+        member
         post(
           api_v1_group_jobs_path(group_id: (bld_job.group_id + 1)),
           headers: User.first.create_new_auth_token,
@@ -67,8 +74,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
       it 'returns an invalid 406 when current user is not member of the group' do
-        another_user = FactoryBot.create(:user)
-        group = another_user.groups.create(name: 'another group')
+        group = Group.create(name: 'another group')
         post(
           api_v1_group_jobs_path(group_id: group.id),
           headers: User.first.create_new_auth_token,
@@ -88,6 +94,7 @@ RSpec.describe 'Jobs', type: :request do
     context '[GET] /jobs #jobs#index' do
       it 'returns a valid 201 with valid request' do
         crt_job
+        member
         get(
           api_v1_group_jobs_path(group_id: crt_job.group_id),
           headers: User.first.create_new_auth_token
@@ -104,6 +111,7 @@ RSpec.describe 'Jobs', type: :request do
       end
       it 'returns an invalid 404 when job does not exsit' do
         group = crt_job.group
+        member
         group.jobs.destroy_all
         get(
           api_v1_group_jobs_path(group_id: group.id),
@@ -115,8 +123,7 @@ RSpec.describe 'Jobs', type: :request do
       end
       it 'returns an invalid 406 when current user is not member of the group' do
         group = crt_job.group
-        another_user = FactoryBot.create(:user)
-        another_group = another_user.groups.create(name: 'another_group')
+        another_group = Group.create(name: 'another_group')
         group.jobs.destroy_all
         get(
           api_v1_group_jobs_path(group_id: another_group.id),
@@ -130,6 +137,7 @@ RSpec.describe 'Jobs', type: :request do
     context '[GET] /jobs #jobs#show' do
       it 'returns a valid 201 with valid request' do
         crt_job
+        member
         get(
           api_v1_job_path(crt_job),
           headers: User.first.create_new_auth_token
@@ -156,8 +164,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
       it 'returns an invalid 406 when job does not exsit' do
-        another_user = FactoryBot.create(:user)
-        another_group = another_user.groups.create(name: 'another_group')
+        another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         get(
           api_v1_job_path(another_job),
@@ -171,6 +178,7 @@ RSpec.describe 'Jobs', type: :request do
     context '[PUT] /jobs #jobs#update' do
       it 'returns a valid 201 with valid request' do
         crt_job
+        member
         put(
           api_v1_job_path(crt_job),
           headers: User.first.create_new_auth_token,
@@ -212,8 +220,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
       it 'returns an invalid 406 when job belongs to group whilch current user is not member' do
-        another_user = FactoryBot.create(:user)
-        another_group = another_user.groups.create(name: 'another_group')
+        another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         put(
           api_v1_job_path(another_job),
@@ -235,6 +242,7 @@ RSpec.describe 'Jobs', type: :request do
     context '[DELETE] /jobs #jobs#destroy' do
       it 'returns a valid 201 with valid request' do
         crt_job
+        member
         before_job_count = Job.count
         delete(
           api_v1_job_path(crt_job),
@@ -262,8 +270,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
       it 'returns an invalid 406 when job belongs to group whilch current user is not member' do
-        another_user = FactoryBot.create(:user)
-        another_group = another_user.groups.create(name: 'another_group')
+        another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         delete(
           api_v1_job_path(another_job),

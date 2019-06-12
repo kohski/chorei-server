@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :member do
-    user_id { create(:user).id }
-    group_id { create(:group).id }
+    user_id { User.first ? User.first.id : create(:user).id }
+    group_id { Group.first ? Group.first.id : create(:group).id }
+    is_owner { false }
   end
 end

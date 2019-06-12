@@ -7,6 +7,7 @@ RSpec.describe 'Groups', type: :request do
   let(:crt_group) { create(:group) }
   let(:crt_group_second) { create(:group) }
   let(:bld_group) { build(:group) }
+  let(:member) { create(:member) }
   context '[POST] /groups #groups#create' do
     it 'returns a valid 201 with valid request' do
       post(
@@ -73,18 +74,17 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context '[PUT] /groups/{group_id} #groups#update' do
-    let(:another_user) { create(:user) }
     it 'returns a valid 200 with valid request' do
-      group = crt_group
-      group.members.create(user_id: another_user.id)
+      crt_group
+      user = User.first
+      crt_group.members.create(user_id: user.id)
       update_info = {
         name: 'updated_name',
-        image: 'data:image/png;base64,iVBORw',
-        owner_id: another_user.id
+        image: 'data:image/png;base64,iVBORw'
       }
       put(
         api_v1_groups_path + '/' + crt_group.id.to_s,
-        headers: User.first.create_new_auth_token,
+        headers: user.create_new_auth_token,
         params: {
           group: update_info
         }
@@ -98,10 +98,10 @@ RSpec.describe 'Groups', type: :request do
     end
     it 'returns an invalid 404 when there is no target group ' do
       crt_group
+      member
       update_info = {
         name: 'updated_name',
-        image: 'data:image/png;base64,iVBORw',
-        owner_id: another_user.id
+        image: 'data:image/png;base64,iVBORw'
       }
       Group.destroy_all
       put(
@@ -117,10 +117,11 @@ RSpec.describe 'Groups', type: :request do
     end
     it 'returns an invalid 400 with invalid request ' do
       crt_group
+      member
+
       update_info = {
         name: '',
-        image: 'datbase64iVBORw',
-        owner_id: (User.last.id + 1)
+        image: 'datbase64iVBORw'
       }
       put(
         api_v1_groups_path + '/' + crt_group.id.to_s,
@@ -133,7 +134,6 @@ RSpec.describe 'Groups', type: :request do
       expect(res_body['status']).to eq(400)
       expect(res_body['message']).to include('Bad Request')
       expect(res_body['data']).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.group.name'), message: I18n.t('errors.messages.blank')))
-      expect(res_body['data']).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.group.owner'), message: I18n.t('errors.messages.blank')))
       expect(res_body['data']).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.group.image'), message: I18n.t('errors.messages.wrong_mime_type')))
     end
   end
@@ -141,6 +141,7 @@ RSpec.describe 'Groups', type: :request do
   context '[GET] /groups/{group_id} #groups#show' do
     it 'returns a valid 200 with valid request' do
       crt_group
+      member
       get(
         api_v1_groups_path + '/' + crt_group.id.to_s,
         headers: User.first.create_new_auth_token
@@ -151,6 +152,7 @@ RSpec.describe 'Groups', type: :request do
     end
     it 'returns an invalid 404 when there is no target group ' do
       group_id = crt_group.id.to_s
+      member
       Group.destroy_all
       get(
         api_v1_groups_path + '/' + group_id,
@@ -165,6 +167,7 @@ RSpec.describe 'Groups', type: :request do
   context '[DELETE] /groups/{group_id} #groups#destroy' do
     it 'returns a valid 200 with valid request' do
       crt_group
+      member
       group_counts_before_delete = Group.count
       delete(
         api_v1_groups_path + '/' + crt_group.id.to_s,
@@ -177,6 +180,7 @@ RSpec.describe 'Groups', type: :request do
     end
     it 'returns an invalid 404 when there is no target group ' do
       target_id = crt_group.id.to_s
+      member
       Group.destroy_all
       delete(
         api_v1_groups_path + '/' + target_id,
