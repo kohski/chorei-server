@@ -50,11 +50,11 @@ module Api
 
       def destroy
         job = Job.find_by(id: params[:id])
-        if job.present?
+        if job.nil?
           response_not_found(Job.name)
           return
         end
-        if job.destory
+        if job.destroy
           response_success(job)
         else
           response_bad_request(job)

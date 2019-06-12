@@ -1521,7 +1521,76 @@ paths:
                 type: array
                 example: ["タイトルを入力してください","詳細は1200文字以内で入力してください","画像のMIMEタイプが不正です"]
         404:
-          description: "失敗時のレスポンス(実在しないGroupを指定)"
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+    delete:
+      tags:
+      - "job"
+      summary: "jobs#destroy"
+      description: "pathでjob_idを指定"
+      operationId: "jobs#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      - in: "body"
+        name: "jobs#destroy"
+        description: "jobs#destroy"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Created: Job"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 8
+                  title: 
+                    type: "string"
+                    example: "test job updated"
+                  description: 
+                    type: "string"
+                    example: "test job description updated"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  is_public: 
+                    type: "boolean"
+                    example: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
           schema:
             type: "object"
             properties:
