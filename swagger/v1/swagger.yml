@@ -1619,3 +1619,224 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Acceptable"
+  /assigns:
+    post:
+      tags:
+      - "assign"
+      summary: "assigns#create"
+      description: "bodyでjob_idとmember_idを指定"
+      operationId: "assigns#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "assigns#update"
+        description: "assigns#update parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            job_id:
+              type: "integer"
+              example: 2
+            member_id:
+              type: "integer"
+              example: 10
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Assign"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  member_id:
+                    type: "integer"
+                    example: 2
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(重複したレスポンス)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: array
+                items:
+                  type: string
+                  example: ["Jobはすでに存在します"] 
+        404:
+          description: "失敗時のレスポンス(実在しないMemberを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found /Member is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがmemberになっていないjobまたはmemberを指定した場合)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Job is Not Acceptable / Member is Not Acceptable"
+    get:
+      tags:
+      - "assign"
+      summary: "assigns#index"
+      description: "current_userにassignされているjobの一覧を取得"
+      operationId: "assigns#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Suucess: Array"
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 8
+                  title: 
+                    type: "string"
+                    example: "test job"
+                  description: 
+                    type: "string"
+                    example: "test job description"
+                  image: 
+                    type: "string"
+                    example: "data:image/jpeg;base64,random_strings"
+                  is_public: 
+                    type: "boolean"
+                    example: false
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(Assignが実在しない場合)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Assign is Not Found"
+  /assigns/{assign_id}:
+    delete:
+      tags:
+      - "assign"
+      summary: "assigns#destroy"
+      description: "pathでassign_idを指定して削除"
+      operationId: "assigns#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "assign_id"
+        description: "assign_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Assign"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  member_id:
+                    type: "integer"
+                    example: 2
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないAssignを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Assign is Not Found  "
+        406:
+          description: "失敗時のレスポンス(当該assignされているjobが属しているgroupにcurrent_userが属していないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Assign is Not Acceptable"
