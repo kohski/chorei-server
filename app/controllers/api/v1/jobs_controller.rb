@@ -33,7 +33,7 @@ module Api
         end
         jobs = group.jobs
         if jobs.present?
-          response_created(jobs)
+          response_success(jobs)
         else
           response_not_found(Job.name)
         end
@@ -41,6 +41,16 @@ module Api
 
       def show
         job = Job.find_by(id: params[:id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(Group.name)
+          return
+        end
+
         if job.present?
           response_success(job)
         else
@@ -54,6 +64,12 @@ module Api
           response_not_found(Job.name)
           return
         end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(Group.name)
+          return
+        end
+
         if job.destroy
           response_success(job)
         else
@@ -67,6 +83,12 @@ module Api
           response_not_found(Job.name)
           return
         end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(Group.name)
+          return
+        end
+
         if job.update(job_params)
           response_success(job)
         else

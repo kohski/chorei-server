@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tags', type: :request do
-  describe 'GET /tags' do
+  describe '/tags' do
     login
     let(:bld_tag) { build(:tag) }
     let(:crt_tag) { create(:tag) }

@@ -1236,7 +1236,7 @@ paths:
                     type: "string"
                     example: "2019-06-01T12:01:22.929Z"
         400:
-          description: "失敗時のレスポンス(実在しないowner_id, 名前の長さ(1~100文字外)、画像がbase64形式でない場合)"
+          description: "失敗時のレスポンス(実在しないgroup_id, タイトルの長さ(1~100文字外)、画像がbase64形式でない場合、詳細が1200文字以上)"
           schema:
             type: "object"
             properties:
@@ -1250,7 +1250,7 @@ paths:
                 type: "array"
                 example: [ タイトルを入力してください, 詳細は1200文字以内で入力してください, 画像のMIMEタイプが不正です]
         404:
-          description: "失敗時のレスポンス(自分がメンバーでないgroupを指定した場合)"
+          description: "失敗時のレスポンス(実在しないGroupをpathで指定した場合)"
           schema:
             type: "object"
             properties:
@@ -1261,7 +1261,7 @@ paths:
                 type: "string"
                 example: "Group is Not Found"
         406:
-          description: "失敗時のレスポンス(自分がメンバーでないgroupを指定した場合)"
+          description: "失敗時のレスポンス(自分がメンバーでないgroupをpathで指定した場合)"
           schema:
             type: "object"
             properties:
@@ -1287,17 +1287,17 @@ paths:
         description: "group_id"
         required: true
       responses:
-        201:
+        200:
           description: "成功時のレスポンス"
           schema:
             type: "object"
             properties:
               status:
                 type: "integer"
-                example: 201
+                example: 200
               message:
                 type: "string"
-                example: "Created: Job"
+                example: "Success: Job"
               data:
                 type: "array"
                 items:
@@ -1327,20 +1327,6 @@ paths:
                     updated_at:
                       type: "string"
                       example: "2019-06-01T12:01:22.929Z"
-        400:
-          description: "失敗時のレスポンス(実在しないowner_id, 名前の長さ(1~100文字外)、画像がbase64形式でない場合)"
-          schema:
-            type: "object"
-            properties:
-              status:
-                type: "string"
-                example: 400
-              message:
-                type: "string"
-                example: "Bad Request"
-              data:
-                type: "array"
-                example: [ タイトルを入力してください, 詳細は1200文字以内で入力してください, 画像のMIMEタイプが不正です]
         404:
           description: "失敗時のレスポンス(実在しないGroupを指定)"
           schema:
@@ -1431,6 +1417,17 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+        406:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Group is Not Acceptable"
     put:
       tags:
       - "job"
@@ -1531,6 +1528,17 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+        406:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Group is Not Acceptable"
     delete:
       tags:
       - "job"
@@ -1600,3 +1608,14 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+        406:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Group is Not Acceptable"

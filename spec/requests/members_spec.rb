@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Members', type: :request do
-  describe 'GET /members' do
+  describe '/members' do
     login
     let(:bld_member) { build(:member) }
     let(:crt_member) { create(:member) }
