@@ -28,6 +28,23 @@ RSpec.describe 'Groups', type: :request do
       expect(res_body['data']['name']).to eq(group.name)
       expect(res_body['data']['image']).to eq(group.image)
     end
+    it 'also creates member between group and user when Group.created' do
+      before_member_count = Member.count
+      post(
+        api_v1_groups_path,
+        headers: User.first.create_new_auth_token,
+        params: {
+          group: {
+            name: 'test',
+            image: 'data:image/png;base64,iVBORw'
+          }
+        }
+      )
+      res_body = JSON.parse(response.body)
+      expect(res_body['status']).to eq(201)
+      expect(res_body['message']).to include('Created')
+      expect(Member.count).to eq(before_member_count + 1)
+    end
     it 'returns an invalid 400 without group name' do
       post(
         api_v1_groups_path,
