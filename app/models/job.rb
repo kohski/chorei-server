@@ -7,6 +7,7 @@ class Job < ApplicationRecord
   has_many :steps, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :taggings, dependent: :destroy
+  has_many :taggings_tags, through: :taggings, source: :tag
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 1200 }

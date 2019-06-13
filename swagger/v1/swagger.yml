@@ -28,8 +28,8 @@ tags:
   description: "Schedule管理用"
 - name: "tag"
   description: "Tag管理用"
-- name: "job_tag"
-  description: "JobTag管理用。JobとTagの中間テーブル"
+- name: "tagging"
+  description: "Tagging管理用。JobとTagの中間テーブル"
 securityDefinitions:
   access-token:
     type: "apiKey"
@@ -2668,3 +2668,137 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+  /taggings:
+    post:
+      tags:
+      - "tagging"
+      summary: "taggings#create"
+      description: "bodyでparameterを指定してtaggingをcreateする"
+      operationId: "taggings#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "schedule#create"
+        description: "schedule#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            tag_id:
+              type: "integer"
+              example: 0
+            job_id:
+              type: integer
+              example: 1
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Tagging"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "string"
+                    example: "weekly"
+                  tag_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(重複したTaggingを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Job is already taken"
+        404:
+          description: "失敗時のレスポンス(実在しないJob/Tagを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found / Tag is Not Found"
+  /taggings/{tagging_id}:
+    delete:
+      tags:
+      - "tagging"
+      summary: "taggings#destroy"
+      description: "pathでidを指定してtaggingをdestroyする"
+      operationId: "taggings#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "tagging_id"
+        description: "tagging_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Tagging"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "string"
+                    example: "weekly"
+                  tag_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないTaggingを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Tagging is Not Found"
