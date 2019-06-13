@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Assigns", type: :request do
+RSpec.describe 'Assigns', type: :request do
   login
-  let(:bld_assign){ build(:assign) }
-  let(:crt_assign){ create(:assign) }
-  let(:another_user){ create(:user) }
-  let(:member){ User.first.members.create(group_id: Group.first.id) }
-  describe "/assigns" do
+  let(:bld_assign) { build(:assign) }
+  let(:crt_assign) { create(:assign) }
+  let(:another_user) { create(:user) }
+  let(:member) { User.first.members.create(group_id: Group.first.id) }
+  describe '/assigns' do
     context '[POST] /assgins #assgins#create' do
       it 'returns a valid 201 with valid request' do
         bld_assign
@@ -70,7 +72,7 @@ RSpec.describe "Assigns", type: :request do
           headers: User.first.create_new_auth_token,
           params: {
             assign: {
-              "job_id": (bld_assign.job_id + 1), 
+              "job_id": (bld_assign.job_id + 1),
               "member_id": bld_assign.member_id
             }
           }
@@ -85,7 +87,7 @@ RSpec.describe "Assigns", type: :request do
           headers: another_user.create_new_auth_token,
           params: {
             assign: {
-              "job_id": bld_assign.job_id, 
+              "job_id": bld_assign.job_id,
               "member_id": bld_assign.member_id
             }
           }
