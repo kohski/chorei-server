@@ -24,6 +24,8 @@ tags:
   description: "Stoc管理用。JobとUserの中間テーブル"
 - name: "step"
   description: "Job管理用"
+- name: "schedule"
+  description: "Schedule管理用"
 - name: "tag"
   description: "Tag管理用"
 - name: "job_tag"
@@ -2232,6 +2234,431 @@ paths:
                 example: "Step is Not Found  "
         406:
           description: "失敗時のレスポンス(current_userがstepの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+  /jobs/{job_id}/schedules:
+    post:
+      tags:
+      - "schedule"
+      summary: "schedule#create"
+      description: "pathでjob_idを指定、bodyでparameterを指定してscheduleをcreateする"
+      operationId: "schedule#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      - in: "body"
+        name: "schedule#create"
+        description: "schedule#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            frequency:
+              type: "integer"
+              example: 0
+            repeat_time:
+              type: integer
+              example: 1
+            start_at:
+              type: "string"
+              example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+            end_at:
+              type: "string"
+              example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+            is_done:
+              type: "boolean"
+              exmpale: true
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Schedule"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  frequency:
+                    type: "string"
+                    example: "weekly"
+                  repeat_time:
+                    type: integer
+                    example: 1
+                  start_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+                  end_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+                  is_done:
+                    type: "boolean"
+                    exmpale: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    get:
+      tags:
+      - "schedule"
+      summary: "schedule#index"
+      description: "pathでjob_idを指定scheduleをindexする"
+      operationId: "schedule#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Schedule"
+              data:
+                type: array
+                items:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  frequency:
+                    type: "string"
+                    example: "weekly"
+                  repeat_time:
+                    type: integer
+                    example: 1
+                  start_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+                  end_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+                  is_done:
+                    type: "boolean"
+                    exmpale: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定 / Scheduleが存在しない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found / Job is not found"
+        406:
+          description: "失敗時のレスポンス(current_userがjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+  /schedules/{schedule_id}:
+    get:
+      tags:
+      - "schedule"
+      summary: "schedule#show"
+      description: "pathでschedule_idを指定"
+      operationId: "schedule#show"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "schedule_id"
+        description: "schedule_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Scucess: Schedule"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  frequency:
+                    type: "string"
+                    example: "weekly"
+                  repeat_time:
+                    type: integer
+                    example: 1
+                  start_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+                  end_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+                  is_done:
+                    type: "boolean"
+                    exmpale: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないScheduleを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Schedule is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがscheduleの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    put:
+      tags:
+      - "schedule"
+      summary: "schedule#update"
+      description: "pathでschedule_idを指定, bodyでpropetriesを指定してscheduleをupdateする"
+      operationId: "schedule#update"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "schedule_id"
+        description: "schedule_id"
+        required: true
+      - in: "body"
+        name: "schedule#update"
+        description: "schedule#update parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            frequency:
+              type: "integer"
+              example: 0
+            repeat_time:
+              type: integer
+              example: 1
+            start_at:
+              type: "string"
+              example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+            is_done:
+              type: "boolead"
+              example: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Scucess: Schedule"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  frequency:
+                    type: "string"
+                    example: "weekly"
+                  repeat_time:
+                    type: integer
+                    example: 1
+                  start_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+                  end_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+                  is_done:
+                    type: "boolean"
+                    exmpale: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないScheduleを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Schedule is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがscheduleの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    delete:
+      tags:
+      - "schedule"
+      summary: "schedule#destroy"
+      description: "pathでschedule_idを指定"
+      operationId: "schedule#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "schedule_id"
+        description: "schedule_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Scucess: Schedule"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  frequency:
+                    type: "string"
+                    example: "weekly"
+                  repeat_time:
+                    type: integer
+                    example: 1
+                  start_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 21:00:18 JST +09:00"
+                  end_at:
+                    type: "string"
+                    example: "Wed, 12 Jun 2019 22:00:18 JST +09:00"
+                  is_done:
+                    type: "boolean"
+                    exmpale: true
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないScheduleを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Schedule is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがscheduleの属するjobの属するgroupのmemberでないとき)"
           schema:
             type: "object"
             properties:

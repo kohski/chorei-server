@@ -8,7 +8,7 @@ class CreateSchedules < ActiveRecord::Migration[5.2]
       t.integer :repeat_time, null: false, default: 0
       t.datetime :start_at, null: false
       t.datetime :end_at
-      t.boolean :is_done, null: false, defaul: false
+      t.boolean :is_done, null: false, default: false
 
       t.timestamps
     end

@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20_190_613_074_529) do
     t.integer 'repeat_time', default: 0, null: false
     t.datetime 'start_at', null: false
     t.datetime 'end_at'
-    t.boolean 'is_done', null: false
+    t.boolean 'is_done', default: false, null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
