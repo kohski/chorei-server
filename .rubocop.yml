@@ -24,7 +24,7 @@ Metrics/BlockLength:
     - 'controllers/api/v1/jobs_controller.rb'
 
 Metrics/AbcSize:
-  Max: 30
+  Max: 40
   Exclude:
     - 'db/migrate/*'
   

@@ -29,4 +29,10 @@ Rails.application.routes.draw do
       resources :tags, only: %i[create destroy index]
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :assigns, only: %i[create destroy index]
+    end
+  end
 end
