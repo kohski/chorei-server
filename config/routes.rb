@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :groups, only: %i[create index show destroy update], shallow: true do
-        resources :jobs, only: %i[create index show destroy update]
+        resources :jobs, only: %i[create index show destroy update], shallow: true do
+          resources :steps, only: %i[create index show destroy update]
+        end
       end
     end
   end

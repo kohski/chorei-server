@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Step, type: :model do
-  let(:step){build(:step)}
+  let(:step) { build(:step) }
   context 'memo validation' do
     it 'is invalid with name over 400 characters' do
-      step.memo = "a" * 401
+      step.memo = 'a' * 401
       step.valid?
-      expect(step.errors.full_messages).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.step.memo'), message: I18n.t('errors.messages.too_long',{ count: 400 })))
+      expect(step.errors.full_messages).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.step.memo'), message: I18n.t('errors.messages.too_long', count: 400)))
     end
   end
   context 'image validation' do
