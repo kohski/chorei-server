@@ -8,6 +8,7 @@ ja:
       tag: "タグ"
       job: "ジョブ"
       assign: "アサイン"
+      step: ステップ
     attributes:
       user:
         title: "タイトル"
@@ -37,6 +38,12 @@ ja:
       assign:
         member: "メンバー"
         job: "ジョブ"
+      step:
+        job: ジョブ
+        memo: メモ
+        image: 画像
+        order: 順番
+        is_done: 終了フラグ
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

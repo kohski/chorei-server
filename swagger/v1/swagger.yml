@@ -1840,3 +1840,404 @@ paths:
               message:
                 type: "string"
                 example: "Assign is Not Acceptable"
+  /jobs/{job_id}/steps:
+    post:
+      tags:
+      - "step"
+      summary: "step#create"
+      description: "pathでjob_idを指定、bodyでparameterを指定してstepをcreateする"
+      operationId: "step#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      - in: "body"
+        name: "step#create"
+        description: "step#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            memo:
+              type: "string"
+              example: "test steps"
+            image:
+              type: "string"
+              example: "base64url"
+            order:
+              type: "integer"
+              example: 0
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Step"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  memo:
+                    type: "string"
+                    example: "test steps"
+                  image:
+                    type: "string"
+                    example: "base64url"
+                  job_id:
+                    type: "integer"
+                    example: 0
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    get:
+      tags:
+      - "step"
+      summary: "step#index"
+      description: "pathでjob_idを指定、job傘下のstepsを取得"
+      operationId: "step#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Step"
+              data:
+                type: array
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    job_id:
+                      type: "integer"
+                      example: 8
+                    memo:
+                      type: "string"
+                      example: "test steps"
+                    image:
+                      type: "string"
+                      example: "base64url"
+                    job_id:
+                      type: "integer"
+                      example: 0
+                    created_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+  /steps/{step_id}:
+    put:
+      tags:
+      - "step"
+      summary: "step#update"
+      description: "pathでstepのidを指定、bodyでparameterを指定してstepをupdateする"
+      operationId: "step#update"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "step_id"
+        description: "step_id"
+        required: true
+      - in: "body"
+        name: "step#update"
+        description: "step#update parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            memo:
+              type: "string"
+              example: "test steps"
+            image:
+              type: "string"
+              example: "base64url"
+            order:
+              type: "integer"
+              example: 0
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Step"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  memo:
+                    type: "string"
+                    example: "test steps"
+                  image:
+                    type: "string"
+                    example: "base64url"
+                  job_id:
+                    type: "integer"
+                    example: 0
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Step is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがstepの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    get:
+      tags:
+      - "step"
+      summary: "step#update"
+      description: "pathでstepのidを指定、bodyでparameterを指定してstepをupdateする"
+      operationId: "step#update"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "step_id"
+        description: "step_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Step"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  memo:
+                    type: "string"
+                    example: "test steps"
+                  image:
+                    type: "string"
+                    example: "base64url"
+                  job_id:
+                    type: "integer"
+                    example: 0
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないStepを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Step is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがstepの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+    delete:
+      tags:
+      - "step"
+      summary: "step#destroy"
+      description: "pathでstepのidを指定してstepをupdateする"
+      operationId: "step#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "step_id"
+        description: "step_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Step"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  memo:
+                    type: "string"
+                    example: "test steps"
+                  image:
+                    type: "string"
+                    example: "base64url"
+                  job_id:
+                    type: "integer"
+                    example: 0
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないStepを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Step is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがstepの属するjobの属するgroupのmemberでないとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"

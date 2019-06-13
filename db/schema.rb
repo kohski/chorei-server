@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_612_115_234) do
+ActiveRecord::Schema.define(version: 20_190_613_022_755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20_190_612_115_234) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.boolean 'is_owner', default: false
+  end
+
+  create_table 'steps', force: :cascade do |t|
+    t.integer 'job_id', null: false
+    t.text 'memo'
+    t.text 'image'
+    t.integer 'order', null: false
+    t.boolean 'is_done', default: false, null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'tags', force: :cascade do |t|

@@ -134,7 +134,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Acceptable')
       end
     end
-    context '[GET] /jobs #jobs#show' do
+    context '[GET] /jobs/{job_id} #jobs#show' do
       it 'returns a valid 201 with valid request' do
         crt_job
         member
@@ -175,7 +175,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Acceptable')
       end
     end
-    context '[PUT] /jobs #jobs#update' do
+    context '[PUT] /jobs/{job_id} #jobs#update' do
       it 'returns a valid 201 with valid request' do
         crt_job
         member
@@ -239,7 +239,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['message']).to include('Not Acceptable')
       end
     end
-    context '[DELETE] /jobs #jobs#destroy' do
+    context '[DELETE] /jobs/{job_id} #jobs#destroy' do
       it 'returns a valid 201 with valid request' do
         crt_job
         member
