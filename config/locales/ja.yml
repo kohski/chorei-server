@@ -9,6 +9,7 @@ ja:
       job: "ジョブ"
       assign: "アサイン"
       step: ステップ
+      schedule: スケジュール
     attributes:
       user:
         title: "タイトル"
@@ -43,6 +44,13 @@ ja:
         memo: メモ
         image: 画像
         order: 順番
+        is_done: 終了フラグ
+      schedule:
+        job: ジョブ
+        frequency: 頻度
+        repeat_time: 繰返し回数
+        start_at: 開始日
+        end_at: 終了日
         is_done: 終了フラグ
     errors:
       messages:
@@ -151,6 +159,7 @@ ja:
       year: 年
   errors:
     format: "%{attribute}%{message}"
+    date_custom_format: "は%{attribute_start}より%{message}"
     messages:
       accepted: を受諾してください
       blank: を入力してください
@@ -177,6 +186,7 @@ ja:
       too_short: は%{count}文字以上で入力してください
       wrong_length: は%{count}文字で入力してください
       wrong_mime_type: のMIMEタイプが不正です
+      past: 未来の日付にしてください
     template:
       body: 次の項目を確認してください
       header:
