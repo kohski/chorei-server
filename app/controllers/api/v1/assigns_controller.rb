@@ -16,7 +16,7 @@ module Api
           return
         end
 
-        if job.group.members.pluck(:id).index(current_api_v1_user.id)
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
           response_not_acceptable(User.name)
           return
         end
