@@ -14,6 +14,12 @@ module Api
           response_not_found(Tag.name)
           return
         end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(Member.name)
+          return
+        end
+        
         tagging = job.taggings.build(tagging_params)
         if tagging.valid?
           tagging.save
@@ -28,6 +34,11 @@ module Api
 
         if tagging.nil?
           response_not_found(Tagging.name)
+          return
+        end
+
+        if tagging.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(Member.name)
           return
         end
 
