@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_613_022_755) do
+ActiveRecord::Schema.define(version: 20_190_613_074_529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(version: 20_190_613_022_755) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.boolean 'is_owner', default: false
+  end
+
+  create_table 'schedules', force: :cascade do |t|
+    t.integer 'job_id', null: false
+    t.integer 'frequency', default: 0, null: false
+    t.integer 'repeat_time', default: 0, null: false
+    t.datetime 'start_at', null: false
+    t.datetime 'end_at'
+    t.boolean 'is_done', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'steps', force: :cascade do |t|
