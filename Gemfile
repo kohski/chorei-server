@@ -39,6 +39,8 @@ gem 'dotenv-rails'
 gem 'mini_racer', platforms: :ruby
 gem 'unicorn'
 
+gem 'rspec-core'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'binding_of_caller'
@@ -53,7 +55,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'rspec-core'
   gem 'rspec_junit_formatter'
   gem 'rubocop', require: false
   gem 'simplecov', require: false
