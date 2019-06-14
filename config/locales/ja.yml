@@ -10,6 +10,7 @@ ja:
       assign: "アサイン"
       step: ステップ
       schedule: スケジュール
+      tagging: タグづけ
     attributes:
       user:
         title: "タイトル"
@@ -52,6 +53,9 @@ ja:
         start_at: 開始日
         end_at: 終了日
         is_done: 終了フラグ
+      tagging:
+        job: ジョブ
+        tag: タグ
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
