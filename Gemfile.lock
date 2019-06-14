@@ -299,6 +299,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.3)
+  rspec-core
   rspec-rails
   rspec_junit_formatter
   rswag

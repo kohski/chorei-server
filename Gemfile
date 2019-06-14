@@ -53,6 +53,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'rspec-core'
   gem 'rspec_junit_formatter'
   gem 'rubocop', require: false
   gem 'simplecov', require: false

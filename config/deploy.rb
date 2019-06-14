@@ -3,31 +3,31 @@
 # config valid only for current version of Capistrano
 lock '3.6.0'
 
-# デプロイするアプリケーション名
+# Application name
 set :application, 'chorei-server'
 
-# cloneするgitのレポジトリ（xxxxxxxx：ユーザ名、yyyyyyyy：アプリケーション名）
+# git repositroy
 set :repo_url, 'https://github.com/kohski/chorei-server'
 
-# deployするブランチ。デフォルトはmasterなのでなくても可。
+# deploy branch
 set :branch, ENV['BRANCH'] || 'master'
 
-# deploy先のディレクトリ。
+# directory in AWS
 set :deploy_to, '/var/www/chorei-server'
 
-# シンボリックリンクをはるフォルダ・ファイル
+# folder and files to attach symbolic link
 set :linked_files, %w[.env config/secrets.yml]
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/uploads]
 
-# 保持するバージョンの個数(※後述)
+# number of version
 set :keep_releases, 5
 
-# Rubyのバージョン
+# Ruby version
 set :rbenv_ruby, '2.5.1'
 set :rbenv_type, :system
 
-# 出力するログのレベル。エラーログを詳細に見たい場合は :debug に設定する。
-# 本番環境用のものであれば、 :info程度が普通。ただし挙動をしっかり確認したいのであれば :debug に設定する。
+# error log level
+# :info is normal as prduction environment
 set :log_level, :info
 
 namespace :deploy do
