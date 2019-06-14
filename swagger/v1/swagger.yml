@@ -2944,17 +2944,6 @@ paths:
                   updated_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.929Z"
-        400:
-          description: "失敗時のレスポンス(重複したrequest)"
-          schema:
-            type: "object"
-            properties:
-              status:
-                type: "string"
-                example: 400
-              message:
-                type: "string"
-                example: "Job has already taken"
         404:
           description: "失敗時のレスポンス(実在しないJobを指定した時)"
           schema:
