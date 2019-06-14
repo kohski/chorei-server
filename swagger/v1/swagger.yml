@@ -35,17 +35,14 @@ securityDefinitions:
     type: "apiKey"
     name: "access-token"
     in: "header"
-    value: "WB4HXdfRAenKUxqgIMvxIw"
   uid:
     type: "apiKey"
     name: "uid"
     in: "header"
-    value: "test@test.com"
   client:
     type: "apiKey"
     name: "client"
     in: "header"
-    value: "xvUwrt1-gyMsPf1bcqg1tw"
 schemes:
 - "http"
 paths:
@@ -110,7 +107,7 @@ paths:
                     properties:
                       url: 
                         type: "string"
-                        exampmle: "base64url"
+                        exampmle: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   email:
                     type: "string"
                     example: "fource@test.com"
@@ -248,7 +245,7 @@ paths:
                     properties:
                       url: 
                         type: "string"
-                        exampmle: "base64url"
+                        exampmle: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   email:
                     type: "string"
                     example: "fource@test.com"
@@ -271,6 +268,10 @@ paths:
                 items:
                   type: "string"
                   example: "Invalid login credentials"
+      security:
+      - access-token: 
+        uid:
+        client:
   /auth/password:
     put:
       tags:
@@ -328,7 +329,7 @@ paths:
                     properties:
                       url: 
                         type: "string"
-                        exampmle: "base64url"
+                        exampmle: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   email:
                     type: "integer"
                     example: "fource@test.com"
@@ -364,6 +365,10 @@ paths:
                 items:
                   type: "string"
                   example: "Password confirmation doesn't match Password"
+      security:
+      - access-token: 
+        uid:
+        client:
   /auth/sign_in:
     post:
       tags:
@@ -439,7 +444,7 @@ paths:
                     properties:
                       url: 
                         type: "string"
-                        exampmle: "base64url"
+                        exampmle: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   email:
                     type: "string"
                     example: "fource@test.com"
@@ -475,6 +480,10 @@ paths:
                 items:
                   type: "string"
                   example: "Password confirmation doesn't match Password"
+      security:
+      - access-token: 
+        uid:
+        client:
   /auth/sign_out:
     delete:
       tags:
@@ -515,6 +524,10 @@ paths:
                 items:
                   type: "string"
                   example: "User was not found or was not logged in."
+      security:
+      - access-token: 
+        uid:
+        client:
   /members:
     post:
       tags:
@@ -730,6 +743,10 @@ paths:
               message:
                 type: "string"
                 example: "Nameを入力してください"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "tag"
@@ -780,6 +797,10 @@ paths:
               message:
                 type: "string"
                 example: "Tag is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
     delete:
       tags:
       - "tag"
@@ -828,6 +849,10 @@ paths:
               message:
                 type: "string"
                 example: "Tag is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /groups:
     post:
       tags:
@@ -849,10 +874,10 @@ paths:
           properties:
             name:
               type: "string"
-              example: "test user"
+              example: "test group"
             image:
               type: "string"
-              example: "test@example.com"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
       responses:
         201:
           description: "成功時のレスポンス"
@@ -879,7 +904,7 @@ paths:
                     example: "test group"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   created_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.868Z"
@@ -902,6 +927,10 @@ paths:
                 items:
                   type: "string"
                   example: "名称を入力してください"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "group"
@@ -940,7 +969,7 @@ paths:
                       example: "test group"
                     image: 
                       type: "string"
-                      example: "data:image/jpeg;base64,random_strings"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                     created_at:
                       type: "string"
                       example: "2019-06-01T12:01:22.868Z"
@@ -958,6 +987,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /groups/{group_id}:
     put:
       tags:
@@ -983,10 +1016,10 @@ paths:
           properties:
             name:
               type: "string"
-              example: "test user"
+              example: "test group"
             image:
               type: "string"
-              example: "test@example.com"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
       responses:
         200:
           description: "成功時のレスポンス"
@@ -1010,7 +1043,7 @@ paths:
                     example: "updated test group"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   owner_id: 
                     type: "integer"
                     example: 2
@@ -1045,6 +1078,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "group"
@@ -1086,7 +1123,7 @@ paths:
                     example: "test group"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   created_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.868Z"
@@ -1104,6 +1141,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
     delete:
       tags:
       - "group"
@@ -1145,7 +1186,7 @@ paths:
                     example: "test group"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   created_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.868Z"
@@ -1163,6 +1204,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /groups/{group_id}/jobs:
     post:
       tags:
@@ -1186,7 +1231,7 @@ paths:
         schema:
           type: object
           properties:
-            name:
+            title:
               type: "string"
               example: "test job"
             description:
@@ -1194,7 +1239,7 @@ paths:
               example: "test job description"
             image:
               type: "string"
-              example: "data:image/png;base64,iVBORw0K"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
             is_public:
               type: "boolean"
               example: true
@@ -1227,7 +1272,7 @@ paths:
                     example: "test job description"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   is_public: 
                     type: "boolean"
                     example: false
@@ -1273,6 +1318,10 @@ paths:
               message:
                 type: "string"
                 example: "This Group is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "job"
@@ -1319,7 +1368,7 @@ paths:
                       example: "test job description"
                     image: 
                       type: "string"
-                      example: "data:image/jpeg;base64,random_strings"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                     is_public: 
                       type: "boolean"
                       example: false
@@ -1351,6 +1400,10 @@ paths:
               message:
                 type: "string"
                 example: "This Group is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /jobs/{jobs_id}:
     get:
       tags:
@@ -1398,7 +1451,7 @@ paths:
                       example: "test job description"
                     image: 
                       type: "string"
-                      example: "data:image/jpeg;base64,random_strings"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                     is_public: 
                       type: "boolean"
                       example: false
@@ -1430,6 +1483,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     put:
       tags:
       - "job"
@@ -1452,7 +1509,7 @@ paths:
         schema:
           type: object
           properties:
-            name:
+            title:
               type: "string"
               example: "test job update"
             description:
@@ -1460,7 +1517,7 @@ paths:
               example: "test job description update"
             image:
               type: "string"
-              example: "data:image/png;base64,iVBORw0K__update__"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
             is_public:
               type: "boolean"
               example: true
@@ -1495,7 +1552,7 @@ paths:
                       example: "test job description updated"
                     image: 
                       type: "string"
-                      example: "data:image/jpeg;base64,random_strings"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                     is_public: 
                       type: "boolean"
                       example: true
@@ -1541,6 +1598,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     delete:
       tags:
       - "job"
@@ -1589,7 +1650,7 @@ paths:
                     example: "test job description updated"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   is_public: 
                     type: "boolean"
                     example: true
@@ -1621,6 +1682,10 @@ paths:
               message:
                 type: "string"
                 example: "Group is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /assigns:
     post:
       tags:
@@ -1714,6 +1779,10 @@ paths:
               message:
                 type: "string"
                 example: "Job is Not Acceptable / Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "assign"
@@ -1753,7 +1822,7 @@ paths:
                     example: "test job description"
                   image: 
                     type: "string"
-                    example: "data:image/jpeg;base64,random_strings"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   is_public: 
                     type: "boolean"
                     example: false
@@ -1774,6 +1843,10 @@ paths:
               message:
                 type: "string"
                 example: "Assign is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /assigns/{assign_id}:
     delete:
       tags:
@@ -1842,6 +1915,10 @@ paths:
               message:
                 type: "string"
                 example: "Assign is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /jobs/{job_id}/steps:
     post:
       tags:
@@ -1870,7 +1947,7 @@ paths:
               example: "test steps"
             image:
               type: "string"
-              example: "base64url"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
             order:
               type: "integer"
               example: 0
@@ -1900,7 +1977,7 @@ paths:
                     example: "test steps"
                   image:
                     type: "string"
-                    example: "base64url"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   job_id:
                     type: "integer"
                     example: 0
@@ -1932,6 +2009,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "step"
@@ -1975,7 +2056,7 @@ paths:
                       example: "test steps"
                     image:
                       type: "string"
-                      example: "base64url"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                     job_id:
                       type: "integer"
                       example: 0
@@ -2007,6 +2088,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /steps/{step_id}:
     put:
       tags:
@@ -2035,7 +2120,7 @@ paths:
               example: "test steps"
             image:
               type: "string"
-              example: "base64url"
+              example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
             order:
               type: "integer"
               example: 0
@@ -2065,7 +2150,7 @@ paths:
                     example: "test steps"
                   image:
                     type: "string"
-                    example: "base64url"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   job_id:
                     type: "integer"
                     example: 0
@@ -2097,6 +2182,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "step"
@@ -2138,7 +2227,7 @@ paths:
                     example: "test steps"
                   image:
                     type: "string"
-                    example: "base64url"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   job_id:
                     type: "integer"
                     example: 0
@@ -2170,6 +2259,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     delete:
       tags:
       - "step"
@@ -2211,7 +2304,7 @@ paths:
                     example: "test steps"
                   image:
                     type: "string"
-                    example: "base64url"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   job_id:
                     type: "integer"
                     example: 0
@@ -2243,6 +2336,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /jobs/{job_id}/schedules:
     post:
       tags:
@@ -2342,6 +2439,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "schedule"
@@ -2420,6 +2521,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /schedules/{schedule_id}:
     get:
       tags:
@@ -2497,6 +2602,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     put:
       tags:
       - "schedule"
@@ -2592,6 +2701,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
     delete:
       tags:
       - "schedule"
@@ -2668,6 +2781,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /taggings:
     post:
       tags:
@@ -2756,6 +2873,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /taggings/{tagging_id}:
     delete:
       tags:
@@ -2824,6 +2945,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
   /stocks:
     post:
       tags:
@@ -2898,6 +3023,10 @@ paths:
               message:
                 type: "string"
                 example: "Job is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
     get:
       tags:
       - "stock"
@@ -2937,7 +3066,7 @@ paths:
                     example: "test job description"
                   image:
                     type: "string"
-                    example: "base64url"
+                    example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
                   created_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.868Z"
@@ -2955,6 +3084,10 @@ paths:
               message:
                 type: "string"
                 example: "Job is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /stocks/{stock_id}:
     delete:
       tags:
@@ -3023,3 +3156,7 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
