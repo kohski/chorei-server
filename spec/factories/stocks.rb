@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :stock do
-    user_id { 1 }
-    job_id { 1 }
+    job_id { Job.first ? Job.first.id : create(:job).id }
+    user_id { User.first ? User.first.id : create(:user).id }
   end
 end
