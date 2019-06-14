@@ -15,4 +15,6 @@ class User < ActiveRecord::Base
 
   has_many :members, dependent: :destroy
   has_many :member_groups, through: :members, source: :group
+  has_many :stocks, dependent: :destroy
+  has_many :stock_jobs, through: :stocks, source: :job
 end

@@ -11,6 +11,7 @@ ja:
       step: ステップ
       schedule: スケジュール
       tagging: タグづけ
+      stock: ストック
     attributes:
       user:
         title: "タイトル"
@@ -56,6 +57,9 @@ ja:
       tagging:
         job: ジョブ
         tag: タグ
+      stock:
+        job: ジョブ
+        user: ユーザー
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

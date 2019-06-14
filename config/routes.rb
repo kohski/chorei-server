@@ -44,4 +44,10 @@ Rails.application.routes.draw do
       resources :taggings, only: %i[create destroy]
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :stocks, only: %i[create destroy index]
+    end
+  end
 end

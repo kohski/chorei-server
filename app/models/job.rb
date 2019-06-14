@@ -8,6 +8,8 @@ class Job < ApplicationRecord
   has_many :schedules, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :taggings_tags, through: :taggings, source: :tag
+  has_many :stocks, dependent: :destroy
+  has_many :stock_users, through: :stocks, source: :user
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 1200 }
