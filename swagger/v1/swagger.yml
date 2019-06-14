@@ -2745,6 +2745,17 @@ paths:
               message:
                 type: "string"
                 example: "Job is Not Found / Tag is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがjobのmemberでない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
   /taggings/{tagging_id}:
     delete:
       tags:
@@ -2802,3 +2813,14 @@ paths:
               message:
                 type: "string"
                 example: "Tagging is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがjobのmemberでない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"

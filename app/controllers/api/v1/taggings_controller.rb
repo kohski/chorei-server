@@ -19,7 +19,7 @@ module Api
           response_not_acceptable(Member.name)
           return
         end
-        
+
         tagging = job.taggings.build(tagging_params)
         if tagging.valid?
           tagging.save
