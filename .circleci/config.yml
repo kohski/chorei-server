@@ -100,15 +100,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - ${FINGERPRINT}
- 
-      - run:
-          name: Start ssh-keyscan
-          command: |
-            ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
- 
-      - deploy:
-          name: Start master deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${USER_NAME}@${HOST_NAME}:/var/www/chorei-server/
-            fi
+
+    - deploy:
+        name: Capistrano deploy
+        command:
+          bundle exec cap production deploy
