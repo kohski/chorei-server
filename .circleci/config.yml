@@ -91,6 +91,12 @@ jobs:
           file: ./coverage/.resultset.json
 
       # Deploy
+      - run:
+          name: Install rsync
+          command: |
+            sudo apt-get update -y
+            sudo apt-get -y install rsync
+
       - add_ssh_keys:
           fingerprints:
             - ${FINGERPRINT}
