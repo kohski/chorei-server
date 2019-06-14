@@ -9,18 +9,16 @@ module Api
           response_not_found(Job.name)
           return
         end
-        user = User.find_by(id: stock_params[:user_id])
-        if user.nil?
-          response_not_found(User.name)
-          return
-        end
 
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        is_not_member = job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        is_private_job = !job.is_public?
+
+        if is_not_member || is_private_job
           response_not_acceptable(Member.name)
           return
         end
 
-        stock = job.taggings.build(stock_params)
+        stock = job.stocks.build(stock_params)
         if stock.valid?
           stock.save
           response_created(stock)
@@ -61,7 +59,7 @@ module Api
       private
 
       def stock_params
-        params.require(:stock).permit(:job_id, :user_id)
+        params.require(:stock).permit(:job_id)
       end
     end
   end
