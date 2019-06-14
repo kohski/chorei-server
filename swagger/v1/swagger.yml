@@ -2824,3 +2824,213 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Acceptable"
+  /stocks:
+    post:
+      tags:
+      - "stock"
+      summary: "stocks#create"
+      description: "bodyでjob_idを指定"
+      operationId: "stocks#create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "stocks#create"
+        description: "stocks#create parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            job_id:
+              type: integer
+              example: 1
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "created: Stock"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "string"
+                    example: "weekly"
+                  user_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(重複したrequest)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Job has already taken"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found"
+    get:
+      tags:
+      - "stock"
+      summary: "stocks#index"
+      description: "current_userに紐づくstockを経由してjobsを一括取得"
+      operationId: "stocks#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Stock"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  group_id:
+                    type: "integer"
+                    example: 1
+                  title:
+                    type: "string"
+                    example: "test job"
+                  description:
+                    type: "string"
+                    example: "test job description"
+                  image:
+                    type: "string"
+                    example: "base64url"
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(重複したrequest)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Job has already taken"
+        404:
+          description: "失敗時のレスポンス(実在しないJobを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found"
+  /stocks/{stock_id}:
+    delete:
+      tags:
+      - "stock"
+      summary: "stocks#destroy"
+      description: "pathでstock_idを指定"
+      operationId: "stocks#destroy"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "stock_id"
+        description: "stock_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Stock"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  job_id:
+                    type: "string"
+                    example: "weekly"
+                  user_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないStockを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Stock is Not Found"
+        406:
+          description: "失敗時のresponse(current_user以外のstockを指定したとき)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"

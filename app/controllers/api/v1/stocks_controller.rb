@@ -13,12 +13,12 @@ module Api
         is_not_member = job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
         is_private_job = !job.is_public?
 
-        if is_not_member || is_private_job
+        if is_not_member && is_private_job
           response_not_acceptable(Member.name)
           return
         end
 
-        stock = job.stocks.build(stock_params)
+        stock = current_api_v1_user.stocks.build(stock_params)
         if stock.valid?
           stock.save
           response_created(stock)
@@ -28,9 +28,9 @@ module Api
       end
 
       def index
-        stock_jobs = current_api_v1_user.stocks.map(&:stock_jobs).flatten
+        stock_jobs = current_api_v1_user.stock_jobs
         if stock_jobs.present?
-          response_success(assign_jobs)
+          response_success(stock_jobs)
         else
           response_not_found(Stock.name)
         end
@@ -44,7 +44,7 @@ module Api
           return
         end
 
-        if stock.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        if current_api_v1_user.stocks.pluck(:id).index(stock.id).nil?
           response_not_acceptable(Member.name)
           return
         end
