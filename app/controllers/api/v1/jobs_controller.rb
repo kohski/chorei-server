@@ -96,6 +96,15 @@ module Api
         end
       end
 
+      def public_jobs
+        jobs = Job.where(is_pubclic: true)
+        if jobs.present?
+          response_success(jobs)
+        else
+          response_not_found(Job.name)
+        end
+      end
+
       private
 
       def job_params

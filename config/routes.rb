@@ -18,6 +18,9 @@ Rails.application.routes.draw do
           resources :steps, only: %i[create index show destroy update]
           resources :schedules, only: %i[create index show destroy update]
         end
+        collection do
+          get :public_jobs
+        end
       end
     end
   end
