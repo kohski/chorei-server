@@ -7,7 +7,7 @@ RSpec.describe 'Jobs', type: :request do
     login
     let(:bld_job) { build(:job) }
     let(:crt_job) { create(:job) }
-    let(:crt_public_job){ create(:job, :public) }
+    let(:crt_public_job) { create(:job, :public) }
     let(:member) { create(:member) }
     # context '[POST] /jobs #jobs#create' do
     #   it 'returns a valid 201 with valid request' do
@@ -288,7 +288,7 @@ RSpec.describe 'Jobs', type: :request do
         member
         crt_public_job
         get(
-          public_jobs_api_v1_group_jobs_path(group_id: crt_public_job.group_id),
+          api_v1_public_jobs_path,
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
@@ -305,7 +305,7 @@ RSpec.describe 'Jobs', type: :request do
         crt_job
         member
         get(
-          public_jobs_api_v1_group_jobs_path(group_id: crt_job.group_id),
+          api_v1_public_jobs_path,
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
