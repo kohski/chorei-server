@@ -97,7 +97,7 @@ module Api
       end
 
       def public_jobs
-        jobs = Job.where(is_pubclic: true)
+        jobs = Job.where(is_public: true)
         if jobs.present?
           response_success(jobs)
         else

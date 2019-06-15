@@ -15,11 +15,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :groups, only: %i[create index show destroy update], shallow: true do
         resources :jobs, only: %i[create index show destroy update], shallow: true do
+          collection do
+            get :public_jobs
+          end  
           resources :steps, only: %i[create index show destroy update]
           resources :schedules, only: %i[create index show destroy update]
-        end
-        collection do
-          get :public_jobs
         end
       end
     end
