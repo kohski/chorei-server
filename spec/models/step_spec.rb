@@ -52,7 +52,7 @@ RSpec.describe Step, type: :model do
       step_third
       step_fource
       expected_memo_list = [step_first.memo, step_fource.memo, step_second.memo, step_third.memo]
-      steps = Step.all
+      steps = Step.order(:order)
       expect(steps.pluck(:memo)).to eq(expected_memo_list)
     end
   end
