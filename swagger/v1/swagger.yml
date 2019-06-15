@@ -9,7 +9,7 @@ info:
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/MIT"
-host: "http://3.113.114.91"
+host: "3.113.114.91"
 basePath: "/api/v1"
 tags:
 - name: "user"
