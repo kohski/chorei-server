@@ -7,6 +7,7 @@ RSpec.describe 'Jobs', type: :request do
     login
     let(:bld_job) { build(:job) }
     let(:crt_job) { create(:job) }
+    let(:crt_public_job) { create(:job, :public) }
     let(:member) { create(:member) }
     context '[POST] /jobs #jobs#create' do
       it 'returns a valid 201 with valid request' do
@@ -279,6 +280,37 @@ RSpec.describe 'Jobs', type: :request do
         res_body = JSON.parse(response.body)
         expect(res_body['status']).to eq(406)
         expect(res_body['message']).to include('Not Acceptable')
+      end
+    end
+    context '[GET] /jobs/public_jobs #jobs#public_jobs' do
+      it 'returns a valid 201 with valid request' do
+        crt_job
+        member
+        crt_public_job
+        get(
+          api_v1_public_jobs_path,
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'].length).to eq(Job.where(is_public: true).count)
+        expect(res_body['data'][0]['id']).to eq(crt_public_job.id)
+        expect(res_body['data'][0]['title']).to eq(crt_public_job.title)
+        expect(res_body['data'][0]['image']).to eq(crt_public_job.image)
+        expect(res_body['data'][0]['description']).to eq(crt_public_job.description)
+        expect(res_body['data'][0]['is_public']).to eq(crt_public_job.is_public)
+      end
+      it 'returns an invalid 404 when job does not exsit' do
+        crt_job
+        member
+        get(
+          api_v1_public_jobs_path,
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
       end
     end
   end

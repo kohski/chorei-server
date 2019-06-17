@@ -3,6 +3,7 @@
 module Api
   module V1
     class AssignsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       def create
         job = Job.find_by(id: assign_params[:job_id])
         if job.nil?

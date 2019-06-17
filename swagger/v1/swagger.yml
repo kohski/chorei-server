@@ -1404,6 +1404,74 @@ paths:
       - access-token: 
         uid:
         client:
+  /public_jobs:
+    get:
+      tags:
+      - "job"
+      summary: "jobs#public_job"
+      description: "is_public:trueのjobを一括検索"
+      operationId: "jobs#public_jobs"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Job"
+              data:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    group_id:
+                      type: "integer"
+                      example: 8
+                    title: 
+                      type: "string"
+                      example: "test job"
+                    description: 
+                      type: "string"
+                      example: "test job description"
+                    image: 
+                      type: "string"
+                      example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
+                    is_public: 
+                      type: "boolean"
+                      example: false
+                    created_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないGroupを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /jobs/{jobs_id}:
     get:
       tags:

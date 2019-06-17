@@ -4,7 +4,6 @@ module Api
   module V1
     class MembersController < ApplicationController
       before_action :authenticate_api_v1_user!
-
       def create
         member = Member.new(member_params)
         if member.valid?

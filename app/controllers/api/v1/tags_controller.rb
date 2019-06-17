@@ -3,6 +3,7 @@
 module Api
   module V1
     class TagsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       def create
         tag = Tag.create(tag_params)
         if tag.valid?

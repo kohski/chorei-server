@@ -3,6 +3,7 @@
 module Api
   module V1
     class StepsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       def create
         job = Job.find_by(id: params[:job_id])
 

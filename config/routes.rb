@@ -50,4 +50,10 @@ Rails.application.routes.draw do
       resources :stocks, only: %i[create destroy index]
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      get :public_jobs, controller: :jobs, action: :public_jobs
+    end
+  end
 end

@@ -3,6 +3,7 @@
 module Api
   module V1
     class JobsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       def create
         group = Group.find_by(id: params[:group_id])
         if group.nil?
@@ -93,6 +94,15 @@ module Api
           response_success(job)
         else
           response_bad_request(job)
+        end
+      end
+
+      def public_jobs
+        jobs = Job.where(is_public: true)
+        if jobs.present?
+          response_success(jobs)
+        else
+          response_not_found(Job.name)
         end
       end
 

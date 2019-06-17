@@ -3,6 +3,7 @@
 module Api
   module V1
     class TaggingsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       def create
         job = Job.find_by(id: tagging_params[:job_id])
         if job.nil?

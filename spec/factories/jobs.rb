@@ -7,5 +7,8 @@ FactoryBot.define do
     sequence(:description) { |n| "test job#{n} description" }
     image { 'data:image/png;base64,content_text' }
     is_public { false }
+    trait :public do
+      is_public { true }
+    end
   end
 end
