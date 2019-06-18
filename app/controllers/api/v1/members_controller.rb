@@ -60,10 +60,19 @@ module Api
         end
       end
 
+      def memebers_with_user_id_and_group_id
+        member = Member.find_by(group_id: member_params[:group_id], user_id: member_params[:user_id])
+        if member.present?
+          response_success(member)
+        else
+          response_not_found(Member.name)
+        end
+      end
+
       private
 
       def member_params
-        params.require(:member).permit(:email)
+        params.require(:member).permit(:email, :group_id, :user_id)
       end
     end
   end
