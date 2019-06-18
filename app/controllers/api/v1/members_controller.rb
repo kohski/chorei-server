@@ -46,11 +46,11 @@ module Api
           response_not_found(Group.name)
           return
         end
-        members = Member.where(group_id: params[:group_id])
-        if members.present?
-          response_success(members)
+        member_users = group.member_users
+        if member_users.present?
+          response_success(member_users)
         else
-          response_not_found(members)
+          response_not_found(member_users)
         end
       end
 
