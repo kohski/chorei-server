@@ -118,5 +118,53 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['message']).to include('Member is Not Found')
       end
     end
+    context '[DELETE] /membres #membres#memebers_with_user_id_and_group_id' do
+      it 'returns a valid 200 with valid request' do
+        crt_member
+        delete(
+          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: crt_member.group_id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            member: {
+              user_id: crt_member.user_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success: Member')
+      end
+      it 'returns an invalid 404 when user does not exist' do
+        dummy_member = crt_member
+        crt_member.destroy
+        delete(
+          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: dummy_member.group_id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            member: {
+              user_id: crt_member.user_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 404 when group does not exist' do
+        crt_member
+        delete(
+          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: crt_member.group_id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            member: {
+              user_id: another_user.id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+    end
   end
 end
