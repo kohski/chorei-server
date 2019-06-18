@@ -122,13 +122,8 @@ RSpec.describe 'Members', type: :request do
       it 'returns a valid 200 with valid request' do
         crt_member
         delete(
-          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id),
-          headers: User.first.create_new_auth_token,
-          params: {
-            member: {
-              user_id: crt_member.user_id
-            }
-          }
+          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id) + "?user_id=" + crt_member.user_id.to_s,
+          headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
         expect(res_body['status']).to eq(200)
