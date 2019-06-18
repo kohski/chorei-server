@@ -82,6 +82,8 @@ RSpec.describe 'Members', type: :request do
     context '[DELETE] /membres #membres#destroy' do
       it 'returns a valid 201 with valid request' do
         crt_member
+        another_user
+        Member.create(user_id: another_user.id, group_id: crt_member.group_id)
         delete(
           api_v1_member_path(id: crt_member.id),
           headers: User.first.create_new_auth_token
@@ -92,6 +94,17 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['data']['id']).to eq(crt_member.id)
         expect(res_body['data']['user_id']).to eq(crt_member.user_id)
         expect(res_body['data']['group_id']).to eq(crt_member.group_id)
+      end
+      it 'returns an invalid 400 when target user is last one member of the group' do
+        crt_member
+        delete(
+          api_v1_member_path(id: crt_member.id),
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
+        expect(res_body['data']).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
       end
       it 'returns an invalid 404 when user does not exist' do
         member_id = crt_member.id

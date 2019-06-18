@@ -195,6 +195,7 @@ ja:
       wrong_length: は%{count}文字で入力してください
       wrong_mime_type: のMIMEタイプが不正です
       past: 未来の日付にしてください
+      last_member: は最低1名必要です
     template:
       body: 次の項目を確認してください
       header:

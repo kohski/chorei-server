@@ -36,6 +36,17 @@ class ApplicationController < ActionController::API
     )
   end
 
+  def response_bad_request_with_custome_message(message)
+    render(
+      status: 400,
+      json: {
+        status: 400,
+        message: 'Bad Request',
+        data: message
+      }
+    )
+  end
+
   def response_not_found(text)
     render(
       status: 404,
