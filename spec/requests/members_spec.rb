@@ -18,7 +18,7 @@ RSpec.describe 'Members', type: :request do
           headers: User.first.create_new_auth_token,
           params: {
             member: {
-              email: another_user.email,
+              email: another_user.email
             }
           }
         )
@@ -35,7 +35,7 @@ RSpec.describe 'Members', type: :request do
         dummy_email = another_user.email
         another_user.destroy
         bld_member
-        post(          
+        post(
           api_v1_group_members_path(group_id: bld_member.group_id),
           headers: User.first.create_new_auth_token,
           params: {
@@ -55,13 +55,28 @@ RSpec.describe 'Members', type: :request do
           headers: User.first.create_new_auth_token,
           params: {
             member: {
-              email: bld_member.user.email,
+              email: bld_member.user.email
             }
           }
         )
         res_body = JSON.parse(response.body)
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 400 when member has already exist' do
+        crt_member
+        post(
+          api_v1_group_members_path(group_id: crt_member.group_id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            member: {
+              email: crt_member.user.email
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
       end
     end
     context '[DELETE] /membres #membres#destroy' do

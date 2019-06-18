@@ -54,7 +54,6 @@ module Api
         end
       end
 
-
       private
 
       def member_params
