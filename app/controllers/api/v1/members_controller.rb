@@ -60,7 +60,7 @@ module Api
         end
       end
 
-      def memebers_with_user_id_and_group_id
+      def destroy_with_user_id_and_group_id
         member = Member.find_by(group_id: params[:group_id], user_id: member_params[:user_id])
         if member.present?
           response_success(member)
