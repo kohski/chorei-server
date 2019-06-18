@@ -18,12 +18,8 @@ Rails.application.routes.draw do
           resources :steps, only: %i[create index show destroy update]
           resources :schedules, only: %i[create index show destroy update]
         end
+        resources :members, only: %i[create destroy index]
       end
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :members, only: %i[create destroy]
     end
   end
 

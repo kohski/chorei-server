@@ -528,7 +528,7 @@ paths:
       - access-token: 
         uid:
         client:
-  /members:
+  /groups/{group_id}/members:
     post:
       tags:
       - "member"
@@ -540,6 +540,10 @@ paths:
       produces:
       - "application/json"
       parameters:
+      - in: "path"
+        name: "group_id"
+        description: "member#create member_id"
+        required: true
       - in: "body"
         name: "members#create"
         description: "Member#create parameters"
@@ -547,42 +551,10 @@ paths:
         schema:
           type: object
           properties:
-            group_id:
-              type: "integr"
-              example: 1
-            user_id:
-              type: "integer"
-              example: 10
+            email:
+              type: "string"
+              example: "test@test.com"
       responses:
-        200:
-          description: "すでにmemberがある場合はそのまま200を返す"
-          schema:
-            type: "object"
-            properties:
-              status:
-                type: "integer"
-                example: 200
-              message:
-                type: "string"
-                example: "Success: Group"
-              data:
-                type: "object"
-                properties:
-                  id:
-                    type: "integer"
-                    example: 1
-                  group_id:
-                    type: "integer"
-                    example: 1
-                  user_id:
-                    type: "integer"
-                    example: 10
-                  created_at:
-                    type: "string"
-                    example: "2019-06-01T12:01:22.868Z"
-                  updated_at:
-                    type: "string"
-                    example: "2019-06-01T12:01:22.929Z"
         201:
           description: "新規成功時のレスポンス"
           schema:
@@ -612,6 +584,69 @@ paths:
                   updated_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないuser_id, group_id)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "User is Not Found / Group is not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
+  /groups/{group_id}/members:
+    get:
+      tags:
+      - "member"
+      summary: "Members#index"
+      description: "group_id"
+      operationId: "Members#index"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "group_id"
+        description: "member#create member_id"
+        required: true
+      responses:
+        200:
+          description: "新規成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Group"
+              data:
+                type: array
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    group_id:
+                      type: "integer"
+                      example: 1
+                    user_id:
+                      type: "integer"
+                      example: 10
+                    created_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.929Z"
         400:
           description: "失敗時のレスポンス(実在しないuser_id, group_id)"
           schema:
@@ -622,10 +657,22 @@ paths:
                 example: 400
               message:
                 type: "string"
-                example: "Bad Request"
-              data:
-                type: "array"
-                example: [ Userを入力してください, Groupを入力してください]
+                example: "User has already been taken"
+        404:
+          description: "失敗時のレスポンス(実在しないuser_id, group_id)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "User is Not Found / Group is not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /members/{member_id}:
     delete:
       tags:
@@ -683,6 +730,10 @@ paths:
               message:
                 type: "string"
                 example: "Member is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /tags:
     post:
       tags:

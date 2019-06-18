@@ -5,7 +5,20 @@ module Api
     class MembersController < ApplicationController
       before_action :authenticate_api_v1_user!
       def create
-        member = Member.new(member_params)
+        user = User.find_by(email: member_params[:email])
+        if user.nil?
+          response_not_found(User.name)
+          return
+        end
+
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+
+        member = group.members.create(user_id: user.id)
+
         if member.valid?
           member.save
           response_created(member)
@@ -27,10 +40,24 @@ module Api
         end
       end
 
+      def index
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        members = Member.where(group_id: params[:group_id])
+        if members.present?
+          response_success(members)
+        else
+          response_not_found(members)
+        end
+      end
+
       private
 
       def member_params
-        params.require(:member).permit(:user_id, :group_id)
+        params.require(:member).permit(:email)
       end
     end
   end
