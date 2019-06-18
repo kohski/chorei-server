@@ -122,7 +122,7 @@ RSpec.describe 'Members', type: :request do
       it 'returns a valid 200 with valid request' do
         crt_member
         delete(
-          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: crt_member.group_id),
+          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id),
           headers: User.first.create_new_auth_token,
           params: {
             member: {
@@ -138,7 +138,7 @@ RSpec.describe 'Members', type: :request do
         dummy_member = crt_member
         crt_member.destroy
         delete(
-          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: dummy_member.group_id),
+          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: dummy_member.group_id),
           headers: User.first.create_new_auth_token,
           params: {
             member: {
@@ -153,7 +153,7 @@ RSpec.describe 'Members', type: :request do
       it 'returns an invalid 404 when group does not exist' do
         crt_member
         delete(
-          api_v1_group_memebers_with_user_id_and_group_id_path(group_id: crt_member.group_id),
+          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id),
           headers: User.first.create_new_auth_token,
           params: {
             member: {
