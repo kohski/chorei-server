@@ -63,6 +63,7 @@ module Api
       def destroy_with_user_id_and_group_id
         member = Member.find_by(group_id: params[:group_id], user_id: params[:user_id])
         if member.present?
+          member.destroy
           response_success(member)
         else
           response_not_found(Member.name)
