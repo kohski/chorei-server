@@ -599,7 +599,6 @@ paths:
       - access-token: 
         uid:
         client:
-  /groups/{group_id}/members:
     get:
       tags:
       - "member"
