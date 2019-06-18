@@ -19,7 +19,7 @@ Rails.application.routes.draw do
           resources :schedules, only: %i[create index show destroy update]
         end
         resources :members, only: %i[create destroy index]
-        delete :memebers_with_user_id_and_group_id, controller: :members, action: :destroy_with_user_id_and_group_id
+        delete :destroy_with_user_id_and_group_id, controller: :members, action: :destroy_with_user_id_and_group_id
       end
     end
   end

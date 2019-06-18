@@ -761,9 +761,19 @@ paths:
       - "application/json"
       parameters:
       - in: "path"
-        name: "member_id"
+        name: "group_id"
         description: "member#destroy_with_user_id_and_group_id"
         required: true
+      - in: "body"
+        name: "user_id"
+        description: "user_idをbodyで指定"
+        required: true
+        schema:
+          type: object
+          properties:
+            user_id:
+              type: "integer"
+              example: 1
       responses:
         200:
           description: "成功時のレスポンス"
