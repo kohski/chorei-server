@@ -62,6 +62,12 @@ module Api
 
       def destroy_with_user_id_and_group_id
         member = Member.find_by(group_id: params[:group_id], user_id: params[:user_id])
+
+        if member.group.members.count <= 1
+          response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
+          return
+        end
+
         if member.present?
           member.destroy
           response_success(member)

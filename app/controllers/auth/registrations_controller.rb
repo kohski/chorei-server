@@ -5,11 +5,11 @@ module Auth
     private
 
     def sign_up_params
-      params.require(:registration).permit(:name, :email, :team, :password, :password_confirmation, :image, :description)
+      params.require(:registration).permit(:name, :email, :password, :password_confirmation, :image, :description)
     end
 
     def account_update_params
-      params.require(:registration).permit(:name, :email, :team, :image, :description)
+      params.require(:registration).permit(:name, :email, :image, :description)
     end
   end
 end
