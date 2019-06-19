@@ -17,7 +17,7 @@ module Api
       end
 
       def index
-        groups = Group.all
+        groups = current_api_v1_user.member_groups
         if groups.present?
           response_success(groups)
         else

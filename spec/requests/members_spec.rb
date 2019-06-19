@@ -169,7 +169,7 @@ RSpec.describe 'Members', type: :request do
       it 'returns an invalid 404 when group does not exist' do
         crt_member
         delete(
-          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id)+ '?user_id=' + another_user.id.to_s,
+          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id) + '?user_id=' + another_user.id.to_s,
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
