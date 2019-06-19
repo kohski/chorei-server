@@ -65,7 +65,9 @@ RSpec.describe 'Groups', type: :request do
   context '[GET] /groups #groups#index' do
     it 'returns a valid 200 with valid request' do
       crt_group
+      member
       crt_group_second
+      Member.create(user_id: User.first.id, group_id: crt_group_second.id)
       get(
         api_v1_groups_path,
         headers: User.first.create_new_auth_token
