@@ -2,7 +2,8 @@
 
 class Step < ApplicationRecord
   before_create :auto_nubering_blank_order
-  after_create :auto_renumbering_order
+  after_create :auto_renumbering_order_after_create
+  after_destroy :auto_renumbering_order
 
   belongs_to :job
 
@@ -18,10 +19,9 @@ class Step < ApplicationRecord
                  end
   end
 
-  def auto_renumbering_order
+  def auto_renumbering_order_after_create
     orders = job.steps.pluck(:order)
     return if orders.length == orders.to_set.to_a.length
-
     # when order is duplicate, renubering order of steps by updated_at by second criteria
     steps_orderd_by_order_and_updated_by = job.steps.all.sort_by { |elm| [elm[:order], -elm[:updated_at].to_f] }
     steps_orderd_by_order_and_updated_by.each_with_index do |step, index|
@@ -29,6 +29,14 @@ class Step < ApplicationRecord
       step.record_timestamps = false
       step.save
       step.record_timestamps = true
+    end
+  end
+
+  def auto_renumbering_order
+    steps = job.steps.order(order: :asc)
+    steps.each_with_index do |elm, index|
+      elm.order = index
+      elm.save
     end
   end
 end

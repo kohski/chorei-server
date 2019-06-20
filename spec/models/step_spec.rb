@@ -8,6 +8,11 @@ RSpec.describe Step, type: :model do
   let(:step_second) { create(:step, order: 1) }
   let(:step_third) { create(:step, order: 2) }
   let(:step_fource) { create(:step, order: 1) }
+
+  let(:step_order_first) { create(:step) }
+  let(:step_order_second) { create(:step) }
+  let(:step_order_third) { create(:step) }
+  let(:step_order_fource) { create(:step) }
   context 'memo validation' do
     it 'is invalid with name over 400 characters' do
       step.memo = 'a' * 401
@@ -45,7 +50,7 @@ RSpec.describe Step, type: :model do
       expect(second_step.order).to eq(step.order + 1)
     end
   end
-  context 'auto_set_order method' do
+  context 'auto_renumbering_order_after_create method works' do
     it 'is valid with gif image' do
       step_first
       step_second
@@ -54,6 +59,23 @@ RSpec.describe Step, type: :model do
       expected_memo_list = [step_first.memo, step_fource.memo, step_second.memo, step_third.memo]
       steps = Step.order(:order)
       expect(steps.pluck(:memo)).to eq(expected_memo_list)
+    end
+  end
+  context 'auto_renumbering_order after destroy' do
+    it 'is valid with gif image' do
+      step_order_first
+      step_order_second
+      step_order_third
+      step_order_fource
+      step_order_second.destroy
+
+      first = Step.find_by(memo: step_order_first.memo)
+      third = Step.find_by(memo: step_order_third.memo)
+      fource = Step.find_by(memo: step_order_fource.memo)
+
+      expect(first.order).to eq(0)
+      expect(third.order).to eq(1)
+      expect(fource.order).to eq(2)
     end
   end
 end
