@@ -2,7 +2,7 @@
 
 class BaseImageValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    return if value.nil?
+    return if value.nil? || value == ''
     avairable_mime_type = %w[jpeg png gif jpg]
     target_index = value.index(',')
     if target_index.nil?

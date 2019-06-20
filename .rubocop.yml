@@ -44,3 +44,6 @@ Style/AsciiComments:
 Style/GlobalVars:
   Exclude:
     - 'config/unicorn/production.rb'
+
+Metrics/CyclomaticComplexity:
+  Max: 7
