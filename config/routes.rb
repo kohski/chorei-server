@@ -20,6 +20,9 @@ Rails.application.routes.draw do
         end
         resources :members, only: %i[create destroy index]
         delete :destroy_with_user_id_and_group_id, controller: :members, action: :destroy_with_user_id_and_group_id
+        collection do
+          get :group_id_with_job_it, controller: :groups, action: :group_id_with_job_id
+        end
       end
     end
   end

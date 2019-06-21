@@ -8,6 +8,8 @@ RSpec.describe 'Groups', type: :request do
   let(:crt_group_second) { create(:group) }
   let(:bld_group) { build(:group) }
   let(:member) { create(:member) }
+  let(:job) { create(:job) }
+  let(:another_user) { create(:user) }
   context '[POST] /groups #groups#create' do
     it 'returns a valid 201 with valid request' do
       post(
@@ -204,6 +206,63 @@ RSpec.describe 'Groups', type: :request do
       delete(
         api_v1_groups_path + '/' + target_id,
         headers: User.first.create_new_auth_token
+      )
+      res_body = JSON.parse(response.body)
+      expect(res_body['status']).to eq(404)
+      expect(res_body['message']).to include('Not Found')
+    end
+  end
+
+  context '[GET] /groups/group_id_with_job_it #groups#group_id_with_job_it' do
+    it 'returns a valid 200 with valid request' do
+      crt_group
+      member
+      job = crt_group.jobs.create(title: 'test job')
+      get(
+        group_id_with_job_it_api_v1_groups_path,
+        params: {
+          group: {
+            job_id: job.id
+          }
+        },
+        headers: User.first.create_new_auth_token
+      )
+      res_body = JSON.parse(response.body)
+      expect(res_body['status']).to eq(200)
+      expect(res_body['message']).to include('Succes')
+      expect(res_body['data']).to eq(crt_group.id)
+    end
+    it 'retuen an invalid 404 when job does not exist' do
+      crt_group
+      member
+      dummy_job = crt_group.jobs.create(title: 'test job')
+      Job.destroy_all
+      get(
+        group_id_with_job_it_api_v1_groups_path,
+        params: {
+          group: {
+            job_id: dummy_job.id
+          }
+        },
+        headers: User.first.create_new_auth_token
+      )
+      res_body = JSON.parse(response.body)
+      expect(res_body['status']).to eq(404)
+      expect(res_body['message']).to include('Not Found')
+    end
+    it 'retuen an invalid 404 when current user is not a member of job' do
+      crt_group
+      member
+      job = crt_group.jobs.create(title: "test")
+      Job.destroy_all
+      get(
+        group_id_with_job_it_api_v1_groups_path,
+        params: {
+          group: {
+            job_id: job.id
+          }
+        },
+        headers: another_user.create_new_auth_token
       )
       res_body = JSON.parse(response.body)
       expect(res_body['status']).to eq(404)

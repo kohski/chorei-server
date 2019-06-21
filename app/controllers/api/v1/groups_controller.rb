@@ -4,7 +4,7 @@ module Api
   module V1
     class GroupsController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :check_group_member, only: %i[show destroy update]
+      before_action :check_group_member, only: %i[show destroy]
 
       def create
         group = Group.create(group_params)
@@ -61,10 +61,24 @@ module Api
         end
       end
 
+      def group_id_with_job_id
+        job = Job.find_by(id: group_params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(job)
+          return
+        end
+
+        response_success(job.group.id)
+      end
+
       private
 
       def group_params
-        params.require(:group).permit(:name, :image)
+        params.require(:group).permit(:name, :image, :job_id)
       end
 
       def check_group_member
@@ -74,7 +88,7 @@ module Api
           return
         end
         members = group.members.pluck(:user_id)
-        response_not_found(Group.name) if members.index(current_api_v1_user.id).nil?
+        response_not_acceptable(Group.name) if members.index(current_api_v1_user.id).nil?
       end
     end
   end
