@@ -81,10 +81,42 @@ module Api
         end
       end
 
+      def assign_with_user_id
+        job = Job.find_by(id: assign_params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(User.name)
+          return
+        end
+        user = User.find_by(id: assign_params[:user_id])
+        if user.nil?
+          response_not_found(User.name)
+          return
+        end
+        if job.group.members.pluck(:user_id).index(user.id).nil?
+          response_not_acceptable(User.name)
+          return
+        end
+        member = job.group.members.find { |elm| elm.user_id == user.id }
+        if member.nil?
+          response_not_found(Member.name)
+          return
+        end
+        assign = Assign.create(member_id: member.id, job_id: job.id)
+        if assign.valid?
+          response_success(assign)
+        else
+          response_bad_request(assign)
+        end
+      end
+
       private
 
       def assign_params
-        params.require(:assign).permit(:job_id, :member_id)
+        params.require(:assign).permit(:job_id, :member_id, :user_id)
       end
     end
   end

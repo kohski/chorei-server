@@ -25,7 +25,7 @@ Metrics/BlockLength:
     - 'config/deploy.rb'
 
 Metrics/AbcSize:
-  Max: 40
+  Max: 50
   Exclude:
     - 'db/migrate/*'
   
@@ -47,3 +47,10 @@ Style/GlobalVars:
 
 Metrics/CyclomaticComplexity:
   Max: 7
+
+Metrics/PerceivedComplexity:
+  Max: 8
+
+Metrics/ClassLength:
+  Exclude:
+    - 'app/controllers/api/v1/assigns_controller.rb'
