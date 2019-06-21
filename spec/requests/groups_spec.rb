@@ -253,7 +253,7 @@ RSpec.describe 'Groups', type: :request do
     it 'retuen an invalid 404 when current user is not a member of job' do
       crt_group
       member
-      job = crt_group.jobs.create(title: "test")
+      job = crt_group.jobs.create(title: 'test')
       Job.destroy_all
       get(
         group_id_with_job_it_api_v1_groups_path,

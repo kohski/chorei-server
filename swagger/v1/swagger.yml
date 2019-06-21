@@ -1540,6 +1540,62 @@ paths:
       - access-token: 
         uid:
         client:
+  /api/v1/groups/group_id_with_job_it:
+    get:
+      tags:
+      - "groups"
+      summary: "groups#group_id_with_job_it"
+      description: "bodyでjob_idを指定してgroup_idを返却"
+      operationId: "groups#group_id_with_job_it"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "group_id"
+        description: "groups#group_id_with_job_it"
+        required: true
+      - in: "body"
+        name: "job_id"
+        description: "job_idをbodyで指定"
+        required: true
+        schema:
+          type: object
+          properties:
+            job_id:
+              type: "integer"
+              example: 1
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Member"
+              data:
+                type: "integer"
+                example: 10
+        404:
+          description: "失敗時のレスポンス(実在しないgroup_idまたはjob_id)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Group is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /public_jobs:
     get:
       tags:
