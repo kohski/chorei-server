@@ -2265,7 +2265,7 @@ paths:
       - "application/json"
       parameters:
       - in: "body"
-        name: "assigns#update"
+        name: "assigns#assign_with_user_id"
         description: "assigns#assign_with_user_id parameters"
         required: true
         schema:
@@ -2277,6 +2277,98 @@ paths:
             member_id:
               type: "integer"
               example: 10
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 201
+              message:
+                type: "string"
+                example: "Created: Assign"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  member_id:
+                    type: "integer"
+                    example: 2
+                  job_id:
+                    type: "integer"
+                    example: 8
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        400:
+          description: "失敗時のレスポンス(重複したレスポンス)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 400
+              message:
+                type: "string"
+                example: "Bad Request"
+              data:
+                type: array
+                items:
+                  type: string
+                  example: ["Jobはすでに存在します"] 
+        404:
+          description: "失敗時のレスポンス(実在しないMemberを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found /Member is Not Found  "
+        406:
+          description: "失敗時のレスポンス(current_userがmemberになっていないjobまたはmemberを指定した場合)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Job is Not Acceptable / Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
+  /assigns/assign_with_user_id?job_id={job_id}&user_id={user_id}:
+    post:
+      tags:
+      - "assign"
+      summary: "assigns#assign_with_user_id"
+      description: "bodyでjob_idとuser_idを指定"
+      operationId: "assigns#assign_with_user_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      - in: "path"
+        name: "user_id"
+        description: "user_id"
+        required: true
       responses:
         201:
           description: "成功時のレスポンス"

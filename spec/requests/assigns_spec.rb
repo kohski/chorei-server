@@ -168,7 +168,7 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['message']).to include('Not Acceptable')
       end
     end
-    context '[GET] /assgins #assgins#assign_members' do
+    context '[GET] /assgins #assgins#assign_members_with_user_id' do
       it 'returns a valid 200 with valid request' do
         crt_assign
         get(
@@ -194,7 +194,7 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
     end
-    context '[POST] /assgins #assgins#assign_with_user_id' do
+    context '[POST] /assgins #assgins#create_assign_with_user_id' do
       it 'returns a valid 200 with valid request' do
         bld_assign
         post(
@@ -277,7 +277,52 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(406)
         expect(res_body['message']).to include('Not Acceptable')
       end
-
+    end
+    context '[DELETE] /assgins #assgins#destroy_assign_with_user_id' do
+      it 'returns a valid 200 with valid request' do
+        crt_assign
+        delete(
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{crt_assign.member.user_id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data']['member_id']).to eq(bld_assign.member_id)
+        expect(res_body['data']['job_id']).to eq(bld_assign.job_id)
+      end
+      it 'returns an invalid 404 when job does not exist' do
+        crt_assign
+        delete(
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id + 1}&user_id=#{crt_assign.member.user_id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 404 when job does not exist' do
+        crt_assign
+        bld_assign
+        delete(
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{crt_assign.member.user_id + 1}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 406 when job does not exist' do
+        crt_assign
+        bld_assign
+        delete(
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{crt_assign.member.user_id + 1}",
+          headers: another_user.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(406)
+        expect(res_body['message']).to include('Not Acceptable')
+      end
     end
   end
 end
