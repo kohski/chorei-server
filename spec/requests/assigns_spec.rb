@@ -194,5 +194,90 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['message']).to include('Not Found')
       end
     end
+    context '[POST] /assgins #assgins#assign_with_user_id' do
+      it 'returns a valid 200 with valid request' do
+        bld_assign
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: User.first.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: bld_assign.member.user.id,
+              job_id: bld_assign.job_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data']['member_id']).to eq(bld_assign.member_id)
+        expect(res_body['data']['job_id']).to eq(bld_assign.job_id)
+      end
+      it 'returns an invalid 404 when user does not exist' do
+        bld_assign
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: User.first.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: (bld_assign.member.user.id + 1),
+              job_id: bld_assign.job_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 404 when job does not exist' do
+        bld_assign
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: User.first.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: bld_assign.member.user.id,
+              job_id: (bld_assign.job_id + 1)
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 400 with duplicate request' do
+        crt_assign
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: User.first.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: crt_assign.member.user.id,
+              job_id: crt_assign.job_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
+      end
+      it 'returns an invalid 406 when user is not job member' do
+        bld_assign
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: another_user.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: bld_assign.member.user.id,
+              job_id: bld_assign.job_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(406)
+        expect(res_body['message']).to include('Not Acceptable')
+      end
+
+    end
   end
 end
