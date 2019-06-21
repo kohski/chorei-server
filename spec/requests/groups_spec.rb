@@ -219,12 +219,7 @@ RSpec.describe 'Groups', type: :request do
       member
       job = crt_group.jobs.create(title: 'test job')
       get(
-        group_id_with_job_it_api_v1_groups_path,
-        params: {
-          group: {
-            job_id: job.id
-          }
-        },
+        group_id_with_job_id_api_v1_groups_path+"?job_id=#{job.id}",
         headers: User.first.create_new_auth_token
       )
       res_body = JSON.parse(response.body)
@@ -238,12 +233,7 @@ RSpec.describe 'Groups', type: :request do
       dummy_job = crt_group.jobs.create(title: 'test job')
       Job.destroy_all
       get(
-        group_id_with_job_it_api_v1_groups_path,
-        params: {
-          group: {
-            job_id: dummy_job.id
-          }
-        },
+        group_id_with_job_id_api_v1_groups_path+"?job_id=#{dummy_job.id}",
         headers: User.first.create_new_auth_token
       )
       res_body = JSON.parse(response.body)
@@ -256,12 +246,7 @@ RSpec.describe 'Groups', type: :request do
       job = crt_group.jobs.create(title: 'test')
       Job.destroy_all
       get(
-        group_id_with_job_it_api_v1_groups_path,
-        params: {
-          group: {
-            job_id: job.id
-          }
-        },
+        group_id_with_job_id_api_v1_groups_path+"?job_id=#{job.id}",
         headers: another_user.create_new_auth_token
       )
       res_body = JSON.parse(response.body)

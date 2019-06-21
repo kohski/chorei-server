@@ -62,7 +62,7 @@ module Api
       end
 
       def group_id_with_job_id
-        job = Job.find_by(id: group_params[:job_id])
+        job = Job.find_by(id: params[:job_id])
         if job.nil?
           response_not_found(Job.name)
           return
@@ -78,7 +78,7 @@ module Api
       private
 
       def group_params
-        params.require(:group).permit(:name, :image, :job_id)
+        params.require(:group).permit(:name, :image)
       end
 
       def check_group_member

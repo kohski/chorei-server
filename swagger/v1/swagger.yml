@@ -1543,7 +1543,7 @@ paths:
   /api/v1/groups/group_id_with_job_it:
     get:
       tags:
-      - "groups"
+      - "group"
       summary: "groups#group_id_with_job_it"
       description: "bodyでjob_idを指定してgroup_idを返却"
       operationId: "groups#group_id_with_job_it"
