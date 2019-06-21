@@ -63,6 +63,24 @@ module Api
         end
       end
 
+      def assign_members
+        job = Job.find_by(id: params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+        members = job.assign_members
+        user_ids = members.pluck(:user_id)
+        users = user_ids.map do |user_id|
+          User.find_by(id: user_id)
+        end
+        if users.present?
+          response_success(users)
+        else
+          response_not_found(User.name)
+        end
+      end
+
       private
 
       def assign_params

@@ -6,6 +6,7 @@ RSpec.describe 'Assigns', type: :request do
   login
   let(:bld_assign) { build(:assign) }
   let(:crt_assign) { create(:assign) }
+  let(:crt_another_assign) { create(:assign) }
   let(:another_user) { create(:user) }
   let(:member) { User.first.members.create(group_id: Group.first.id) }
   describe '/assigns' do
@@ -165,6 +166,32 @@ RSpec.describe 'Assigns', type: :request do
         res_body = JSON.parse(response.body)
         expect(res_body['status']).to eq(406)
         expect(res_body['message']).to include('Not Acceptable')
+      end
+    end
+    context '[GET] /assgins #assgins#assign_members' do
+      it 'returns a valid 200 with valid request' do
+        crt_assign
+        get(
+          assign_member_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'].length).to eq(1)
+        expect(res_body['data'][0]['name']).to eq(User.first.name)
+        expect(res_body['data'][0]['image']).to eq(User.first.image)
+      end
+      it 'returns a valid 404 with valid request' do
+        dummy_job_id = crt_assign.job_id
+        Assign.destroy_all
+        get(
+          assign_member_api_v1_assigns_path + "?job_id=#{dummy_job_id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
       end
     end
   end

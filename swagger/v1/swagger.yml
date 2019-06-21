@@ -2179,6 +2179,79 @@ paths:
       - access-token: 
         uid:
         client:
+  /assigns/assign_members:
+    get:
+      tags:
+      - "assign"
+      summary: "assigns#assign_members"
+      description: "pathでjob_idを指定して、assignされているuserを抽出"
+      operationId: "assigns#assign_members"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "job_id"
+        required: true
+      responses:
+        201:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+                example: true
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  provider:
+                    type: "integer"
+                    example: "email"
+                  uid: 
+                    type: "integer"
+                    example: "fource@test.com"
+                  allow_password_change:
+                    type: "boolean"
+                    example: false
+                  name: 
+                    type: "integer"
+                    example: "fource"
+                  image: 
+                    type: "object"
+                    properties:
+                      url: 
+                        type: "string"
+                        exampmle: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAAAAAAeW/F+AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRQABBrSkbBKAAAAT0lEQVQoz2M4gxcwjEoPkPSmjau3rNoEFULmQKSPr18/59icM2e27d2J4MClTx05Mn8+SOTUIiQOQve6DRs2rwSat+XAdgRncPh7VBoNAABwbMd4Pq/U3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNS0yMFQwOTowNDoyNiswOTowMOwn1y0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDUtMjBUMDk6MDQ6MjYrMDk6MDCdem+RAAAAAElFTkSuQmCC"
+                  email:
+                    type: "integer"
+                    example: "fource@test.com"
+                  created_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "integer"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないMemberを指定)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Job is Not Found /Member is Not Found "
+      security:
+      - access-token: 
+        uid:
+        client:
   /jobs/{job_id}/steps:
     post:
       tags:

@@ -35,7 +35,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :assigns, only: %i[create destroy index]
+      resources :assigns, only: %i[create destroy index] do
+        collection do
+          get :assign_member, controller: :assigns, action: :assign_members
+        end
+      end
     end
   end
 
