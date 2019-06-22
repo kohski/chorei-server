@@ -6,6 +6,7 @@ class Group < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :jobs, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   def join_current_user_to_member(current_user)
     members.create(user_id: current_user.id)
