@@ -133,5 +133,31 @@ RSpec.describe 'Taggings', type: :request do
         expect(res_body['message']).to include('Not Acceptable')
       end
     end
+    context '[GET] /taggings/index_with_job_id?job_id{job_id} #tags#index_with_job_id' do
+      it 'returns a valid 200 with valid request' do
+        crt_tagging
+        member
+        get(
+          taggings_with_job_id_api_v1_taggings_path + "?job_id=#{crt_tagging.job_id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'][0]['job_id']).to eq(crt_tagging.job_id)
+        expect(res_body['data'][0]['tag_id']).to eq(crt_tagging.tag_id)
+      end
+      it 'returns an invalid 404 when tagging does not exist' do
+        crt_tagging
+        member
+        get(
+          taggings_with_job_id_api_v1_taggings_path + "?job_id=#{crt_tagging.job_id + 1}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+    end
   end
 end
