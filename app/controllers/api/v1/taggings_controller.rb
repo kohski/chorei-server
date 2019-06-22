@@ -64,7 +64,7 @@ module Api
         if taggings.present?
           response_success(taggings)
         else
-          response_not_found(Taggings.name)
+          response_not_found(Tagging.name)
         end
       end
 
