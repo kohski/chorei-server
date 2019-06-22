@@ -37,6 +37,20 @@ module Api
         end
       end
 
+      def index_with_job_id
+        job = Job.find_by(id: params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+        tags = jobs.group.tags
+        if tags.present?
+          response_success(tags)
+        else
+          response_not_found(Tag.name)
+        end
+      end
+
       private
 
       def tag_params
