@@ -7,6 +7,7 @@ RSpec.describe 'Tags', type: :request do
     login
     let(:bld_tag) { build(:tag) }
     let(:crt_tag) { create(:tag) }
+    let(:crt_job) { create(:job) }
     context '[POST] /tags #tags#create' do
       it 'returns a valid 201 with valid request' do
         bld_tag
@@ -83,6 +84,31 @@ RSpec.describe 'Tags', type: :request do
         Tag.destroy_all
         delete(
           api_v1_tags_path + '/' + tag_id.to_s,
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+    end
+    context '[GET] /tags #tags#index_with_job_id' do
+      it 'returns a valid 200 with valid request' do
+        crt_tag
+        get(
+          tags_with_job_id_api_v1_tags_path+"?job_id=#{crt_job.id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'][0]['id']).to eq(crt_tag.id)
+        expect(res_body['data'][0]['name']).to eq(crt_tag.name)
+      end
+      it 'returns a valid 404 when there is no tag in group' do
+        group = create(:group)
+        job = group.jobs.create(title: "test2")
+        get(
+          tags_with_job_id_api_v1_tags_path+"?job_id=#{job.id}",
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)

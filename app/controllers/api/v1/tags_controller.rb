@@ -43,7 +43,7 @@ module Api
           response_not_found(Job.name)
           return
         end
-        tags = jobs.group.tags
+        tags = job.group.tags
         if tags.present?
           response_success(tags)
         else

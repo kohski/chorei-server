@@ -29,7 +29,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :tags, only: %i[create destroy index]
+      resources :tags, only: %i[create destroy index] do
+        collection do
+          get :tags_with_job_id, controller: :tags, action: :index_with_job_id
+        end
+      end
     end
   end
 
