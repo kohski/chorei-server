@@ -32,6 +32,7 @@ ja:
         user: ユーザー
       tag:
         name: 名称
+        group: グループ
       job:
         group: グループ
         title: タイトル

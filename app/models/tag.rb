@@ -5,5 +5,5 @@ class Tag < ApplicationRecord
   belongs_to :group
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :group_id, uniqueness: { scope: :group }
+  validates :name, uniqueness: { scope: :group }
 end
