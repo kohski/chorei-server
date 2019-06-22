@@ -1540,7 +1540,7 @@ paths:
       - access-token: 
         uid:
         client:
-  /api/v1/groups/group_id_with_job_it:
+  /groups/group_id_with_job_id:
     get:
       tags:
       - "group"
