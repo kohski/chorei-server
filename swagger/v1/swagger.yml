@@ -1051,6 +1051,73 @@ paths:
       - access-token: 
         uid:
         client:
+    post:
+      tags:
+      - "tag"
+      summary: "tags#create_with_job_id"
+      description: "pathで指定したjobからgropを計算して、group傘下にタグを追加"
+      operationId: "tags#create_with_job_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "tags#index_with_job_id"
+        required: true
+      - in: "body"
+        name: "tags#create_with_job_id"
+        description: "tags#create_with_job_id parameters"
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "test group"
+        responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Tag"
+              data:
+                type: "object"
+                properties:
+                  id:
+                    type: "integer"
+                    example: 1
+                  name:
+                    type: "string"
+                    example: "test tag"
+                  created_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.868Z"
+                  updated_at:
+                    type: "string"
+                    example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(tagが存在しない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Tag is Not Found"
+      security:
+      - access-token: 
+        uid:
+        client:
   /groups:
     post:
       tags:
