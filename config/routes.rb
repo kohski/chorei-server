@@ -11,12 +11,19 @@ Rails.application.routes.draw do
       }
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      get :frequency_master, controller: :schedules, action: :frequency_master
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :groups, only: %i[create index show destroy update], shallow: true do
         resources :jobs, only: %i[create index show destroy update], shallow: true do
           resources :steps, only: %i[create index show destroy update]
-          resources :schedules, only: %i[create index show destroy update]
+          resources :schedules, only: %i[create index show destroy update] 
         end
         resources :members, only: %i[create destroy index]
         delete :destroy_with_user_id_and_group_id, controller: :members, action: :destroy_with_user_id_and_group_id
