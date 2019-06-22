@@ -994,7 +994,7 @@ paths:
         uid:
         client:
   /tags/tags_with_job_id?job_id={job_id}:
-    delete:
+    get:
       tags:
       - "tag"
       summary: "tags#index_with_job_id"
@@ -3507,6 +3507,79 @@ paths:
                   updated_at:
                     type: "string"
                     example: "2019-06-01T12:01:22.929Z"
+        404:
+          description: "失敗時のレスポンス(実在しないTaggingを指定した時)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 404
+              message:
+                type: "string"
+                example: "Tagging is Not Found"
+        406:
+          description: "失敗時のレスポンス(current_userがjobのmemberでない)"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: 406
+              message:
+                type: "string"
+                example: "Member is Not Acceptable"
+      security:
+      - access-token: 
+        uid:
+        client:
+  /taggings/index_with_job_id?job_id={tagging_id}:
+    get:
+      tags:
+      - "tagging"
+      summary: "taggings#index_with_job_id"
+      description: "pathでjob_idを指定してjob傘下のtaggingをindexする"
+      operationId: "taggings#index_with_job_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "job_id"
+        description: "index_with_job_id"
+        required: true
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "integer"
+                example: 200
+              message:
+                type: "string"
+                example: "Success: Tagging"
+              data:
+                type: "array"
+                items:
+                  properties:
+                    id:
+                      type: "integer"
+                      example: 1
+                    job_id:
+                      type: "string"
+                      example: "weekly"
+                    tag_id:
+                      type: integer
+                      example: 1
+                    created_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.868Z"
+                    updated_at:
+                      type: "string"
+                      example: "2019-06-01T12:01:22.929Z"
         404:
           description: "失敗時のレスポンス(実在しないTaggingを指定した時)"
           schema:
