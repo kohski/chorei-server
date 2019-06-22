@@ -15,7 +15,8 @@ RSpec.describe 'Tags', type: :request do
           headers: User.first.create_new_auth_token,
           params: {
             tag: {
-              name: bld_tag.name
+              name: bld_tag.name,
+              group_id: bld_tag.group_id
             }
           }
         )
