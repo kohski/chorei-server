@@ -43,6 +43,12 @@ module Api
           response_not_found(Job.name)
           return
         end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(User.name)
+          return
+        end
+
         tags = job.group.tags
         if tags.present?
           response_success(tags)

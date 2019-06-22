@@ -50,6 +50,24 @@ module Api
         end
       end
 
+      def index_with_job_id
+        job = Job.find_by(id: params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(User.name)
+          return
+        end
+        taggings = job.taggings
+        if taggings.present?
+          response_success(taggings)
+        else
+          response_not_found(Taggings.name)
+        end
+      end
+
       private
 
       def tagging_params
