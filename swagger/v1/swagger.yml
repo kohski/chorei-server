@@ -2350,7 +2350,7 @@ paths:
         uid:
         client:
   /assigns/assign_with_user_id?job_id={job_id}&user_id={user_id}:
-    post:
+    delete:
       tags:
       - "assign"
       summary: "assigns#assign_with_user_id"
