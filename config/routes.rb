@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :tags, only: %i[create destroy index] do
         collection do
           get :tags_with_job_id, controller: :tags, action: :index_with_job_id
+          post :tags_with_job_id, controller: :tags, action: :create_with_job_id
         end
       end
     end

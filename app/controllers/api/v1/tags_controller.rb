@@ -57,6 +57,26 @@ module Api
         end
       end
 
+      def create_with_job_id
+        job = Job.find_by(id: params[:job_id])
+        if job.nil?
+          response_not_found(Job.name)
+          return
+        end
+
+        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+          response_not_acceptable(User.name)
+          return
+        end
+
+        tag = job.group.tags.create(tag_params)
+        if tag.valid?
+          response_create(tags)
+        else
+          response_not_found(Tag.name)
+        end
+      end
+
       private
 
       def tag_params
