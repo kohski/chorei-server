@@ -95,7 +95,7 @@ RSpec.describe 'Tags', type: :request do
       it 'returns a valid 200 with valid request' do
         crt_tag
         get(
-          tags_with_job_id_api_v1_tags_path+"?job_id=#{crt_job.id}",
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{crt_job.id}",
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
@@ -106,9 +106,9 @@ RSpec.describe 'Tags', type: :request do
       end
       it 'returns a valid 404 when there is no tag in group' do
         group = create(:group)
-        job = group.jobs.create(title: "test2")
+        job = group.jobs.create(title: 'test2')
         get(
-          tags_with_job_id_api_v1_tags_path+"?job_id=#{job.id}",
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{job.id}",
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
