@@ -71,7 +71,7 @@ module Api
 
         tag = job.group.tags.create(tag_params)
         if tag.valid?
-          response_create(tags)
+          response_created(tag)
         else
           response_not_found(Tag.name)
         end

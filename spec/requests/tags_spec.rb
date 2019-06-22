@@ -8,6 +8,7 @@ RSpec.describe 'Tags', type: :request do
     let(:bld_tag) { build(:tag) }
     let(:crt_tag) { create(:tag) }
     let(:crt_job) { create(:job) }
+    let(:member) { create(:member) }
     context '[POST] /tags #tags#create' do
       it 'returns a valid 201 with valid request' do
         bld_tag
@@ -94,6 +95,7 @@ RSpec.describe 'Tags', type: :request do
     context '[GET] /tags #tags#index_with_job_id' do
       it 'returns a valid 200 with valid request' do
         crt_tag
+        member
         get(
           tags_with_job_id_api_v1_tags_path + "?job_id=#{crt_job.id}",
           headers: User.first.create_new_auth_token
@@ -106,9 +108,47 @@ RSpec.describe 'Tags', type: :request do
       end
       it 'returns a valid 404 when there is no tag in group' do
         group = create(:group)
+        member
         job = group.jobs.create(title: 'test2')
         get(
           tags_with_job_id_api_v1_tags_path + "?job_id=#{job.id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+    end
+    context '[POST] /tags #tags#create_with_job_id' do
+      it 'returns a valid 200 with valid request' do
+        crt_job
+        member
+        bld_tag
+        post(
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{crt_job.id}",
+          params: {
+            tag: {
+              name: bld_tag.name
+            }
+          },
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(201)
+        expect(res_body['message']).to include('Created')
+        expect(res_body['data']['name']).to eq(bld_tag.name)
+      end
+      it 'returns an invalid 404 job does not exist' do
+        crt_job
+        member
+        bld_tag
+        post(
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{crt_job.id + 1}",
+          params: {
+            tag: {
+              name: bld_tag.name
+            }
+          },
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
