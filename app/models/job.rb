@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Job < ApplicationRecord
+  after_create :create_schedules
+  after_update :update_schedules
+  enum frequency: { once: 0, daily: 1, weekly: 2, monthly: 3, yearly: 4 }
   belongs_to :group
   has_many :assigns, dependent: :destroy
   has_many :assign_members, through: :assigns, source: :member
@@ -14,4 +17,35 @@ class Job < ApplicationRecord
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 1200 }
   validates :image, base_image: true
+  validates :base_end_at, is_future_date_job: true
+
+  def create_schedules
+    return if repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
+    register_times = repeat_times + 1
+    register_times.times do |register_time|
+      frequency_num = frequency_before_type_cast
+      start_at = culc_date(base_start_at, frequency_num, register_time)
+      end_at = culc_date(base_end_at, frequency_num, register_time)
+      schedules.create(start_at: start_at, end_at: end_at)
+    end
+  end
+
+  def update_schedules
+    return if !saved_change_to_repeat_times? && !saved_change_to_frequency?
+    schedules = Schedule.where(job_id: id)
+    schedules.destroy_all if schedules.present?
+    register_times = repeat_times + 1
+    register_times.times do |register_time|
+      frequency_num = frequency_before_type_cast
+      start_at = culc_date(base_start_at, frequency_num, register_time)
+      end_at = culc_date(base_end_at, frequency_num, register_time)
+      schedules.create(start_at: start_at, end_at: end_at)
+    end
+  end
+
+  private
+
+  def culc_date(base_date, frequency_num, register_time)
+    base_date + [0, 1.day, 1.week, 1.month, 1.year][frequency_num] * register_time
+  end
 end

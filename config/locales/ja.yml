@@ -39,6 +39,10 @@ ja:
         description: 詳細
         image: 画像
         is_public: 公開設定
+        frequency: 頻度
+        repeat_time: 繰返し回数
+        base_start_at: 開始日時
+        base_end_at: 終了日時
       assign:
         member: "メンバー"
         job: "ジョブ"
@@ -50,10 +54,8 @@ ja:
         is_done: 終了フラグ
       schedule:
         job: ジョブ
-        frequency: 頻度
-        repeat_time: 繰返し回数
-        start_at: 開始日
-        end_at: 終了日
+        start_at: 開始日時
+        end_at: 終了日時
         is_done: 終了フラグ
       tagging:
         job: ジョブ

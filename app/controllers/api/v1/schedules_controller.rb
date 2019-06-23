@@ -94,7 +94,7 @@ module Api
       end
 
       def frequency_master
-        response_success({frequencies: Schedule.frequencies})
+        response_success(frequencies: Schedule.frequencies)
       end
 
       private
