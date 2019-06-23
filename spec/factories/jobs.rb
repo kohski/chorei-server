@@ -9,10 +9,22 @@ FactoryBot.define do
     frequency { 0 }
     repeat_times { 1 }
     base_start_at { Time.now }
-    base_end_at { Time.now }
+    base_end_at { Time.now + 60 * 60 * 3 }
     is_public { false }
     trait :public do
       is_public { true }
+    end
+    trait :daily do
+      frequency { 1 }
+    end
+    trait :weekly do
+      frequency { 2 }
+    end
+    trait :monthly do
+      frequency { 3 }
+    end
+    trait :yearly do
+      frequency { 4 }
     end
   end
 end

@@ -81,7 +81,7 @@ RSpec.describe 'Schedules', type: :request do
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        schedule = Schedule.last
+        schedule = Schedule.first
         expect(res_body['status']).to eq(200)
         expect(res_body['message']).to include('Success')
         expect(res_body['data'][0]['id']).to eq(schedule.id)

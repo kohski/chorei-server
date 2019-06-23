@@ -20,8 +20,8 @@ class Job < ApplicationRecord
   validates :base_end_at, is_future_date_job: true
 
   def create_schedules
-    return if repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
-    register_times = repeat_times + 1
+    return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
+    register_times = frequency_before_type_cast.zero? ? 1 : repeat_times + 1
     register_times.times do |register_time|
       frequency_num = frequency_before_type_cast
       start_at = culc_date(base_start_at, frequency_num, register_time)
@@ -31,12 +31,13 @@ class Job < ApplicationRecord
   end
 
   def update_schedules
-    return if !saved_change_to_repeat_times? && !saved_change_to_frequency?
+    return if !saved_change_to_repeat_times? && !saved_change_to_frequency? && !saved_change_to_base_start_at? && !saved_change_to_base_end_at?
+    return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
     schedules = Schedule.where(job_id: id)
     schedules.destroy_all if schedules.present?
-    register_times = repeat_times + 1
+    register_times = frequency_before_type_cast.zero? ? 1 : repeat_times + 1
+    frequency_num = frequency_before_type_cast
     register_times.times do |register_time|
-      frequency_num = frequency_before_type_cast
       start_at = culc_date(base_start_at, frequency_num, register_time)
       end_at = culc_date(base_end_at, frequency_num, register_time)
       schedules.create(start_at: start_at, end_at: end_at)
