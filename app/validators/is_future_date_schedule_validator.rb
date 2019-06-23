@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class IsFutureDateValidator < ActiveModel::EachValidator
+class IsFutureDateScheduleValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, _value)
     end_at = record[attribute]
     return if end_at.nil?

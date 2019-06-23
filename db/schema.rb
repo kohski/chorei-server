@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_622_033_353) do
+ActiveRecord::Schema.define(version: 20_190_623_051_828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(version: 20_190_622_033_353) do
     t.boolean 'is_public', default: false, null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'frequency', default: 0
+    t.integer 'repeat_times', default: 0
+    t.datetime 'base_start_at'
+    t.datetime 'base_end_at'
   end
 
   create_table 'members', force: :cascade do |t|
@@ -50,13 +54,11 @@ ActiveRecord::Schema.define(version: 20_190_622_033_353) do
 
   create_table 'schedules', force: :cascade do |t|
     t.integer 'job_id', null: false
-    t.integer 'frequency', default: 0, null: false
-    t.integer 'repeat_time', default: 0, null: false
-    t.datetime 'start_at', null: false
-    t.datetime 'end_at'
     t.boolean 'is_done', default: false, null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.datetime 'start_at', null: false
+    t.datetime 'end_at', null: false
   end
 
   create_table 'steps', force: :cascade do |t|

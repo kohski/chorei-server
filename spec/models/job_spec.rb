@@ -5,6 +5,10 @@ require 'rails_helper'
 RSpec.describe Job, type: :model do
   let(:crt_job) { create(:job) }
   let(:bld_job) { create(:job) }
+  let(:daily_job) { create(:job, :daily) }
+  let(:weekly_job) { create(:job, :weekly) }
+  let(:monthly_job) { create(:job, :monthly) }
+  let(:yearly_job) { create(:job, :yearly) }
   context 'title validation' do
     it 'is invalid without title' do
       job = crt_job
@@ -53,6 +57,64 @@ RSpec.describe Job, type: :model do
       crt_job.image = 'image_dummy_text'
       crt_job.valid?
       expect(crt_job.errors.full_messages).to include(I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.job.image'), message: I18n.t('errors.messages.wrong_mime_type')))
+    end
+  end
+  context 'instance method create #create_schedules' do
+    it 'makes schedules depending on dayly job' do
+      daily_job
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(daily_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(daily_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(daily_job.base_start_at + 1.day)
+      expect(schedules[1][:end_at]).to eq(daily_job.base_end_at + 1.day)
+    end
+    it 'makes schedules depending on dayly job' do
+      weekly_job
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(weekly_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(weekly_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(weekly_job.base_start_at + 1.week)
+      expect(schedules[1][:end_at]).to eq(weekly_job.base_end_at + 1.week)
+    end
+    it 'makes schedules depending on dayly job' do
+      monthly_job
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(monthly_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(monthly_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(monthly_job.base_start_at + 1.month)
+      expect(schedules[1][:end_at]).to eq(monthly_job.base_end_at + 1.month)
+    end
+    it 'makes schedules depending on dayly job' do
+      yearly_job
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(yearly_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(yearly_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(yearly_job.base_start_at + 1.year)
+      expect(schedules[1][:end_at]).to eq(yearly_job.base_end_at + 1.year)
+    end
+  end
+  context 'instance method create #update_schedules' do
+    it 'update schedules when frequency of job is updated' do
+      crt_job
+      crt_job.update(frequency: 2)
+      update_job = Job.find(crt_job.id)
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(update_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(update_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(update_job.base_start_at + 1.week)
+      expect(schedules[1][:end_at]).to eq(update_job.base_end_at + 1.week)
+    end
+    it 'update schedules when repeat_times of job is updated' do
+      daily_job
+      daily_job.update(repeat_times: 2)
+      update_job = Job.find(daily_job.id)
+      schedules = Schedule.all
+      expect(schedules[0][:start_at]).to eq(update_job.base_start_at)
+      expect(schedules[0][:end_at]).to eq(update_job.base_end_at)
+      expect(schedules[1][:start_at]).to eq(update_job.base_start_at + 1.day)
+      expect(schedules[1][:end_at]).to eq(update_job.base_end_at + 1.day)
+      expect(schedules[2][:start_at]).to eq(update_job.base_start_at + 2.day)
+      expect(schedules[2][:end_at]).to eq(update_job.base_end_at + 2.day)
     end
   end
 end

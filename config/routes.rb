@@ -11,6 +11,13 @@ Rails.application.routes.draw do
       }
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      get :frequency_master, controller: :schedules, action: :frequency_master
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :groups, only: %i[create index show destroy update], shallow: true do

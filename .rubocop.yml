@@ -20,6 +20,7 @@ Metrics/BlockLength:
     - 'db/schema.rb'
     - 'spec/requests/*'
     - 'spec/models/*'
+    - 'spec/factories/*'
     - 'config/routes.rb'
     - 'controllers/api/v1/jobs_controller.rb'
     - 'config/deploy.rb'
@@ -47,10 +48,16 @@ Style/GlobalVars:
 
 Metrics/CyclomaticComplexity:
   Max: 8
+  Exclude:
+    - 'app/models/job.rb'
 
 Metrics/PerceivedComplexity:
   Max: 9
+  Exclude:
+  - 'app/models/job.rb'
+
 
 Metrics/ClassLength:
+  Max: 110
   Exclude:
     - 'app/controllers/api/v1/assigns_controller.rb'

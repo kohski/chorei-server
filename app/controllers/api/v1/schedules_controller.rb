@@ -93,6 +93,10 @@ module Api
         end
       end
 
+      def frequency_master
+        response_success(frequencies: Schedule.frequencies)
+      end
+
       private
 
       def schedule_params
