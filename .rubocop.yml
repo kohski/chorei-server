@@ -58,5 +58,6 @@ Metrics/PerceivedComplexity:
 
 
 Metrics/ClassLength:
+  Max: 110
   Exclude:
     - 'app/controllers/api/v1/assigns_controller.rb'

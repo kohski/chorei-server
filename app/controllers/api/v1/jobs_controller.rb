@@ -14,7 +14,14 @@ module Api
           response_not_acceptable(Group.name)
           return
         end
-        job = group.jobs.build(job_params)
+
+        begin
+          job = group.jobs.build(job_params)
+        rescue StandardError
+          response_bad_request(Job.name)
+          return
+        end
+
         if job.save
           response_created(job)
         else
@@ -90,9 +97,10 @@ module Api
           return
         end
 
-        if job.update(job_params)
+        begin
+          job.update(job_params)
           response_success(job)
-        else
+        rescue StandardError
           response_bad_request(job)
         end
       end
@@ -109,7 +117,7 @@ module Api
       private
 
       def job_params
-        params.require(:job).permit(:title, :description, :image, :is_public)
+        params.require(:job).permit(:title, :description, :image, :is_public, :frequency, :repeat_times, :base_start_at, :base_end_at)
       end
     end
   end

@@ -18,6 +18,7 @@ class Job < ApplicationRecord
   validates :description, length: { maximum: 1200 }
   validates :image, base_image: true
   validates :base_end_at, is_future_date_job: true
+  validates :frequency, inclusion: { in: Job.frequencies.keys }
 
   def create_schedules
     return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
