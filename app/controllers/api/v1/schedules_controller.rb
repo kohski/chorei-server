@@ -97,6 +97,16 @@ module Api
         response_success(frequencies: Schedule.frequencies)
       end
 
+      def index_assigned_schedules
+        assigned_jobs = current_api_v1_user.members.map(&:assign_jobs).flatten
+        asssigend_schedules = assigned_jobs.map(&:schedules).flatten
+        if asssigend_schedules.present?
+          response_success(asssigend_schedules)
+        else
+          response_not_found(Schedule.name)
+        end
+      end
+
       private
 
       def schedule_params

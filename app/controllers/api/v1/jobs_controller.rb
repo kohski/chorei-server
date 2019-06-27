@@ -105,7 +105,7 @@ module Api
         end
       end
 
-      def public_jobs
+      def index_public_jobs
         jobs = Job.where(is_public: true)
         return_jobs = []
         jobs.each do |job|
@@ -120,6 +120,15 @@ module Api
 
         if jobs.present?
           response_success(return_jobs)
+        else
+          response_not_found(Job.name)
+        end
+      end
+
+      def index_assigned_jobs
+        assigned_jobs = current_api_v1_user.members.map(&:assign_jobs).flatten
+        if assigned_jobs.present?
+          response_success(assigned_jobs)
         else
           response_not_found(Job.name)
         end
