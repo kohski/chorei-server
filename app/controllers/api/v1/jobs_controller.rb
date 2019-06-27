@@ -107,8 +107,19 @@ module Api
 
       def public_jobs
         jobs = Job.where(is_public: true)
+        return_jobs = []
+        jobs.each do |job|
+          job_hash = job.attributes
+          step_hashs = []
+          job.steps.each do |step|
+            step_hashs << step.attributes
+          end
+          job_hash_with_steps = job_hash.merge(steps: step_hashs)
+          return_jobs << job_hash_with_steps
+        end
+
         if jobs.present?
-          response_success(jobs)
+          response_success(return_jobs)
         else
           response_not_found(Job.name)
         end
