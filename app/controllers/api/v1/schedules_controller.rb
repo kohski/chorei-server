@@ -100,7 +100,7 @@ module Api
       def index_assigned_schedules
         assigned_jobs = current_api_v1_user.members.map(&:assign_jobs).flatten
         assigend_schedules = assigned_jobs.map(&:schedules).flatten
-        assigend_schedules_with_job = assigend_schedules.map{|sch| sch.attributes.merge(job_entity: assigned_jobs.find{|job| job.id == sch.job_id}.attributes) }
+        assigend_schedules_with_job = assigend_schedules.map { |sch| sch.attributes.merge(job_entity: assigned_jobs.find { |job| job.id == sch.job_id }.attributes) }
         if assigend_schedules_with_job.present?
           response_success(assigend_schedules_with_job)
         else
