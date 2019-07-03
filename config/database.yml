@@ -87,4 +87,4 @@ production:
   <<: *default
   database: chorei-server_production
   username: chorei-server
-  password: <%= ENV['CHOREI-SERVER_DATABASE_PASSWORD'] %>
+  password: <%= ENV['CHOREI_SERVER_DATABASE_PASSWORD'] %>
