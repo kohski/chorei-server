@@ -49,9 +49,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :assigns, only: %i[create destroy index] do
         collection do
-          get :assign_member, controller: :assigns, action: :assign_members
+          get :assign_member, controller: :assigns, action: :index_assign_members
           post :assign_with_user_id, controller: :assigns, action: :create_assign_with_user_id
           delete :assign_with_user_id, controller: :assigns, action: :destroy_assign_with_user_id
+          get :test_n, controller: :assigns, action: :assign_test_n
         end
       end
     end

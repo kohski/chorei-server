@@ -66,4 +66,14 @@ class ApplicationController < ActionController::API
       }
     )
   end
+
+  def response_forbidden(text)
+    render(
+      status: 403,
+      json: {
+        status: 403,
+        message: "#{text} is Forbidden"
+      }
+    )
+  end
 end
