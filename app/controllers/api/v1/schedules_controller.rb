@@ -4,7 +4,7 @@ module Api
   module V1
     class SchedulesController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :set_job, only:[:create, :index]
+      before_action :set_job, only: %i[create index]
 
       def create
         if @job.nil?
