@@ -26,9 +26,7 @@ module Api
       end
 
       def show
-        if @group
-          response_success(@group)
-        end
+        response_success(@group) if @group
       end
 
       def destroy
@@ -36,9 +34,7 @@ module Api
           response_not_found(Group.name)
           return
         end
-        if @group.destroy
-          response_success(@group)
-        end
+        response_success(@group) if @group.destroy
       end
 
       def update

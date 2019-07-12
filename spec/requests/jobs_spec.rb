@@ -9,6 +9,7 @@ RSpec.describe 'Jobs', type: :request do
     let(:crt_job) { create(:job) }
     let(:crt_public_job) { create(:job, :public) }
     let(:member) { create(:member) }
+    let(:assign) { create(:assign) }
     context '[POST] /jobs #jobs#create' do
       it 'returns a valid 201 with valid request' do
         bld_job
@@ -74,7 +75,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of the group' do
+      it 'returns an invalid 403 when current user is not member of the group' do
         group = Group.create(name: 'another group')
         post(
           api_v1_group_jobs_path(group_id: group.id),
@@ -88,8 +89,8 @@ RSpec.describe 'Jobs', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /jobs #jobs#index' do
@@ -110,6 +111,18 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['data'][0]['description']).to eq(job.description)
         expect(res_body['data'][0]['is_public']).to eq(job.is_public)
       end
+      it 'returns an invalid 404 when group does not exsit' do
+        group_id = crt_job.group.id
+        member
+        Group.destroy_all
+        get(
+          api_v1_group_jobs_path(group_id: group_id),
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
       it 'returns an invalid 404 when job does not exsit' do
         group = crt_job.group
         member
@@ -122,7 +135,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of the group' do
+      it 'returns an invalid 403 when current user is not member of the group' do
         group = crt_job.group
         another_group = Group.create(name: 'another_group')
         group.jobs.destroy_all
@@ -131,8 +144,8 @@ RSpec.describe 'Jobs', type: :request do
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /jobs/{job_id} #jobs#show' do
@@ -164,7 +177,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when job does not exsit' do
+      it 'returns an invalid 403 when job does not exsit' do
         another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         get(
@@ -172,8 +185,8 @@ RSpec.describe 'Jobs', type: :request do
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[PUT] /jobs/{job_id} #jobs#update' do
@@ -220,7 +233,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when job belongs to group whilch current user is not member' do
+      it 'returns an invalid 403 when job belongs to group whilch current user is not member' do
         another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         put(
@@ -236,8 +249,8 @@ RSpec.describe 'Jobs', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[DELETE] /jobs/{job_id} #jobs#destroy' do
@@ -270,7 +283,7 @@ RSpec.describe 'Jobs', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when job belongs to group whilch current user is not member' do
+      it 'returns an invalid 403 when job belongs to group whilch current user is not member' do
         another_group = Group.create(name: 'another_group')
         another_job = another_group.jobs.create(title: 'another_job')
         delete(
@@ -278,8 +291,8 @@ RSpec.describe 'Jobs', type: :request do
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /jobs/public_jobs #jobs#public_jobs' do
@@ -306,6 +319,35 @@ RSpec.describe 'Jobs', type: :request do
         member
         get(
           api_v1_public_jobs_path,
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+    end
+    context '[GET] /assigned_jobs #jobs#index_assigned_jobs' do
+      it 'returns a valid 201 with valid request' do
+        crt_job
+        member
+        assign
+        get(
+          api_v1_assigned_jobs_path,
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'][0]['id']).to eq(crt_job.id)
+        expect(res_body['data'][0]['title']).to eq(crt_job.title)
+        expect(res_body['data'][0]['image']).to eq(crt_job.image)
+        expect(res_body['data'][0]['description']).to eq(crt_job.description)
+        expect(res_body['data'][0]['is_public']).to eq(crt_job.is_public)
+      end
+      it 'returns a valid 404 without assigned_job' do
+        crt_job
+        get(
+          api_v1_assigned_jobs_path,
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)

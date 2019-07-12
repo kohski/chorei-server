@@ -4,9 +4,10 @@ module Api
   module V1
     class AssignsController < ApplicationController
       before_action :authenticate_api_v1_user!
+      before_action :set_job, only:[:create, :create_assign_with_user_id]
+
       def create
-        job = Job.find_by(id: assign_params[:job_id])
-        if job.nil?
+        if @job.nil?
           response_not_found(Job.name)
           return
         end
@@ -17,12 +18,12 @@ module Api
           return
         end
 
-        unless Member.in_member?(job.group, current_api_v1_user)
+        unless Member.in_member?(@job.group, current_api_v1_user)
           response_forbidden(User.name)
           return
         end
 
-        assign = job.assigns.create(member_id: member.id)
+        assign = @job.assigns.create(member_id: member.id)
         if assign.valid?
           response_created(assign)
         else
@@ -73,12 +74,12 @@ module Api
       end
 
       def create_assign_with_user_id
-        job = Job.find_by(id: assign_params[:job_id])
-        if job.nil?
+        # job = Job.find_by(id: assign_params[:job_id])
+        if @job.nil?
           response_not_found(Job.name)
           return
         end
-        unless Member.in_member?(job.group, current_api_v1_user)
+        unless Member.in_member?(@job.group, current_api_v1_user)
           response_forbidden(User.name)
           return
         end
@@ -87,16 +88,16 @@ module Api
           response_not_found(User.name)
           return
         end
-        unless Member.in_member?(job.group, user)
+        unless Member.in_member?(@job.group, user)
           response_forbidden(User.name)
           return
         end
-        member = Member.find_by_job_and_user(job, user)
+        member = Member.find_by_job_and_user(@job, user)
         if member.nil?
           response_not_found(Member.name)
           return
         end
-        assign = Assign.create(member_id: member.id, job_id: job.id)
+        assign = Assign.create(member_id: member.id, job_id: @job.id)
         if assign.valid?
           response_success(assign)
         else
@@ -150,6 +151,10 @@ module Api
 
       def assign_params
         params.require(:assign).permit(:job_id, :member_id, :user_id)
+      end
+
+      def set_job
+        @job = Job.find_by(id: assign_params[:job_id])
       end
     end
   end
