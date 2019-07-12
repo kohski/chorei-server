@@ -4,6 +4,8 @@ module Api
   module V1
     class MembersController < ApplicationController
       before_action :authenticate_api_v1_user!
+      before_action :set_group, only: %i[create index]
+
       def create
         user = User.find_by(email: member_params[:email])
         if user.nil?
@@ -11,13 +13,12 @@ module Api
           return
         end
 
-        group = Group.find_by(id: params[:group_id])
-        if group.nil?
+        if @group.nil?
           response_not_found(Group.name)
           return
         end
 
-        member = group.members.create(user_id: user.id)
+        member = @group.members.create(user_id: user.id)
 
         if member.valid?
           member.save
@@ -33,26 +34,19 @@ module Api
           response_not_found(Member.name)
           return
         end
-
         if member.group.members.count <= 1
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
           return
         end
-
-        if member.destroy
-          response_success(member)
-        else
-          response_bad_request(member)
-        end
+        response_success(member) if member.destroy
       end
 
       def index
-        group = Group.find_by(id: params[:group_id])
-        if group.nil?
+        if @group.nil?
           response_not_found(Group.name)
           return
         end
-        member_users = group.member_users
+        member_users = @group.member_users
         if member_users.present?
           response_success(member_users)
         else
@@ -81,6 +75,10 @@ module Api
 
       def member_params
         params.require(:member).permit(:email, :group_id, :user_id)
+      end
+
+      def set_group
+        @group = Group.find_by(id: params[:group_id])
       end
     end
   end

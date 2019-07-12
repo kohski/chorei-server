@@ -4,7 +4,7 @@ module Api
   module V1
     class AssignsController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :set_job, only:[:create, :create_assign_with_user_id]
+      before_action :set_job, only: %i[create create_assign_with_user_id]
 
       def create
         if @job.nil?

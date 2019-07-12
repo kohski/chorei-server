@@ -4,8 +4,8 @@ module Api
   module V1
     class JobsController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :set_group, only:[:create, :index]
-      before_action :set_job, only: [:show, :destroy, :update]
+      before_action :set_group, only: %i[create index]
+      before_action :set_job, only: %i[show destroy update]
 
       def create
         if @group.nil?
