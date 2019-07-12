@@ -4,17 +4,18 @@ module Api
   module V1
     class SchedulesController < ApplicationController
       before_action :authenticate_api_v1_user!
+      before_action :set_job, only:[:create, :index]
+
       def create
-        job = Job.find_by(id: params[:job_id])
-        if job.nil?
+        if @job.nil?
           response_not_found(Job.name)
           return
         end
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(@job.group, current_api_v1_user)
           response_not_acceptable(Member.name)
           return
         end
-        schedule = job.schedules.build(schedule_params)
+        schedule = @job.schedules.build(schedule_params)
         if schedule.valid?
           schedule.save
           response_created(schedule)
@@ -24,16 +25,15 @@ module Api
       end
 
       def index
-        job = Job.find_by(id: params[:job_id])
-        if job.nil?
+        if @job.nil?
           response_not_found(Job.name)
           return
         end
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(@job.group, current_api_v1_user)
           response_not_acceptable(Member.name)
           return
         end
-        schedules = job.schedules
+        schedules = @job.schedules
         if schedules.present?
           response_success(schedules)
         else
@@ -49,7 +49,7 @@ module Api
           return
         end
 
-        if schedule.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(schedule.job.group, current_api_v1_user)
           response_not_acceptable(Member.name)
           return
         end
@@ -63,7 +63,7 @@ module Api
           response_not_found(Schedule.name)
           return
         end
-        if schedule.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(schedule.job.group, current_api_v1_user)
           response_not_acceptable(Member.name)
           return
         end
@@ -82,7 +82,7 @@ module Api
           return
         end
 
-        if schedule.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(schedule.job.group, current_api_v1_user)
           response_not_acceptable(Member.name)
           return
         end
@@ -98,8 +98,8 @@ module Api
       end
 
       def index_assigned_schedules
-        assigned_jobs = current_api_v1_user.members.map(&:assign_jobs).flatten
-        assigend_schedules = assigned_jobs.map(&:schedules).flatten
+        assigned_jobs = Job.assigned_jobs_with_user(current_api_v1_user)
+        assigend_schedules = Schedule.assigned_schedules(assigned_jobs)
         assigend_schedules_with_job = assigend_schedules.map { |sch| sch.attributes.merge(job_entity: assigned_jobs.find { |job| job.id == sch.job_id }.attributes) }
         if assigend_schedules_with_job.present?
           response_success(assigend_schedules_with_job)
@@ -112,6 +112,10 @@ module Api
 
       def schedule_params
         params.require(:schedule).permit(:frequency, :repeat_time, :start_at, :end_at, :is_done)
+      end
+
+      def set_job
+        @job = Job.find_by(id: params[:job_id])
       end
     end
   end
