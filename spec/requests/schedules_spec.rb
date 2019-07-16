@@ -54,7 +54,7 @@ RSpec.describe 'Schedules', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not member' do
+      it 'returns an invalid 403 when current_user is not member' do
         bld_schedule
         post(
           api_v1_job_schedules_path(bld_schedule.job.id),
@@ -69,8 +69,29 @@ RSpec.describe 'Schedules', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
+      end
+      it 'returns an invalid 400 when start_at is future than end_at' do
+        schedule = crt_schedule
+        schedule.end_at = schedule.start_at - 1
+        schedule.save
+        member
+        post(
+          api_v1_job_schedules_path(schedule.job.id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            schedule: {
+              job_id: schedule.job_id,
+              start_at: schedule.start_at,
+              end_at: schedule.end_at,
+              is_done: schedule.is_done
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
       end
     end
     context '[GET] /schedules #schedules#index' do
@@ -102,15 +123,15 @@ RSpec.describe 'Schedules', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not member' do
+      it 'returns an invalid 403 when current_user is not member' do
         crt_schedule
         get(
           api_v1_job_schedules_path(crt_schedule.job.id),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /schedules/{schedule_id} #schedules#show' do
@@ -142,15 +163,15 @@ RSpec.describe 'Schedules', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not member' do
+      it 'returns an invalid 403 when current_user is not member' do
         crt_schedule
         get(
           api_v1_schedule_path(id: crt_schedule.id),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[PUT] /schedules/{schedule_id} #schedules#update' do
@@ -198,7 +219,7 @@ RSpec.describe 'Schedules', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not member' do
+      it 'returns an invalid 403 when current_user is not member' do
         crt_schedule
         update_params = {
           start_at: bld_schedule.start_at + 1000,
@@ -213,8 +234,8 @@ RSpec.describe 'Schedules', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[DELETE] /schedules/{schedule_id} #schedules#destroy' do
@@ -245,15 +266,15 @@ RSpec.describe 'Schedules', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not member' do
+      it 'returns an invalid 403 when current_user is not member' do
         crt_schedule
         delete(
           api_v1_schedule_path(id: crt_schedule.id),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /assigned_schedules #schedules#index_assigned_schedules' do

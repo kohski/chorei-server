@@ -51,7 +51,7 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of job group' do
+      it 'returns an invalid 403 when current user is not member of job group' do
         bld_step
         another_user
         post(
@@ -66,8 +66,27 @@ RSpec.describe 'Steps', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
+      end
+      it 'returns an invalid 400 when memo is over 400 chars' do
+        bld_step
+        member
+        bld_step.memo = 'a' * 401
+        post(
+          api_v1_job_steps_path(bld_step.job.id),
+          headers: User.first.create_new_auth_token,
+          params: {
+            step: {
+              memo: bld_step.memo,
+              image: bld_step.image,
+              order: bld_step.order
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
       end
     end
     context '[GET] /steps #steps#index' do
@@ -88,6 +107,18 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['data'][0]['image']).to eq(step.image)
         expect(res_body['data'][0]['order']).to eq(step.order)
       end
+      it 'returns an invalid 404 when job does not exist' do
+        dummy_job_id = crt_step.job.id
+        member
+        crt_step.job.destroy
+        get(
+          api_v1_job_steps_path(dummy_job_id),
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
       it 'returns an invalid 404 when steps do not exist' do
         job_id = crt_step.job.id
         Step.destroy_all
@@ -100,7 +131,7 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of job group' do
+      it 'returns an invalid 403 when current user is not member of job group' do
         crt_step
         another_user
         get(
@@ -108,8 +139,8 @@ RSpec.describe 'Steps', type: :request do
           headers: another_user.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /steps/{step_id} #steps#show' do
@@ -141,15 +172,15 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of job group' do
+      it 'returns an invalid 403 when current user is not member of job group' do
         crt_step
         get(
           api_v1_step_path(crt_step),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[PUT] /steps #steps#update' do
@@ -195,7 +226,7 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of job group' do
+      it 'returns an invalid 403 when current user is not member of job group' do
         crt_step
         update_info = {
           memo: crt_step.memo + '_updated',
@@ -210,8 +241,8 @@ RSpec.describe 'Steps', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[DELETE] /steps #steps#destroy' do
@@ -241,15 +272,15 @@ RSpec.describe 'Steps', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current user is not member of job group' do
+      it 'returns an invalid 403 when current user is not member of job group' do
         crt_step
         delete(
           api_v1_step_path(crt_step),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
   end

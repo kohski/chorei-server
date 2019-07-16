@@ -13,7 +13,7 @@ module Api
         end
 
         if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
@@ -36,7 +36,7 @@ module Api
         end
 
         if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
@@ -57,15 +57,11 @@ module Api
         end
 
         if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
-        if step.update(step_params)
-          response_success(step)
-        else
-          response_bad_request(step)
-        end
+        response_success(step) if step.update(step_params)
       end
 
       def show
@@ -76,7 +72,7 @@ module Api
         end
 
         if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
         response_success(step)
@@ -90,15 +86,10 @@ module Api
         end
 
         if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
-
-        if step.destroy
-          response_success(step)
-        else
-          response_bad_request(step)
-        end
+        response_success(step) if step.destroy
       end
 
       private
