@@ -34,8 +34,12 @@ module Api
           response_not_found(Member.name)
           return
         end
-        if member.group.members.count <= 1
+        if Member.last_member?(member)
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
+          return
+        end
+        if member.is_owner
+          response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.owner')))
           return
         end
         response_success(member) if member.destroy
@@ -62,8 +66,13 @@ module Api
           return
         end
 
-        if member.group.members.count <= 1
+        if Member.last_member?(member)
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
+          return
+        end
+
+        if member.is_owner
+          response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.owner')))
           return
         end
 

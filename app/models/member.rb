@@ -14,4 +14,8 @@ class Member < ApplicationRecord
   def self.find_by_job_and_user(job, user)
     job.group.members.find { |elm| elm.user_id == user.id }
   end
+
+  def self.last_member?(member)
+    member.group.members.count <= 1
+  end
 end
