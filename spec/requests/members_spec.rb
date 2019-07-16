@@ -82,11 +82,15 @@ RSpec.describe 'Members', type: :request do
     end
     context '[DELETE] /membres #membres#destroy' do
       it 'returns a valid 201 with valid request' do
-        crt_member
+        first_member = crt_member
         another_user
-        Member.create(user_id: another_user.id, group_id: crt_member.group_id)
+        another_member = Member.create(user_id: another_user.id, group_id: crt_member.group_id)
+        first_member.is_owner = false
+        first_member.save
+        another_member.is_owner = true
+        another_member.save
         delete(
-          api_v1_member_path(id: crt_member.id),
+          api_v1_member_path(id: first_member.id),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
@@ -118,6 +122,19 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Member is Not Found')
       end
+      it 'returns an invalid 400 when taget member is owner' do
+        crt_member
+        another_user
+        Member.create(user_id: another_user.id, group_id: crt_member.group_id)
+        delete(
+          api_v1_member_path(id: crt_member.id),
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(400)
+        expect(res_body['message']).to include('Bad Request')
+      end
+
     end
     context '[DELETE] /membres #membres#memebers_with_user_id_and_group_id' do
       it 'returns a valid 200 with valid request' do
@@ -166,10 +183,28 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 404 when group does not exist' do
+    end
+    context '[GET] /membres #membres#index' do
+      it 'returns a valid 200 with valid request' do
         crt_member
-        delete(
-          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: crt_member.group_id) + '?user_id=' + another_user.id.to_s,
+        get(
+          api_v1_group_members_path(group_id: crt_member.group_id.to_s),
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        member_user = User.find_by(id: crt_member.user_id)
+        expect(res_body['status']).to eq(200)
+        expect(res_body['message']).to include('Success')
+        expect(res_body['data'][0]['id']).to eq(member_user.id)
+        expect(res_body['data'][0]['name']).to eq(member_user.name)
+        expect(res_body['data'][0]['email']).to eq(member_user.email)
+        expect(res_body['data'][0]['description']).to eq(member_user.description)
+      end
+      it 'returns a valid 404 when group does not exist' do
+        dummy_group_id = crt_member.group_id.to_s
+        Group.destroy_all
+        get(
+          api_v1_group_members_path(group_id: dummy_group_id),
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)

@@ -82,7 +82,7 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when job or member are not member of current_user joining group' do
+      it 'returns an invalid 403 when current user is not member' do
         post(
           api_v1_assigns_path,
           headers: another_user.create_new_auth_token,
@@ -94,8 +94,8 @@ RSpec.describe 'Assigns', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /assgins #assgins#index' do
@@ -158,17 +158,17 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when current_user is not acceptable delete assign' do
+      it 'returns an invalid 403 when current_user is Forbidden delete assign' do
         delete(
           api_v1_assigns_path + '/' + crt_assign.id.to_s,
           headers: another_user.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
-    context '[GET] /assgins #assgins#assign_members_with_user_id' do
+    context '[GET] /assgins #assgins#index_assign_members' do
       it 'returns a valid 200 with valid request' do
         crt_assign
         get(
@@ -185,6 +185,7 @@ RSpec.describe 'Assigns', type: :request do
       it 'returns a valid 404 with valid request' do
         dummy_job_id = crt_assign.job_id
         Assign.destroy_all
+        Job.destroy_all
         get(
           assign_member_api_v1_assigns_path + "?job_id=#{dummy_job_id}",
           headers: User.first.create_new_auth_token
@@ -245,6 +246,23 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
+      it 'returns an invalid 403 when member does not exist' do
+        crt_assign
+        another_user
+        post(
+          assign_with_user_id_api_v1_assigns_path,
+          headers: User.first.create_new_auth_token,
+          params: {
+            assign: {
+              user_id: another_user.id,
+              job_id: crt_assign.job_id
+            }
+          }
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
+      end
       it 'returns an invalid 400 with duplicate request' do
         crt_assign
         post(
@@ -261,7 +279,7 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(400)
         expect(res_body['message']).to include('Bad Request')
       end
-      it 'returns an invalid 406 when user is not job member' do
+      it 'returns an invalid 403 when user is not job member' do
         bld_assign
         post(
           assign_with_user_id_api_v1_assigns_path,
@@ -274,10 +292,11 @@ RSpec.describe 'Assigns', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
+
     context '[DELETE] /assgins #assgins#destroy_assign_with_user_id' do
       it 'returns a valid 200 with valid request' do
         crt_assign
@@ -312,16 +331,27 @@ RSpec.describe 'Assigns', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns an invalid 406 when job does not exist' do
+      it 'returns an invalid 403 when current_user is not member of job' do
         crt_assign
         bld_assign
         delete(
-          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{crt_assign.member.user_id + 1}",
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{crt_assign.member.user_id}",
           headers: another_user.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
+      end
+      it 'returns an invalid 403 when target_user is not member of job' do
+        crt_assign
+        bld_assign
+        delete(
+          assign_with_user_id_api_v1_assigns_path + "?job_id=#{crt_assign.job_id}&user_id=#{another_user.id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
   end

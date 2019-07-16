@@ -17,11 +17,6 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
-  username: <%= ENV['RDS_DATABSE_USER'] %>
-  password: <%= ENV['RDS_DATABSE_PASSWORD'] %>
-  host: <%= ENV['RDS_DATABSE_HOST'] %>
-  timeout: 5000
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -85,6 +80,11 @@ test:
 #
 production:
   <<: *default
+  pool: 5
+  username: <%= ENV['RDS_DATABSE_USER'] %>
+  password: <%= ENV['RDS_DATABSE_PASSWORD'] %>
+  host: <%= ENV['RDS_DATABSE_HOST'] %>
+  timeout: 5000
   database: chorei-server_production
   username: chorei-server
   password: <%= ENV['CHOREI_SERVER_DATABASE_PASSWORD'] %>

@@ -30,7 +30,7 @@ RSpec.describe 'Groups', type: :request do
       expect(res_body['data']['name']).to eq(group.name)
       expect(res_body['data']['image']).to eq(group.image)
     end
-    it 'also creates member between group and user when Group.created' do
+    it 'creates member between group and user when Group.created' do
       before_member_count = Member.count
       post(
         api_v1_groups_path,
@@ -213,7 +213,7 @@ RSpec.describe 'Groups', type: :request do
     end
   end
 
-  context '[GET] /groups/group_id_with_job_it #groups#group_id_with_job_it' do
+  context '[GET] /groups/group_id_with_job_it #groups#group_id_with_job_id' do
     it 'returns a valid 200 with valid request' do
       crt_group
       member
@@ -240,18 +240,17 @@ RSpec.describe 'Groups', type: :request do
       expect(res_body['status']).to eq(404)
       expect(res_body['message']).to include('Not Found')
     end
-    it 'retuen an invalid 404 when current user is not a member of job' do
+    it 'retuen an invalid 403 when current user is not a member of job' do
       crt_group
       member
       job = crt_group.jobs.create(title: 'test')
-      Job.destroy_all
       get(
         group_id_with_job_id_api_v1_groups_path + "?job_id=#{job.id}",
         headers: another_user.create_new_auth_token
       )
       res_body = JSON.parse(response.body)
-      expect(res_body['status']).to eq(404)
-      expect(res_body['message']).to include('Not Found')
+      expect(res_body['status']).to eq(403)
+      expect(res_body['message']).to include('Forbidden')
     end
   end
 end

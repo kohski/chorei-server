@@ -4,7 +4,7 @@ module Api
   module V1
     class GroupsController < ApplicationController
       before_action :authenticate_api_v1_user!
-      before_action :check_group_member, only: %i[show destroy]
+      before_action :check_group_member, only: %i[show destroy update]
 
       def create
         group = Group.create(group_params)
@@ -26,52 +26,35 @@ module Api
       end
 
       def show
-        group = Group.find_by(id: params[:id])
-
-        if group
-          response_success(group)
-        else
-          response_not_found(Group.name)
-        end
+        response_success(@group) if @group
       end
 
       def destroy
-        group = Group.find_by(id: params[:id])
-        if group.nil?
+        if @group.nil?
           response_not_found(Group.name)
           return
         end
-        if group.destroy
-          response_success(group)
-        else
-          response_bad_request(group)
-        end
+        response_success(@group) if @group.destroy
       end
 
       def update
-        group = Group.find_by(id: params[:id])
-        if group.nil?
-          response_not_found(Group.name)
-          return
-        end
-        if group.update(group_params)
-          response_success(group)
+        if @group.update(group_params)
+          response_success(@group)
         else
-          response_bad_request(group)
+          response_bad_request(@group)
         end
       end
 
-      def group_id_with_job_id
+      def show_group_id_with_job_id
         job = Job.find_by(id: params[:job_id])
         if job.nil?
           response_not_found(Job.name)
           return
         end
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(job)
+        unless Member.in_member?(job.group, current_api_v1_user)
+          response_forbidden(job)
           return
         end
-
         response_success(job.group.id)
       end
 
@@ -82,13 +65,16 @@ module Api
       end
 
       def check_group_member
-        group = Group.find_by(id: params[:id])
-        if group.nil?
+        @group = Group.find_by(id: params[:id])
+        if @group.nil?
           response_not_found(Group.name)
           return
         end
-        members = group.members.pluck(:user_id)
-        response_not_acceptable(Group.name) if members.index(current_api_v1_user.id).nil?
+        unless Member.in_member?(@group, current_api_v1_user)
+          response_forbidden(Member.nane)
+          return
+        end
+        @group
       end
     end
   end

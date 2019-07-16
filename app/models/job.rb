@@ -20,6 +20,10 @@ class Job < ApplicationRecord
   validates :base_end_at, is_future_date_job: true
   validates :frequency, inclusion: { in: Job.frequencies.keys }
 
+  scope :assigned_jobs_with_user, lambda { |user|
+    user.members.map(&:assign_jobs).flatten
+  }
+
   def create_schedules
     return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
     register_times = frequency_before_type_cast.zero? ? 1 : repeat_times + 1

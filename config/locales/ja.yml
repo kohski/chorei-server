@@ -199,6 +199,7 @@ ja:
       wrong_mime_type: のMIMEタイプが不正です
       past: 未来の日付にしてください
       last_member: は最低1名必要です
+      owner: がオーナーなので削除できません
     template:
       body: 次の項目を確認してください
       header:

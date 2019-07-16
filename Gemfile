@@ -44,6 +44,7 @@ gem 'rspec-core'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'binding_of_caller'
+  gem 'bullet'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capistrano', '3.6.0'
   gem 'capistrano-bundler'

@@ -19,4 +19,8 @@ class User < ActiveRecord::Base
   has_many :member_groups, through: :members, source: :group
   has_many :stocks, dependent: :destroy
   has_many :stock_jobs, through: :stocks, source: :job
+
+  scope :assigned_users_with_job, lambda { |job|
+    job.assign_members.pluck(:user_id).map { |user_id| User.find_by(id: user_id) }
+  }
 end

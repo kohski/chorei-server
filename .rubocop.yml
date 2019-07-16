@@ -29,7 +29,7 @@ Metrics/AbcSize:
   Max: 50
   Exclude:
     - 'db/migrate/*'
-  
+
 Metrics/MethodLength:
   Enabled: false
 
