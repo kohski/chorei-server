@@ -17,7 +17,7 @@ module Api
         end
 
         if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
@@ -39,15 +39,11 @@ module Api
         end
 
         if tagging.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
-        if tagging.destroy
-          response_success(tagging)
-        else
-          response_bad_request(tagging)
-        end
+        response_success(tagging) if tagging.destroy
       end
 
       def index_with_job_id
@@ -57,7 +53,7 @@ module Api
           return
         end
         if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
-          response_not_acceptable(User.name)
+          response_forbidden(User.name)
           return
         end
         taggings = job.taggings

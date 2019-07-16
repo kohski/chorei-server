@@ -80,7 +80,7 @@ RSpec.describe 'Taggings', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns a valid 406 with current_user is not member of job' do
+      it 'returns a valid 403 with current_user is not member of job' do
         crt_tagging
         post(
           api_v1_taggings_path,
@@ -93,8 +93,8 @@ RSpec.describe 'Taggings', type: :request do
           }
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[DELETE] /taggings/{tagging_id} #tags#destroy' do
@@ -122,15 +122,15 @@ RSpec.describe 'Taggings', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
-      it 'returns a valid 406 with current_user is not member of job' do
+      it 'returns a valid 403 with current_user is not member of job' do
         crt_tagging
         delete(
           api_v1_taggings_path + '/' + crt_tagging.id.to_s,
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(406)
-        expect(res_body['message']).to include('Not Acceptable')
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
       end
     end
     context '[GET] /taggings/index_with_job_id?job_id{job_id} #tags#index_with_job_id' do
@@ -147,11 +147,23 @@ RSpec.describe 'Taggings', type: :request do
         expect(res_body['data'][0]['job_id']).to eq(crt_tagging.job_id)
         expect(res_body['data'][0]['tag_id']).to eq(crt_tagging.tag_id)
       end
-      it 'returns an invalid 404 when tagging does not exist' do
+      it 'returns an invalid 404 when job does not exist' do
         crt_tagging
         member
         get(
           taggings_with_job_id_api_v1_taggings_path + "?job_id=#{crt_tagging.job_id + 1}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
+      it 'returns an invalid 404 when tagging does not exist' do
+        dummy_job_id = crt_tagging.job_id
+        member
+        Tagging.destroy_all
+        get(
+          taggings_with_job_id_api_v1_taggings_path + "?job_id=#{dummy_job_id}",
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)
