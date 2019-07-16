@@ -391,6 +391,10 @@
         1,
         2,
         null,
+        null,
+        1,
+        6,
+        null,
         null
       ],
       "/Users/kosukekimura/Documents/study/DIC/chorei-server/app/models/application_record.rb": [
@@ -598,10 +602,6 @@
         0,
         null,
         0,
-        0,
-        null,
-        0,
-        null,
         null,
         null,
         1,
@@ -617,10 +617,6 @@
         0,
         null,
         0,
-        0,
-        null,
-        0,
-        null,
         null,
         null,
         1,
@@ -630,7 +626,10 @@
         1,
         2,
         2,
-        6,
+        2,
+        null,
+        2,
+        null,
         2,
         1,
         null,
@@ -733,6 +732,6 @@
         null
       ]
     },
-    "timestamp": 1562914644
+    "timestamp": 1563253015
   }
 }

@@ -67,11 +67,7 @@ module Api
           response_not_acceptable(Member.name)
           return
         end
-        if schedule.update(schedule_params)
-          response_success(schedule)
-        else
-          response_bad_request(schedule)
-        end
+        response_success(schedule) if schedule.update(schedule_params)
       end
 
       def destroy
@@ -86,11 +82,7 @@ module Api
           response_not_acceptable(Member.name)
           return
         end
-        if schedule.destroy
-          response_success(schedule)
-        else
-          response_bad_request(schedule)
-        end
+        response_success(schedule) if schedule.destroy
       end
 
       def frequency_master
@@ -99,10 +91,10 @@ module Api
 
       def index_assigned_schedules
         assigned_jobs = Job.assigned_jobs_with_user(current_api_v1_user)
-        assigend_schedules = Schedule.assigned_schedules(assigned_jobs)
-        assigend_schedules_with_job = assigend_schedules.map { |sch| sch.attributes.merge(job_entity: assigned_jobs.find { |job| job.id == sch.job_id }.attributes) }
-        if assigend_schedules_with_job.present?
-          response_success(assigend_schedules_with_job)
+        assigned_schedules = Schedule.assigned_schedules(assigned_jobs)
+        assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, assigned_jobs)
+        if assigned_schedules_with_job.present?
+          response_success(assigned_schedules_with_job)
         else
           response_not_found(Schedule.name)
         end
