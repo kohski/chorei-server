@@ -60,37 +60,37 @@ RSpec.describe Job, type: :model do
     end
   end
   context 'instance method create #create_schedules' do
-    it 'makes schedules depending on dayly job' do
+    it 'makes schedules depending on daily job' do
       daily_job
       schedules = Schedule.all
-      expect(schedules[0][:start_at]).to eq(daily_job.base_start_at)
-      expect(schedules[0][:end_at]).to eq(daily_job.base_end_at)
-      expect(schedules[1][:start_at]).to eq(daily_job.base_start_at + 1.day)
-      expect(schedules[1][:end_at]).to eq(daily_job.base_end_at + 1.day)
+      expect(Time.at(schedules[0][:start_at].to_i)).to eq(Time.at(daily_job.base_start_at.to_i))
+      expect(Time.at(schedules[0][:end_at].to_i)).to eq(Time.at(daily_job.base_end_at.to_i))
+      expect(Time.at(schedules[1][:start_at].to_i)).to eq(Time.at((daily_job.base_start_at + 1.day).to_i))
+      expect(Time.at(schedules[1][:end_at].to_i)).to eq(Time.at((daily_job.base_end_at + 1.day).to_i))
     end
-    it 'makes schedules depending on dayly job' do
+    it 'makes schedules depending on weekly job' do
       weekly_job
       schedules = Schedule.all
-      expect(schedules[0][:start_at]).to eq(weekly_job.base_start_at)
-      expect(schedules[0][:end_at]).to eq(weekly_job.base_end_at)
-      expect(schedules[1][:start_at]).to eq(weekly_job.base_start_at + 1.week)
-      expect(schedules[1][:end_at]).to eq(weekly_job.base_end_at + 1.week)
+      expect(Time.at(schedules[0][:start_at].to_i)).to eq(Time.at(weekly_job.base_start_at.to_i))
+      expect(Time.at(schedules[0][:end_at].to_i)).to eq(Time.at(weekly_job.base_end_at.to_i))
+      expect(Time.at(schedules[1][:start_at].to_i)).to eq(Time.at((weekly_job.base_start_at + 1.week).to_i))
+      expect(Time.at(schedules[1][:end_at].to_i)).to eq(Time.at((weekly_job.base_end_at + 1.week).to_i))
     end
-    it 'makes schedules depending on dayly job' do
+    it 'makes schedules depending on monthly job' do
       monthly_job
       schedules = Schedule.all
-      expect(schedules[0][:start_at]).to eq(monthly_job.base_start_at)
-      expect(schedules[0][:end_at]).to eq(monthly_job.base_end_at)
-      expect(schedules[1][:start_at]).to eq(monthly_job.base_start_at + 1.month)
-      expect(schedules[1][:end_at]).to eq(monthly_job.base_end_at + 1.month)
+      expect(Time.at(schedules[0][:start_at].to_i)).to eq(Time.at(monthly_job.base_start_at.to_i))
+      expect(Time.at(schedules[0][:end_at].to_i)).to eq(Time.at(monthly_job.base_end_at.to_i))
+      expect(Time.at(schedules[1][:start_at].to_i)).to eq(Time.at((monthly_job.base_start_at + 1.month).to_i))
+      expect(Time.at(schedules[1][:end_at].to_i)).to eq(Time.at((monthly_job.base_end_at + 1.month).to_i))
     end
-    it 'makes schedules depending on dayly job' do
+    it 'makes schedules depending on yearly job' do
       yearly_job
       schedules = Schedule.all
-      expect(schedules[0][:start_at]).to eq(yearly_job.base_start_at)
-      expect(schedules[0][:end_at]).to eq(yearly_job.base_end_at)
-      expect(schedules[1][:start_at]).to eq(yearly_job.base_start_at + 1.year)
-      expect(schedules[1][:end_at]).to eq(yearly_job.base_end_at + 1.year)
+      expect(Time.at(schedules[0][:start_at].to_i)).to eq(Time.at(yearly_job.base_start_at.to_i))
+      expect(Time.at(schedules[0][:end_at].to_i)).to eq(Time.at(yearly_job.base_end_at.to_i))
+      expect(Time.at(schedules[1][:start_at].to_i)).to eq(Time.at((yearly_job.base_start_at + 1.year).to_i))
+      expect(Time.at(schedules[1][:end_at].to_i)).to eq(Time.at((yearly_job.base_end_at + 1.year).to_i))
     end
   end
   context 'instance method create #update_schedules' do
