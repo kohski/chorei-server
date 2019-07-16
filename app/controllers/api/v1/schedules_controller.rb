@@ -12,7 +12,7 @@ module Api
           return
         end
         unless Member.in_member?(@job.group, current_api_v1_user)
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
         schedule = @job.schedules.build(schedule_params)
@@ -30,15 +30,11 @@ module Api
           return
         end
         unless Member.in_member?(@job.group, current_api_v1_user)
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
         schedules = @job.schedules
-        if schedules.present?
-          response_success(schedules)
-        else
-          response_not_found(schedules)
-        end
+        response_success(schedules) if schedules.present?
       end
 
       def show
@@ -50,7 +46,7 @@ module Api
         end
 
         unless Member.in_member?(schedule.job.group, current_api_v1_user)
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
 
@@ -64,7 +60,7 @@ module Api
           return
         end
         unless Member.in_member?(schedule.job.group, current_api_v1_user)
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
         response_success(schedule) if schedule.update(schedule_params)
@@ -79,14 +75,10 @@ module Api
         end
 
         unless Member.in_member?(schedule.job.group, current_api_v1_user)
-          response_not_acceptable(Member.name)
+          response_forbidden(Member.name)
           return
         end
         response_success(schedule) if schedule.destroy
-      end
-
-      def frequency_master
-        response_success(frequencies: Schedule.frequencies)
       end
 
       def index_assigned_schedules
