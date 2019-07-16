@@ -52,11 +52,7 @@ module Api
           return
         end
 
-        if assign.destroy
-          response_success(assign)
-        else
-          response_bad_request(assign)
-        end
+        response_success(assign) if assign.destroy
       end
 
       def index_assign_members
@@ -66,11 +62,7 @@ module Api
           return
         end
         users = User.assigned_users_with_job(job)
-        if users.present?
-          response_success(users)
-        else
-          response_not_found(User.name)
-        end
+        response_success(users) if users.present?
       end
 
       def create_assign_with_user_id
@@ -139,12 +131,7 @@ module Api
           response_not_found(Assign.name)
           return
         end
-
-        if assign.destroy
-          response_success(assign)
-        else
-          response_bad_request(assign)
-        end
+        response_success(assign) if assign.destroy
       end
 
       private
