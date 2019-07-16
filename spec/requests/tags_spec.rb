@@ -9,6 +9,7 @@ RSpec.describe 'Tags', type: :request do
     let(:crt_tag) { create(:tag) }
     let(:crt_job) { create(:job) }
     let(:member) { create(:member) }
+    let(:another_user) { create(:user)}
     context '[POST] /tags #tags#create' do
       it 'returns a valid 201 with valid request' do
         bld_tag
@@ -118,6 +119,19 @@ RSpec.describe 'Tags', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
+      it 'returns a valid 404 when there is no job in group' do
+        group = create(:group)
+        member
+        dummy_job = group.jobs.create(title: 'test2')
+        Job.destroy_all
+        get(
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{dummy_job.id}",
+          headers: User.first.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(404)
+        expect(res_body['message']).to include('Not Found')
+      end
     end
     context '[POST] /tags #tags#create_with_job_id' do
       it 'returns a valid 200 with valid request' do
@@ -155,6 +169,24 @@ RSpec.describe 'Tags', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
       end
+      it 'returns an invalid 403 when user is not a member of job' do
+        crt_job
+        member
+        bld_tag
+        post(
+          tags_with_job_id_api_v1_tags_path + "?job_id=#{crt_job.id}",
+          params: {
+            tag: {
+              name: bld_tag.name
+            }
+          },
+          headers: another_user.create_new_auth_token
+        )
+        res_body = JSON.parse(response.body)
+        expect(res_body['status']).to eq(403)
+        expect(res_body['message']).to include('Forbidden')
+      end
+
     end
   end
 end

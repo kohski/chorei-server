@@ -61,7 +61,7 @@ module Api
           return
         end
 
-          response_success(step) if step.update(step_params)
+        response_success(step) if step.update(step_params)
       end
 
       def show

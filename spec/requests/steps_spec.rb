@@ -72,7 +72,7 @@ RSpec.describe 'Steps', type: :request do
       it 'returns an invalid 400 when memo is over 400 chars' do
         bld_step
         member
-        bld_step.memo = "a" * 401
+        bld_step.memo = 'a' * 401
         post(
           api_v1_job_steps_path(bld_step.job.id),
           headers: User.first.create_new_auth_token,
