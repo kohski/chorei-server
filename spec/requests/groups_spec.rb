@@ -213,7 +213,7 @@ RSpec.describe 'Groups', type: :request do
     end
   end
 
-  context '[GET] /groups/group_id_with_job_it #groups#group_id_with_job_it' do
+  context '[GET] /groups/group_id_with_job_it #groups#group_id_with_job_id' do
     it 'returns a valid 200 with valid request' do
       crt_group
       member

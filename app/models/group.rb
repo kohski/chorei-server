@@ -9,6 +9,7 @@ class Group < ApplicationRecord
   has_many :tags, dependent: :destroy
 
   def join_current_user_to_member(current_user)
-    members.create(user_id: current_user.id)
+    member = members.create(user_id: current_user.id)
+    member.is_owner = true
   end
 end
