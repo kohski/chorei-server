@@ -9,7 +9,7 @@ RSpec.describe 'Tags', type: :request do
     let(:crt_tag) { create(:tag) }
     let(:crt_job) { create(:job) }
     let(:member) { create(:member) }
-    let(:another_user) { create(:user)}
+    let(:another_user) { create(:user) }
     context '[POST] /tags #tags#create' do
       it 'returns a valid 201 with valid request' do
         bld_tag
@@ -186,7 +186,6 @@ RSpec.describe 'Tags', type: :request do
         expect(res_body['status']).to eq(403)
         expect(res_body['message']).to include('Forbidden')
       end
-
     end
   end
 end
