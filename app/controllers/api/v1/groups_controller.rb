@@ -18,8 +18,9 @@ module Api
 
       def index
         groups = current_api_v1_user.member_groups
-        if groups.present?
-          response_success(groups)
+        group_members = Group.group_with_owner_and_members(groups)
+        if group_members.present?
+          response_success(group_members)
         else
           response_not_found(Group.name)
         end

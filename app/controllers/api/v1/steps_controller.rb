@@ -12,7 +12,7 @@ module Api
           return
         end
 
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(job.group, current_api_v1_user)
           response_forbidden(Member.name)
           return
         end
@@ -35,7 +35,7 @@ module Api
           return
         end
 
-        if job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(job.group, current_api_v1_user)
           response_forbidden(Member.name)
           return
         end
@@ -56,7 +56,7 @@ module Api
           return
         end
 
-        if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(step.job.group, current_api_v1_user)
           response_forbidden(Member.name)
           return
         end
@@ -71,7 +71,7 @@ module Api
           return
         end
 
-        if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(step.job.group, current_api_v1_user)
           response_forbidden(Member.name)
           return
         end
@@ -85,7 +85,7 @@ module Api
           return
         end
 
-        if step.job.group.members.pluck(:user_id).index(current_api_v1_user.id).nil?
+        unless Member.in_member?(step.job.group, current_api_v1_user)
           response_forbidden(Member.name)
           return
         end
