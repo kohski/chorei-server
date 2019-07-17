@@ -122,18 +122,6 @@ RSpec.describe 'Members', type: :request do
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Member is Not Found')
       end
-      it 'returns an invalid 400 when taget member is owner' do
-        crt_member
-        another_user
-        Member.create(user_id: another_user.id, group_id: crt_member.group_id)
-        delete(
-          api_v1_member_path(id: crt_member.id),
-          headers: User.first.create_new_auth_token
-        )
-        res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(400)
-        expect(res_body['message']).to include('Bad Request')
-      end
     end
     context '[DELETE] /membres #membres#memebers_with_user_id_and_group_id' do
       it 'returns a valid 200 with valid request' do
@@ -185,17 +173,6 @@ RSpec.describe 'Members', type: :request do
         res_body = JSON.parse(response.body)
         expect(res_body['status']).to eq(404)
         expect(res_body['message']).to include('Not Found')
-      end
-      it 'returns an invalid 400 when target member is owner' do
-        first_member = crt_member
-        Member.create(user_id: another_user.id, group_id: first_member.group_id)
-        delete(
-          api_v1_group_destroy_with_user_id_and_group_id_path(group_id: first_member.group_id) + '?user_id=' + first_member.user_id.to_s,
-          headers: User.first.create_new_auth_token
-        )
-        res_body = JSON.parse(response.body)
-        expect(res_body['status']).to eq(400)
-        expect(res_body['message']).to include('Bad Request')
       end
     end
     context '[GET] /membres #membres#index' do
