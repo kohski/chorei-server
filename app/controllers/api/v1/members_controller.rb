@@ -50,11 +50,30 @@ module Api
           response_not_found(Group.name)
           return
         end
-        member_users = @group.member_users
-        if member_users.present?
-          response_success(member_users)
+        users = @group.member_users.map do |user|
+          user.attributes.slice('id', 'email', 'name', 'image', 'description')
+        end
+        users_with_member = users.map do |user|
+          member = Member.find_by(group_id: @group.id, user_id: user['id'])
+          user.merge(member: member)
+        end
+        if users_with_member.present?
+          response_success(users_with_member)
         else
-          response_not_found(member_users)
+          response_not_found(users_with_member)
+        end
+      end
+
+      def update
+        member = Member.find(params[:id])
+        if member.nil?
+          response_not_found(Member.name)
+          return
+        end
+        if member.update(member_params)
+          response_success(member)
+        else
+          response_bad_request(member)
         end
       end
 
@@ -83,7 +102,7 @@ module Api
       private
 
       def member_params
-        params.require(:member).permit(:email, :group_id, :user_id)
+        params.require(:member).permit(:id, :email, :group_id, :user_id, :is_owner)
       end
 
       def set_group

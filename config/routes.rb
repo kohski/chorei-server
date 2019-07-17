@@ -25,7 +25,7 @@ Rails.application.routes.draw do
           resources :steps, only: %i[create index show destroy update]
           resources :schedules, only: %i[create index show destroy update]
         end
-        resources :members, only: %i[create destroy index]
+        resources :members, only: %i[create destroy index update]
         delete :destroy_with_user_id_and_group_id, controller: :members, action: :destroy_with_user_id_and_group_id
         collection do
           get :group_id_with_job_id, controller: :groups, action: :show_group_id_with_job_id

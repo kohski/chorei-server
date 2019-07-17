@@ -24,6 +24,13 @@ class Job < ApplicationRecord
     user.members.map(&:assign_jobs).flatten
   }
 
+  scope :jobs_with_tags, lambda { |jobs|
+    jobs.map do |job|
+      tags = job.taggings_tags.map { |tag| tag.slice(:name)[:name] }
+      job.attributes.merge(tags: tags)
+    end
+  }
+
   def create_schedules
     return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
     register_times = frequency_before_type_cast.zero? ? 1 : repeat_times + 1
