@@ -65,16 +65,12 @@ module Api
       end
 
       def update
-        member = Member.find(params[:id])
+        member = Member.find_by(id: params[:id])
         if member.nil?
           response_not_found(Member.name)
           return
         end
-        if member.update(member_params)
-          response_success(member)
-        else
-          response_bad_request(member)
-        end
+        response_success(member) if member.update(member_params)
       end
 
       def destroy_with_user_id_and_group_id
