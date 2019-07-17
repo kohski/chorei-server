@@ -38,8 +38,11 @@ module Api
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
           return
         end
-        if member.is_owner
-          response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.owner')))
+        is_self = member.user_id == current_api_v1_user.id
+        owner = member.group.members.find_by(is_owner: true)
+        is_owner = owner.user_id == current_api_v1_user.id unless owner.nil?
+        if !is_self && !is_owner
+          response_forbidden(Member.name)
           return
         end
         response_success(member) if member.destroy
@@ -70,7 +73,14 @@ module Api
           response_not_found(Member.name)
           return
         end
-        response_success(member) if member.update(member_params)
+        is_self = member.user_id == current_api_v1_user.id
+        owner = member.group.members.find_by(is_owner: true)
+        is_owner = owner.user_id == current_api_v1_user.id unless owner.nil?
+        if is_self || is_owner
+          response_success(member) if member.update(member_params)
+        else
+          response_forbidden(Member.name)
+        end
       end
 
       def destroy_with_user_id_and_group_id
@@ -86,8 +96,12 @@ module Api
           return
         end
 
-        if member.is_owner
-          response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.owner')))
+        is_self = member.user_id == current_api_v1_user.id
+        owner = member.group.members.find_by(is_owner: true)
+        is_owner = owner.user_id == current_api_v1_user.id unless owner.nil?
+
+        if !is_self && !is_owner
+          response_forbidden(Member.name)
           return
         end
 

@@ -63,3 +63,4 @@ Metrics/ClassLength:
     - 'app/controllers/api/v1/assigns_controller.rb'
     - 'app/controllers/api/v1/jobs_controller.rb'
     - 'app/controllers/api/v1/schedules_controller.rb'
+    - 'app/controllers/api/v1/members_controller.rb'
