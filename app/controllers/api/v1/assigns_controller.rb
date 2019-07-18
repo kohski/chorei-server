@@ -62,7 +62,11 @@ module Api
           return
         end
         users = User.assigned_users_with_job(job)
-        response_success(users) if users.present?
+        if users.present?
+          response_success(users)
+        else
+          response_not_found(Assign.name)
+        end
       end
 
       def create_assign_with_user_id

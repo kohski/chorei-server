@@ -49,7 +49,7 @@ RSpec.describe 'Tags', type: :request do
       it 'returns a valid 200 with valid request' do
         crt_tag
         get(
-          api_v1_tags_path,
+          api_v1_tags_path + "?group_id=#{crt_tag.group.id}",
           headers: User.first.create_new_auth_token
         )
         res_body = JSON.parse(response.body)

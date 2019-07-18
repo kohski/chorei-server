@@ -14,7 +14,12 @@ module Api
       end
 
       def index
-        tags = Tag.all
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        tags = group.tags
         if tags.present?
           response_success(tags)
         else
