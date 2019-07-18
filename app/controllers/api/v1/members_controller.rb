@@ -38,6 +38,10 @@ module Api
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
           return
         end
+        if member.is_owner
+          response_bad_request(member)
+          return
+        end
         is_self = member.user_id == current_api_v1_user.id
         owner = member.group.members.find_by(is_owner: true)
         is_owner = owner.user_id == current_api_v1_user.id unless owner.nil?
@@ -93,6 +97,11 @@ module Api
 
         if Member.last_member?(member)
           response_bad_request_with_custome_message(I18n.t('errors.format', attribute: I18n.t('activerecord.models.member'), message: I18n.t('errors.messages.last_member')))
+          return
+        end
+
+        if member.is_owner
+          response_bad_request(member)
           return
         end
 
