@@ -79,6 +79,7 @@ Rails.application.routes.draw do
       get :public_jobs, controller: :jobs, action: :index_public_jobs
       get :assigned_jobs, controller: :jobs, action: :index_assigned_jobs
       get :assigned_schedules, controller: :schedules, action: :index_assigned_schedules
+      get :group_schedules, controller: :schedules, action: :index_group_schedules
     end
   end
 end

@@ -92,6 +92,22 @@ module Api
         end
       end
 
+      def index_group_schedules
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        jobs=group.jobs
+        assigned_schedules = Schedule.assigned_schedules(jobs)
+        assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, jobs)
+        if assigned_schedules_with_job.present?
+          response_success(assigned_schedules_with_job)
+        else
+          response_not_found(Schedule.name)
+        end
+      end
+
       private
 
       def schedule_params
