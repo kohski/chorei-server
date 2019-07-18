@@ -42,8 +42,9 @@ module Api
         end
         jobs = @group.jobs
         jobs_with_tags = Job.jobs_with_tags(jobs)
-        if jobs_with_tags.present?
-          response_success(jobs_with_tags)
+        jobs_with_assigns = Job.jobs_with_assigns(jobs, jobs_with_tags)
+        if jobs_with_assigns.present?
+          response_success(jobs_with_assigns)
         else
           response_not_found(Job.name)
         end
