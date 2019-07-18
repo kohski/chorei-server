@@ -31,14 +31,13 @@ class Job < ApplicationRecord
     end
   }
 
-  scope :jobs_with_assigns, lambda{|jobs, target|
+  scope :jobs_with_assigns, lambda { |jobs, target|
     jobs.map.with_index do |job, index|
       assign_members = job.assign_members
-      assign_users = assign_members.map{|member| member.user.attributes.slice("name", "image")} unless assign_members.nil?
+      assign_users = assign_members.map { |member| member.user.attributes.slice('name', 'image') } unless assign_members.nil?
       target[index].merge(assigns: assign_users)
     end
   }
-
 
   def create_schedules
     return if frequency.nil? || repeat_times.nil? || base_start_at.nil? || base_end_at.nil?
