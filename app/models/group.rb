@@ -18,7 +18,6 @@ class Group < ApplicationRecord
   }
 
   def join_current_user_to_member(current_user)
-    member = members.create(user_id: current_user.id)
-    member.is_owner = true
+    members.create(user_id: current_user.id, is_owner: true)
   end
 end
