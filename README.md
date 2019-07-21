@@ -1,8 +1,29 @@
-# Chorei
+# README
 [![ruby version](https://img.shields.io/badge/Ruby-v2.5.1-green.svg)](https://www.ruby-lang.org/ja/)
 [![rails version](https://img.shields.io/badge/Rails-v5.2.3-brightgreen.svg)](http://rubyonrails.org/)
 [![codecov](https://codecov.io/gh/kohski/chorei-server/branch/master/graph/badge.svg)](https://codecov.io/gh/kohski/chorei-server)
 [![CircleCI](https://circleci.com/gh/kohski/chorei-server.svg?style=svg)](https://circleci.com/gh/kohski/chorei-server)
+
+## アプリ名： Chorei
+アプリURL: https://www.chorei.site
+API Document URL: https://api.chorei.site/api-docs
+
+動作確認用アカウント
+- メールアドレス: sample1@test.com
+- パスワード: password
+
+## アプリ概要
+共働き世帯の家事やちょっとしたコミュニティ内での雑用の管理を想定したアプリケーションです。
+ついつい家事がおろそかになる原因と対策として、
+1. 誰がやるか曖昧
+  => groupを作って担当者を決定
+2. いつやるかわからない
+  => Googleカレンダーのようにスケジューリングする機能
+3. どうやるかわからない
+  => クックパッドのように手順を細分化して登録しマニュアル化する機能
+     マニュアルを公開設定して共有できる機能
+を実施しました。
+
 ## バージョン情報
   - フロントエンド
     - nuxt.js 2.8.0
