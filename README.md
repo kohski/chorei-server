@@ -5,9 +5,9 @@
 [![CircleCI](https://circleci.com/gh/kohski/chorei-server.svg?style=svg)](https://circleci.com/gh/kohski/chorei-server)
 
 ## アプリ名： Chorei
-アプリURL: https://www.chorei.site
-API Document URL: https://api.chorei.site/api-docs
-フロント側github: https://github.com/kohski/chorei-client
+- アプリURL: https://www.chorei.site
+- API Document URL: https://api.chorei.site/api-docs
+- フロント側github: https://github.com/kohski/chorei-client
 
 動作確認用アカウント
 - メールアドレス: sample1@test.com
