@@ -27,7 +27,7 @@ API Document URL: https://api.chorei.site/api-docs
 
 ## 使用技術
 全体の構成
-https://user-images.githubusercontent.com/39625567/61593076-df2bef80-ac15-11e9-91c3-5589305c52d4.png
+![ChoreiForSlide (4)](https://user-images.githubusercontent.com/39625567/61593561-f372eb00-ac1b-11e9-9aa4-6d25d7b553f3.png)
 モバイルアプリやデスクトップアプリ対応も見越してRailsをAPIとして使用
 フロントエンドはNuxt.jsで作成
 
@@ -64,4 +64,4 @@ https://user-images.githubusercontent.com/39625567/61593076-df2bef80-ac15-11e9-9
     - vuetify 1.5.14
     - vuex 3.1.1
 ## ER図
-https://user-images.githubusercontent.com/39625567/61593512-4ac48b80-ac1b-11e9-92b2-dd831afe65cf.png
+![2019-07-20 1 18 46](https://user-images.githubusercontent.com/39625567/61593512-4ac48b80-ac1b-11e9-92b2-dd831afe65cf.png)
