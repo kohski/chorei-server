@@ -7,14 +7,15 @@
 ## アプリ名： Chorei
 アプリURL: https://www.chorei.site
 API Document URL: https://api.chorei.site/api-docs
+フロント側github: https://github.com/kohski/chorei-client
 
 動作確認用アカウント
 - メールアドレス: sample1@test.com
 - パスワード: password
 
 ## アプリ概要
-共働き世帯の家事やちょっとしたコミュニティ内での雑用の管理を想定したアプリケーションです。
-ついつい家事がおろそかになる原因と対策として、
+共働き世帯の家事の管理をするためのアプリケーションです。
+ついつい家事がおろそかになる原因・対策として、
 1. 誰がやるか曖昧
   => groupを作って担当者を決定
 2. いつやるかわからない
@@ -24,29 +25,43 @@ API Document URL: https://api.chorei.site/api-docs
      マニュアルを公開設定して共有できる機能
 を実施しました。
 
+## 使用技術
+全体の構成
+https://user-images.githubusercontent.com/39625567/61593076-df2bef80-ac15-11e9-91c3-5589305c52d4.png
+モバイルアプリやデスクトップアプリ対応も見越してRailsをAPIとして使用
+フロントエンドはNuxt.jsで作成
+
+- インフラ関連
+  - Route53 / ELB / ACM によるHTTPS化
+  - EC2インスタンスを2つ用意して、それぞれにプロジェクトをデプロイ
+  - RDS + PostgresqlでDBを切出し
+- バックエンド
+  - Rails APIモード
+  - 'devise-token-auth'によるToken認証
+  - 'rack-cors'によるCORS対応
+  - code-covによるテストカバレッジ算出(98.49%)
+  - swaggerによるweb APIドキュメント作成
+- フロントエンド
+  - nuxt.js
+  - axiosによるHTTP通信
+  - 画像はbase64urlにencodeして、JSONに含めて送受信
+  - UI FrameWorkはvuetifyを使用
+
 ## バージョン情報
-  - フロントエンド
-    - nuxt.js 2.8.0
-    - vuetify 1.5.14
-    - vuex 3.1.1
+  - インフラ
+    - AWS EC2
+    - AWS ELB
+    - AWS ACM
+    - AWS Route53
+    - AWS RDS
   - サーバーサイド
     - Ruby 2.5.1
     - Ruby on Rails 5.2.3(apiモード)
   - データベース
     - Postgresql 11.3
-  - インフラ
-    - AWS EC2
-    - AWS
-## カタログ設計
-  https://docs.google.com/spreadsheets/d/1kOSbXO4jHK-TYGTf6gsSmkT7xgGZp_YIDJKNxBkOYkM/edit#gid=0
-## テーブル定義書
-  https://docs.google.com/spreadsheets/d/1kOSbXO4jHK-TYGTf6gsSmkT7xgGZp_YIDJKNxBkOYkM/edit#gid=1650169235
+  - フロントエンド
+    - nuxt.js 2.8.0
+    - vuetify 1.5.14
+    - vuex 3.1.1
 ## ER図
-  https://docs.google.com/spreadsheets/d/1kOSbXO4jHK-TYGTf6gsSmkT7xgGZp_YIDJKNxBkOYkM/edit#gid=1931486568
-## 画面遷移図 & ワイヤーフレーム
-  https://docs.google.com/spreadsheets/d/1kOSbXO4jHK-TYGTf6gsSmkT7xgGZp_YIDJKNxBkOYkM/edit#gid=106684134
-## 使用予定Gem
-  - devise
-  - devise_token_auth
-  - rswag
-  - json2yaml
+https://user-images.githubusercontent.com/39625567/61593512-4ac48b80-ac1b-11e9-92b2-dd831afe65cf.png
