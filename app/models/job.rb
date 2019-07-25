@@ -24,17 +24,18 @@ class Job < ApplicationRecord
     user.members.map(&:assign_jobs).flatten
   }
 
-  scope :jobs_with_tags, lambda { |jobs|
+  scope :jobs_with_tags, lambda { |jobs, tags|
     jobs.map do |job|
-      tags = job.taggings_tags.map { |tag| tag.slice(:name)[:name] }
-      job.attributes.merge(tags: tags)
+      tagging_tags = job.taggings.map { |tagging| tags.find_by(id: tagging.tag_id).name} if job.taggings.present?
+      job.attributes.merge(tags: tagging_tags)
     end
   }
 
-  scope :jobs_with_assigns, lambda { |jobs, target|
+  scope :jobs_with_assigns, lambda { |jobs, target, members|
+    users = User.where(id: members.pluck(:user_id))
     jobs.map.with_index do |job, index|
-      assign_members = job.assign_members
-      assign_users = assign_members.map { |member| member.user.attributes.slice('name', 'image') } unless assign_members.nil?
+      assign_members = job.assigns.map{|assign| members.find_by(id: assign.member_id)}
+      assign_users = assign_members.map { |member| users.find_by(id: member.user_id).attributes.slice('name', 'image') } unless assign_members.nil?
       target[index].merge(assigns: assign_users)
     end
   }

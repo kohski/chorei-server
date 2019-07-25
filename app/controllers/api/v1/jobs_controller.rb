@@ -40,9 +40,11 @@ module Api
           response_forbidden(Group.name)
           return
         end
-        jobs = @group.jobs
-        jobs_with_tags = Job.jobs_with_tags(jobs)
-        jobs_with_assigns = Job.jobs_with_assigns(jobs, jobs_with_tags)
+        tags = @group.tags
+        jobs = @group.jobs.includes(:taggings).includes(:assigns)
+        members = @group.members
+        jobs_with_tags = Job.jobs_with_tags(jobs, tags)
+        jobs_with_assigns = Job.jobs_with_assigns(jobs, jobs_with_tags, members)
         if jobs_with_assigns.present?
           response_success(jobs_with_assigns)
         else
