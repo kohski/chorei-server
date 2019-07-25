@@ -98,7 +98,7 @@ module Api
           response_not_found(Group.name)
           return
         end
-        jobs = group.jobs
+        jobs = group.jobs.includes(:schedules)
         assigned_schedules = Schedule.assigned_schedules(jobs)
         assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, jobs)
         if assigned_schedules_with_job.present?
