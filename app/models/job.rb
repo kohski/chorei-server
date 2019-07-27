@@ -21,12 +21,12 @@ class Job < ApplicationRecord
   validates :frequency, inclusion: { in: Job.frequencies.keys }
 
   scope :assigned_jobs_with_user, lambda { |user|
-    user.members.map(&:assign_jobs).flatten
+    user.members.map { |member| member.assign_jobs.includes(:steps) }.flatten
   }
 
   scope :jobs_with_tags, lambda { |jobs, tags|
     jobs.map do |job|
-      tagging_tags = job.taggings.map { |tagging| tags.find_by(id: tagging.tag_id).name} if job.taggings.present?
+      tagging_tags = job.taggings.map { |tagging| tags.find_by(id: tagging.tag_id).name } if job.taggings.present?
       job.attributes.merge(tags: tagging_tags)
     end
   }
@@ -34,7 +34,7 @@ class Job < ApplicationRecord
   scope :jobs_with_assigns, lambda { |jobs, target, members|
     users = User.where(id: members.pluck(:user_id))
     jobs.map.with_index do |job, index|
-      assign_members = job.assigns.map{|assign| members.find_by(id: assign.member_id)}
+      assign_members = job.assigns.map { |assign| members.find_by(id: assign.member_id) }
       assign_users = assign_members.map { |member| users.find_by(id: member.user_id).attributes.slice('name', 'image') } unless assign_members.nil?
       target[index].merge(assigns: assign_users)
     end
