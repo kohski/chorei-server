@@ -5,20 +5,20 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'rails', '~> 5.2.3'
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
-gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'rack-cors'
-gem 'rswag'
 gem 'devise'
 gem 'devise_token_auth'
 gem 'dotenv-rails'
-gem 'mini_racer', platforms: :ruby
-gem 'unicorn'
-gem 'rspec-core'
 gem 'fast_jsonapi'
+gem 'jbuilder', '~> 2.5'
+gem 'mini_racer', platforms: :ruby
+gem 'pg', '>= 0.18', '< 2.0'
+gem 'puma', '~> 3.11'
+gem 'rack-cors'
+gem 'rails', '~> 5.2.3'
+gem 'rspec-core'
+gem 'rswag'
+gem 'unicorn'
 
 group :development, :test do
   gem 'binding_of_caller'

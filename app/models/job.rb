@@ -21,7 +21,7 @@ class Job < ApplicationRecord
   validates :frequency, inclusion: { in: Job.frequencies.keys }
 
   scope :assigned_jobs_with_user, lambda { |user|
-    user.members.map{|member| member.assign_jobs.includes(:steps)}.flatten
+    user.members.map { |member| member.assign_jobs.includes(:steps) }.flatten
   }
 
   scope :jobs_with_tags, lambda { |jobs, tags|
