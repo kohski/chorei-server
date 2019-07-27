@@ -84,9 +84,9 @@ module Api
       def index_assigned_schedules
         assigned_jobs = Job.assigned_jobs_with_user(current_api_v1_user)
         assigned_schedules = Schedule.assigned_schedules(assigned_jobs)
-        assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, assigned_jobs)
-        if assigned_schedules_with_job.present?
-          response_success(assigned_schedules_with_job)
+        # assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, assigned_jobs)
+        if assigned_schedules.present?
+          response_success(assigned_schedules)
         else
           response_not_found(Schedule.name)
         end
@@ -100,9 +100,9 @@ module Api
         end
         jobs = group.jobs.preload(:schedules)
         assigned_schedules = Schedule.assigned_schedules(jobs)
-        assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, jobs)
-        if assigned_schedules_with_job.present?
-          response_success(assigned_schedules_with_job)
+        # assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, jobs)
+        if assigned_schedules.present?
+          response_success(assigned_schedules)
         else
           response_not_found(Schedule.name)
         end
