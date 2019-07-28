@@ -60,8 +60,9 @@ module Api
         users = @group.member_users.map do |user|
           user.attributes.slice('id', 'email', 'name', 'image', 'description')
         end
+        members = Member.where(group_id: @group.id)
         users_with_member = users.map do |user|
-          member = Member.find_by(group_id: @group.id, user_id: user['id'])
+          member = members.find { |mem| mem.user_id == user['id'] }
           user.merge(member: member)
         end
         if users_with_member.present?

@@ -64,6 +64,25 @@ module Api
         end
       end
 
+      def index_with_group_id
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        unless Member.in_member?(group, current_api_v1_user)
+          response_forbidden(User.name)
+          return
+        end
+        job_ids = group.jobs.pluck(:id)
+        taggings = Tagging.where(job_id: job_ids)
+        if taggings.present?
+          response_success(taggings)
+        else
+          response_not_found(Tagging.name)
+        end
+      end
+
       private
 
       def tagging_params
