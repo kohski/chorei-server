@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       resources :taggings, only: %i[create destroy] do
         collection do
           get :taggings_with_job_id, controller: :taggings, action: :index_with_job_id
+          get :taggings_with_group_id, controller: :taggings, action: :index_with_group_id
         end
       end
     end
