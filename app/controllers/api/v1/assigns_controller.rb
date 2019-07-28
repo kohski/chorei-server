@@ -69,6 +69,21 @@ module Api
         end
       end
 
+      def index_assign_members_by_group
+        group = Group.find_by(id: params[:group_id])
+        if group.nil?
+          response_not_found(Group.name)
+          return
+        end
+        job_ids = group.jobs.pluck(:id)
+        assigns = Assign.where(job_id: job_ids)
+        if assigns.present?
+          response_success(assigns)
+        else
+          response_not_found(Assign.name)
+        end
+      end
+
       def create_assign_with_user_id
         # job = Job.find_by(id: assign_params[:job_id])
         if @job.nil?
