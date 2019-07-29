@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScheduleSerializer
   include FastJsonapi::ObjectSerializer
   attributes :is_done, :start_at, :end_at

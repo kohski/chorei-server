@@ -34,9 +34,7 @@ module Api
           return
         end
         schedules = @job.schedules
-        if schedules.present?
-          response_success(schedules)
-        end
+        response_success(schedules) if schedules.present?
       end
 
       def show
