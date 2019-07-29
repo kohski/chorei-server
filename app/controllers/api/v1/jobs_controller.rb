@@ -42,7 +42,9 @@ module Api
         end
         jobs = @group.jobs
         if jobs.present?
-          response_success(jobs)
+          # response_success(jobs)
+          hash = JobSerializer.new(jobs).serializable_hash
+          response_success(hash)
         else
           response_not_found(Job.name)
         end

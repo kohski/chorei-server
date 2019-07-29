@@ -37,6 +37,7 @@ module ChoreiServer
     end
 
     config.autoload_paths += Dir["#{config.root}/app/validators"]
+    config.autoload_paths += Dir["#{config.root}/app/serializers"]
 
     config.generators do |g|
       g.test_framework :rspec,
