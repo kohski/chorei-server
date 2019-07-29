@@ -34,7 +34,9 @@ module Api
           return
         end
         schedules = @job.schedules
-        response_success(schedules) if schedules.present?
+        if schedules.present?
+          response_success(schedules)
+        end
       end
 
       def show
@@ -86,7 +88,9 @@ module Api
         assigned_schedules = Schedule.assigned_schedules(assigned_jobs)
         # assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, assigned_jobs)
         if assigned_schedules.present?
-          response_success(assigned_schedules)
+          # response_success(assigned_schedules)
+          hash = ScheduleSerializer.new(assigned_schedules).serializable_hash
+          response_success(hash)
         else
           response_not_found(Schedule.name)
         end
@@ -102,7 +106,9 @@ module Api
         assigned_schedules = Schedule.assigned_schedules(jobs)
         # assigned_schedules_with_job = Schedule.assigned_schedules_with_job(assigned_schedules, jobs)
         if assigned_schedules.present?
-          response_success(assigned_schedules)
+          # response_success(assigned_schedules)
+          hash = ScheduleSerializer.new(assigned_schedules).serializable_hash
+          response_success(hash)
         else
           response_not_found(Schedule.name)
         end
