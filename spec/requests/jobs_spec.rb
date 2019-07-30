@@ -105,11 +105,11 @@ RSpec.describe 'Jobs', type: :request do
         job = Job.last
         expect(res_body['status']).to eq(200)
         expect(res_body['message']).to include('Success')
-        expect(res_body['data'][0]['id']).to eq(job.id)
-        expect(res_body['data'][0]['title']).to eq(job.title)
-        expect(res_body['data'][0]['image']).to eq(job.image)
-        expect(res_body['data'][0]['description']).to eq(job.description)
-        expect(res_body['data'][0]['is_public']).to eq(job.is_public)
+        expect(res_body['data']['data'][0]['id']).to eq(job.id.to_s)
+        expect(res_body['data']['data'][0]['attributes']['title']).to eq(job.title)
+        expect(res_body['data']['data'][0]['attributes']['image']).to eq(job.image)
+        expect(res_body['data']['data'][0]['attributes']['description']).to eq(job.description)
+        expect(res_body['data']['data'][0]['attributes']['is_public']).to eq(job.is_public)
       end
       it 'returns an invalid 404 when group does not exsit' do
         group_id = crt_job.group.id
