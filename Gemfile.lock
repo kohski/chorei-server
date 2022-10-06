@@ -42,8 +42,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     airbrussh (1.3.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (9.0.0)
@@ -119,7 +119,7 @@ GEM
     json-schema (2.8.1)
       addressable (>= 2.4)
     kgio (2.11.2)
-    libv8 (7.3.492.27.1-x86_64-darwin-18)
+    libv8 (8.4.255.0-x86_64-linux)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -159,7 +159,7 @@ GEM
       method_source (~> 0.9.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (3.1.0)
+    public_suffix (4.0.7)
     puma (3.12.1)
     rack (2.0.7)
     rack-cors (1.0.3)
@@ -279,7 +279,7 @@ GEM
     websocket-extensions (0.1.3)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   binding_of_caller
